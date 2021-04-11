@@ -9,9 +9,22 @@ class PostImageSerializer(ModelSerializer):
         fields = '__all__'
 
 
-class PostListSerializer(ModelSerializer):
+class PostSerializer(ModelSerializer):
     post_images = PostImageSerializer(many=True)
 
     class Meta:
         model = Post
+        fields = '__all__'
+
+
+class PostCreateSerializer(ModelSerializer):
+
+    class Meta:
+        model = Post
+        fields = ["user", "content"]
+
+
+class CommentSerializer(ModelSerializer):
+    class Meta:
+        model = Comment
         fields = '__all__'

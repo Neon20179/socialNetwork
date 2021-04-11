@@ -1,1 +1,0 @@
-export const LOGIN_STATUS = "API / LOGIN_STATUS"
