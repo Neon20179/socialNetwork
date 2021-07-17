@@ -1,6 +1,5 @@
 from django.db import models
 from django.conf import settings
-from django.utils import timezone
 
 
 class Post(models.Model):
@@ -8,6 +7,9 @@ class Post(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     likes = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["-created_at"]
 
 
 class PostImage(models.Model):
@@ -18,7 +20,8 @@ class PostImage(models.Model):
 class Comment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    replay_to = models.ForeignKey('Comment', related_name='post_replies', on_delete=models.CASCADE, null=True, blank=True)
+    replay_to = models.ForeignKey('self', related_name='post_replies', on_delete=models.CASCADE, null=True,
+                                  blank=True)
     content = models.TextField(max_length=1000)
     created_at = models.DateTimeField(auto_now_add=True)
     likes = models.PositiveIntegerField(default=0)

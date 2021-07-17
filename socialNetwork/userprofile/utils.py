@@ -1,4 +1,6 @@
 def _get_upload_path(instance, filename: str) -> str:
+    instance_path = None
+
     if instance.__class__.__name__ == 'User':
         instance_path = instance.username
     elif instance.__class__.__name__ == 'UserImage':

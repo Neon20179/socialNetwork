@@ -1,15 +1,20 @@
 import React, { FC } from "react";
-import { connect } from "react-redux";
-import { signUp } from "../../state/auth/authActions";
+import { useDispatch, useSelector } from "react-redux";
+import { signUp } from "@/state/auth";
+import { selectIsAuth } from "@/selectors";
+import { SingUpData } from "@/typing";
 import SignUp from "./SignUp";
-import { SignUpProps } from "./signUpTypes";
 
-const SignUpContainer: FC<SignUpProps> = ({ isAuth, signUp }) => {
-  return <SignUp isAuth={isAuth} signUp={signUp} />;
+const SignUpContainer: FC = () => {
+  const isAuth = useSelector(selectIsAuth);
+  const dispatch = useDispatch();
+
+  return (
+    <SignUp
+      isAuth={isAuth}
+      signUp={(payload: SingUpData) => dispatch(signUp(payload))}
+    />
+  );
 };
 
-const mapStateToProps = (state: StateTypes["AppStateType"]) => ({
-  isAuth: state.auth.isAuth
-});
-
-export default connect(mapStateToProps, { signUp })(SignUpContainer);
+export default SignUpContainer;

@@ -1,14 +1,29 @@
-import React, { FC } from "react";
-import { connect } from "react-redux";
+import React, { FC, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { getUserPosts } from "@/state/posts";
+import { activateNavbarLink } from "@/state/components";
+import { selectUserData, selectUserPosts } from "@/selectors";
+import { NavbarLinks } from "@/typing";
 import OwnProfile from "./OwnProfile";
-import { OwnProfileProps } from "./ownProfileTypes";
+import Head from "./Head";
+import Posts from "./Posts";
 
-const OwnProfileContainer: FC<OwnProfileProps> = ({ user }) => {
-  return <OwnProfile user={user} />;
+const OwnProfileContainer: FC = () => {
+  const user = useSelector(selectUserData);
+  const posts = useSelector(selectUserPosts);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getUserPosts());
+    dispatch(activateNavbarLink(NavbarLinks.PROFILE));
+  }, []);
+
+  return (
+    <OwnProfile>
+      <Head user={user} />
+      <Posts posts={posts} />
+    </OwnProfile>
+  );
 };
 
-const mapStateToProps = (state: StateTypes["AppStateType"]) => ({
-  user: state.user.user
-});
-
-export default connect(mapStateToProps)(OwnProfileContainer);
+export default OwnProfileContainer;

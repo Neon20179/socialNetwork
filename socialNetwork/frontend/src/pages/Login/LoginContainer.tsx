@@ -1,15 +1,20 @@
 import React, { FC } from "react";
-import { connect } from "react-redux";
-import { login } from "../../state/auth/authActions";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "@/state/auth";
+import { selectIsAuth } from "@/selectors";
+import { LoginData } from "@/typing";
 import Login from "./Login";
-import { LoginProps } from "./loginTypes";
 
-const LoginContainer: FC<LoginProps> = ({ isAuth, login }) => {
-  return <Login isAuth={isAuth} login={login} />;
+const LoginContainer: FC = () => {
+  const isAuth = useSelector(selectIsAuth);
+  const dispatch = useDispatch();
+
+  return (
+    <Login
+      isAuth={isAuth}
+      login={(payload: LoginData) => dispatch(login(payload))}
+    />
+  );
 };
 
-const mapStateToProps = (state: StateTypes["AppStateType"]) => ({
-  isAuth: state.auth.isAuth
-});
-
-export default connect(mapStateToProps, { login })(LoginContainer);
+export default LoginContainer;

@@ -1,13 +1,11 @@
 import React, { FC } from "react";
 import { Redirect, Route, RouteProps } from "react-router-dom";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
+import { selectIsAuth } from "@/selectors";
 
-type PrivateRouteProps = {
-  component: React.ReactNode;
-  isAuth: boolean;
-} & RouteProps;
+const PrivateRoute: FC<RouteProps> = ({ component: Component, ...rest }) => {
+  const isAuth = useSelector(selectIsAuth);
 
-const PrivateRoute: FC<PrivateRouteProps> = ({ component: Component, isAuth, ...rest }) => {
   return (
     <Route
       {...rest}
@@ -15,15 +13,13 @@ const PrivateRoute: FC<PrivateRouteProps> = ({ component: Component, isAuth, ...
         isAuth ? (
           <Component {...props} />
         ) : (
-          <Redirect to={{ pathname: "/login/", state: { from: props.location } }} />
+          <Redirect
+            to={{ pathname: "/login/", state: { from: props.location } }}
+          />
         )
       }
     />
   );
 };
 
-const mapStateToProps = (state: StateTypes["AppStateType"]) => ({
-  isAuth: state.auth.isAuth
-});
-
-export default connect(mapStateToProps)(PrivateRoute);
+export default PrivateRoute;

@@ -1,5 +1,4 @@
 from rest_framework import permissions
-from userprofile.models import User
 
 
 class IsOwnerOrReadOnly(permissions.BasePermission):

@@ -1,23 +1,18 @@
 import React, { useEffect, FC } from "react";
-import { connect } from "react-redux";
-import { getUserData } from "./state/user/userActions";
+import { useSelector, useDispatch } from "react-redux";
+import { getUserData } from "./state/user";
+import { selectIsAuth } from "./selectors";
 import routes from "./routes";
 
-interface AppProps {
-  isAuth: boolean;
-  getUserData: () => void;
-}
+const App: FC = () => {
+  const isAuth = useSelector(selectIsAuth);
+  const dispatch = useDispatch();
 
-const App: FC<AppProps> = ({ isAuth, getUserData }) => {
   useEffect(() => {
-    if (isAuth) getUserData();
+    if (isAuth) dispatch(getUserData());
   });
 
   return <>{routes}</>;
 };
 
-const mapStateToProps = (state: StateTypes["AppStateType"]) => ({
-  isAuth: state.auth.isAuth
-});
-
-export default connect(mapStateToProps, { getUserData })(App);
+export default App;

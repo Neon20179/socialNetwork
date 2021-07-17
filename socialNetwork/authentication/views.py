@@ -8,8 +8,8 @@ from .serializers import UserSignUpSerializer
 class SignUp(APIView):
     permission_classes = (permissions.AllowAny,)
     authentication_classes = ()
-    
-    def post(self, request, format="json"):
+
+    def post(self, request, format=None):
         serialized_user_data = UserSignUpSerializer(data=request.data)
         if serialized_user_data.is_valid():
             user = serialized_user_data.save()
@@ -22,7 +22,7 @@ class Logout(APIView):
     permission_classes = (permissions.AllowAny,)
     authentication_classes = ()
 
-    def post(self, request, format="json"):
+    def post(self, request, format=None):
         try:
             token = RefreshToken(request.data["refresh_token"])
             token.blacklist()

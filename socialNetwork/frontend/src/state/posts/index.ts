@@ -1,0 +1,1 @@
+export { getUserPosts } from "./postsSlice";

@@ -1,72 +1,62 @@
-import React, { Component } from "react";
+import React, { FC, ChangeEvent } from "react";
 import { Redirect } from "react-router-dom";
-import { SignUpProps } from "./signUpTypes";
+import { useInput } from "@/hooks";
+import { SingUpData } from "@/typing";
 
-const initialState = {
-  username: "",
-  email: "",
-  password: ""
-};
-
-type InitialStateType = typeof initialState;
-
-class SignUp extends Component<SignUpProps, InitialStateType> {
-  constructor(props: SignUpProps) {
-    super(props);
-
-    this.state = initialState;
-  }
-
-  handleChange = (e: React.FormEvent<HTMLInputElement>) => {
-    this.setState((prevState) => ({ ...prevState, [e.currentTarget.name]: e.currentTarget.value }));
-  };
-
-  handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    this.props.signUp(this.state);
-    this.setState(initialState);
-  };
-
-  render() {
-    if (this.props.isAuth) {
-      return <Redirect to="/feed/" />;
-    }
-
-    return (
-      <section className="signup-page">
-        <div className="container">
-          <h2>Sign up</h2>
-          <form onSubmit={this.handleSubmit}>
-            <input
-              type="text"
-              name="username"
-              placeholder="Username"
-              onChange={this.handleChange}
-              required
-              value={this.state.username}
-            />
-            <input
-              type="text"
-              name="email"
-              placeholder="Email"
-              onChange={this.handleChange}
-              required
-              value={this.state.email}
-            />
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              onChange={this.handleChange}
-              required
-              value={this.state.password}
-            />
-            <button type="submit">Sign up</button>
-          </form>
-        </div>
-      </section>
-    );
-  }
+interface SignUpProps {
+  isAuth: boolean;
+  signUp: (payload: SingUpData) => void;
 }
+
+const SignUp: FC<SignUpProps> = ({ isAuth, signUp }) => {
+  const username = useInput();
+  const email = useInput();
+  const password = useInput();
+
+  const handleSubmit = (e: ChangeEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+    const payload = {
+      username: username.value,
+      email: email.value,
+      password: password.value
+    };
+
+    signUp(payload);
+  };
+
+  if (isAuth) return <Redirect to="/feed/" />;
+
+  return (
+    <section className="signup-page">
+      <div className="container">
+        <h2>Sign up</h2>
+        <form onSubmit={handleSubmit}>
+          <input
+            {...username}
+            type="text"
+            name="username"
+            placeholder="Username"
+            required
+          />
+          <input
+            {...email}
+            type="text"
+            name="email"
+            placeholder="Email"
+            required
+          />
+          <input
+            {...password}
+            type="password"
+            name="password"
+            placeholder="Password"
+            required
+          />
+          <button type="submit">Sign up</button>
+        </form>
+      </div>
+    </section>
+  );
+};
 
 export default SignUp;

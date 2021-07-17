@@ -1,0 +1,1 @@
+export { activateNavbarLink } from "./componentsSlice";

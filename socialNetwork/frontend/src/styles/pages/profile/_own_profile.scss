@@ -2,6 +2,38 @@
   width: 100%;
   min-height: 100vh;
   position: relative;
+  background: var(--grey);
+
+  .set-not {
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: var(--dark-grey);
+    padding: 5px;
+    border-radius: 0 0 0 30px;
+
+    .settings-link {
+      padding: 0 20px 0 10px;
+    }
+
+    svg {
+      width: 30px;
+      fill: var(--light-grey);
+    }
+
+    .notifications-link {
+      path {
+        fill: var(--light-grey);
+      }
+
+      polygon {
+        fill: var(--dark-grey);
+      }
+    }
+  }
 
   .head {
     position: relative;
@@ -9,10 +41,12 @@
     .head-image {
       height: 150px;
       border-radius: 0 0 25px 25px;
+      background-size: cover;
+      background-repeat: no-repeat;
     }
 
     h2 {
-      color: #fff;
+      color: var(--white);
       padding: 10px;
     }
 
@@ -21,8 +55,47 @@
       width: 90px;
       height: 90px;
       border-radius: 100%;
-      border: 4px solid #fff;
+      border: 4px solid var(--grey);
       transform: translate(15px, -45px);
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    .follow-info {
+      display: flex;
+      gap: 10px;
+      position: absolute;
+      right: 0;
+      transform: translate(-50px, -50px);
+
+      a {
+        background: var(--orange);
+        padding: 10px;
+        border-radius: 5px;
+        color: var(--white);
+      }
+    }
+
+    .name {
+      position: absolute;
+      transform: translateX(120px);
+      padding-top: 5px;
+    }
+  }
+
+  .post-list {
+    margin-top: 70px;
+    display: flex;
+    flex-wrap: wrap;
+
+    .post {
+      background: var(--grey);
+      width: calc(100vw / 3);
+      height: calc(100vw / 3);
+      position: relative;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
     }
   }
 }

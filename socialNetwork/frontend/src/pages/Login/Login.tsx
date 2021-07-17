@@ -1,62 +1,51 @@
-import React, { Component } from "react";
+import React, { FC, ChangeEvent } from "react";
 import { Redirect } from "react-router-dom";
-import { LoginProps } from "./loginTypes";
+import { useInput } from "@/hooks";
+import { LoginData } from "@/typing";
 
-const initialState = {
-  username: "" as string,
-  password: "" as string
-};
-
-type InitialStateType = typeof initialState;
-
-class Login extends Component<LoginProps, InitialStateType> {
-  constructor(props: LoginProps) {
-    super(props);
-    this.state = initialState;
-  }
-
-  handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    this.setState((prevState) => ({ ...prevState, [e.target.name]: e.target.value }));
-  };
-
-  handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    this.props.login(this.state);
-    this.setState(initialState);
-  };
-
-  render() {
-    if (this.props.isAuth) {
-      return <Redirect to="/feed/" />;
-    }
-
-    return (
-      <section className="login-page">
-        <div className="container">
-          <h2>Log in</h2>
-          <form onSubmit={this.handleSubmit}>
-            <input
-              placeholder="Username or email"
-              type="text"
-              value={this.state.username}
-              name="username"
-              onChange={this.handleChange}
-              required
-            />
-            <input
-              placeholder="Password"
-              type="password"
-              value={this.state.password}
-              name="password"
-              onChange={this.handleChange}
-              required
-            />
-            <button type="submit">Enter Network</button>
-          </form>
-        </div>
-      </section>
-    );
-  }
+interface LoginProps {
+  isAuth: boolean;
+  login: (payload: LoginData) => void;
 }
+
+const Login: FC<LoginProps> = ({ isAuth, login }) => {
+  const username = useInput();
+  const password = useInput();
+
+  const handleSubmit = (e: ChangeEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+    const payload = { username: username.value, password: password.value };
+    login(payload);
+  };
+
+  if (isAuth) {
+    return <Redirect to="/feed/" />;
+  }
+
+  return (
+    <section className="login-page">
+      <div className="container">
+        <h2>Log in</h2>
+        <form onSubmit={handleSubmit}>
+          <input
+            {...username}
+            placeholder="Username or email"
+            type="text"
+            name="username"
+            required
+          />
+          <input
+            {...password}
+            placeholder="Password"
+            type="password"
+            name="password"
+            required
+          />
+          <button type="submit">Login</button>
+        </form>
+      </div>
+    </section>
+  );
+};
 
 export default Login;

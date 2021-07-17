@@ -1,0 +1,24 @@
+.add-post-page {
+  width: 90%;
+  margin: auto;
+  padding-top: 20px;
+
+  h2 {
+    padding-bottom: 10px;
+  }
+
+  .add-text {
+    h3 {
+      padding-bottom: 10px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 200px;
+      border: none;
+      background: #ccc;
+      border-radius: 5px;
+      padding: 10px;
+    }
+  }
+}
