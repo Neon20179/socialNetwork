@@ -14,7 +14,7 @@ const Head: FC<HeadProps> = ({ user }) => {
         style={
           user.header_image
             ? { backgroundImage: `url(${user.header_image})` }
-            : { background: "var(--grey)" }
+            : { background: "var(--dark-grey)" }
         }
       >
         <h2>{user.username}</h2>
@@ -31,7 +31,12 @@ const Head: FC<HeadProps> = ({ user }) => {
         <Link to="/user/followers/">{user.followers_quantity} Followers</Link>
         <Link to="/user/following/">{user.following_quantity} Following</Link>
       </div>
-      <h4 className="name">Welcome back, {user.firstName}!</h4>
+      <div className="bio">
+        <h4 className="name">
+          {user.first_name} {user.last_name}
+        </h4>
+        <p>{user.bio}</p>
+      </div>
     </div>
   );
 };

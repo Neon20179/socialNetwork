@@ -1,11 +1,12 @@
 import { login, signUp } from "@/state/auth";
+import { getUserPosts } from "@/state/posts";
 
 export interface User {
   id: number;
   username: string;
   email: string;
-  firstName: string;
-  lastName: string;
+  first_name: string;
+  last_name: string;
   sex: "M" | "F" | "N";
   bio: string;
   avatar_image: string;
@@ -42,6 +43,7 @@ export interface UserState {
 
 export interface PostsState {
   userPosts: Post[];
+  feedPosts: Post[];
   isLoading: boolean;
 }
 
@@ -73,6 +75,11 @@ export interface Login {
 export interface SignUp {
   type: typeof signUp.type;
   payload: SingUpData;
+}
+
+export interface GetUserPosts {
+  type: typeof getUserPosts.type;
+  payload: number;
 }
 
 export enum NavbarLinks {

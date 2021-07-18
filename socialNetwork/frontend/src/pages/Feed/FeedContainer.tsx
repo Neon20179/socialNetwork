@@ -1,16 +1,28 @@
-import { activateNavbarLink } from "@/state/components";
-import { NavbarLinks } from "@/typing";
 import React, { FC, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { activateNavbarLink } from "@/state/components";
+import { getFeedPosts } from "@/state/posts";
+import { selectFeedPosts } from "@/selectors";
+import { NavbarLinks } from "@/typing";
+
+import Feed from "./Feed";
 
 const FeedContainer: FC = () => {
   const dispatch = useDispatch();
+  const feedPosts = useSelector(selectFeedPosts);
 
   useEffect(() => {
     dispatch(activateNavbarLink(NavbarLinks.FEED));
   }, []);
 
-  return <h1>Feed</h1>;
+  return (
+    <Feed
+      feedPosts={feedPosts}
+      getFeedPosts={(currentPostsQuantity: number) =>
+        dispatch(getFeedPosts(currentPostsQuantity))
+      }
+    />
+  );
 };
 
 export default FeedContainer;

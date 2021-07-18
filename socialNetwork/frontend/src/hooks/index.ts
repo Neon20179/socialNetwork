@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from "react";
+import { useState, useEffect, ChangeEvent, RefObject } from "react";
 
 export function useInput() {
   const [value, setValue] = useState("");
@@ -11,4 +11,22 @@ export function useInput() {
     value,
     onChange
   };
+}
+
+export function usePagination(ref: RefObject<HTMLDivElement>) {
+  const [isAtPageBottom, setIsAtPageBottom] = useState(false);
+
+  const onScroll = () => {
+    setIsAtPageBottom(ref.current.offsetHeight >= window.screenY);
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", onScroll);
+
+    return function () {
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
+
+  return isAtPageBottom;
 }

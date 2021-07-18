@@ -1,1 +1,1 @@
-export { getUserPosts } from "./postsSlice";
+export { getUserPosts, getFeedPosts } from "./postsSlice";

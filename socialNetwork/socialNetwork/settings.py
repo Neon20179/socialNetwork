@@ -24,10 +24,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
+    'channels',
 
     'authentication',
+    'chat',
     'userprofile',
     'friendship',
     'followers',
@@ -63,7 +66,17 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'socialNetwork.wsgi.application'
+# WSGI_APPLICATION = 'socialNetwork.wsgi.application'
+ASGI_APPLICATION = 'socialNetwork.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('127.0.0.1', 6379)]
+        }
+    }
+}
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases

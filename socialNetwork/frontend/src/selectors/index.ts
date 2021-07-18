@@ -5,6 +5,7 @@ export const selectIsAuthLoading = (state: RootState) => state.auth.isLoading;
 
 export const selectUserPosts = (state: RootState) => state.posts.userPosts;
 export const selectIsPostsLoading = (state: RootState) => state.posts.isLoading;
+export const selectFeedPosts = (state: RootState) => state.posts.feedPosts;
 
 export const selectUserData = (state: RootState) => state.user.data;
 export const selectIsUserLoading = (state: RootState) => state.user.isLoading;

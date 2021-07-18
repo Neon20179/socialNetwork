@@ -37,6 +37,8 @@
 
   .head {
     position: relative;
+    min-height: 35vh;
+    border-bottom: 2px solid var(--dark-grey);
 
     .head-image {
       height: 150px;
@@ -76,15 +78,21 @@
       }
     }
 
-    .name {
-      position: absolute;
-      transform: translateX(120px);
-      padding-top: 5px;
+    .bio {
+      padding: 50px 0 20px 20px;
+
+      .name {
+        color: var(--white);
+        padding-bottom: 5px;
+      }
+
+      p {
+        color: var(--light-grey);
+      }
     }
   }
 
   .post-list {
-    margin-top: 70px;
     display: flex;
     flex-wrap: wrap;
 
@@ -96,6 +104,15 @@
       background-repeat: no-repeat;
       background-size: cover;
       background-position: center;
+    }
+
+    .no-posts-message {
+      color: var(--light-grey);
+      text-transform: uppercase;
+      font-weight: bold;
+      width: 100%;
+      text-align: center;
+      padding-top: 40px;
     }
   }
 }
