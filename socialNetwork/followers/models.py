@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.core.cache import cache
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from userprofile.models import User
 from core.cache_utils import get_cache_key, delete_cache_key
 
@@ -70,6 +70,20 @@ class FollowManager(models.Manager):
         follow.delete()
         delete_cache_key("followers", following)
         delete_cache_key("following", follower)
+
+    def is_following(self, following: int, follower: int):
+        followers_key = get_cache_key("followers", following)
+        followers = cache.get(followers_key)
+
+        if followers is not None:
+            if follower in followers:
+                return True
+        else:
+            try:
+                self.get(following=following, follower=follower)
+                return True
+            except ObjectDoesNotExist:
+                return False
 
 
 class Follow(models.Model):

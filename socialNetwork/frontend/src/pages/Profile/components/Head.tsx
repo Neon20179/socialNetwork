@@ -1,12 +1,11 @@
 import React, { FC } from "react";
-import { Link } from "react-router-dom";
-import { User } from "@/typing";
+import { User } from "@/typing/entities";
 
 interface HeadProps {
   user: User;
 }
 
-const Head: FC<HeadProps> = ({ user }) => {
+const Head: FC<HeadProps> = ({ user, children }) => {
   return (
     <div className="head">
       <div
@@ -27,10 +26,8 @@ const Head: FC<HeadProps> = ({ user }) => {
         }
         className="avatar-image"
       />
-      <div className="follow-info">
-        <Link to="/user/followers/">{user.followers_quantity} Followers</Link>
-        <Link to="/user/following/">{user.following_quantity} Following</Link>
-      </div>
+      {children}
+
       <div className="bio">
         <h4 className="name">
           {user.first_name} {user.last_name}

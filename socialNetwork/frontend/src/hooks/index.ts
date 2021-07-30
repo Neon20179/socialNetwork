@@ -3,7 +3,9 @@ import { useState, useEffect, ChangeEvent, RefObject } from "react";
 export function useInput() {
   const [value, setValue] = useState("");
 
-  const onChange = (e: ChangeEvent<HTMLInputElement>): void => {
+  const onChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ): void => {
     setValue(e.target.value);
   };
 
@@ -17,7 +19,9 @@ export function usePagination(ref: RefObject<HTMLDivElement>) {
   const [isAtPageBottom, setIsAtPageBottom] = useState(false);
 
   const onScroll = () => {
-    setIsAtPageBottom(ref.current.offsetHeight >= window.screenY);
+    setIsAtPageBottom(
+      ref.current.offsetHeight <= window.scrollY + window.innerHeight
+    );
   };
 
   useEffect(() => {

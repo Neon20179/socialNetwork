@@ -1,24 +1,82 @@
 .add-post-page {
-  width: 90%;
-  margin: auto;
-  padding-top: 20px;
+  padding: 20px;
 
   h2 {
+    color: var(--white);
     padding-bottom: 10px;
   }
 
+  h3 {
+    color: var(--light-grey);
+    margin-bottom: 30px;
+  }
+
   .add-text {
-    h3 {
-      padding-bottom: 10px;
-    }
+    padding-top: 20px;
 
     textarea {
       width: 100%;
       min-height: 200px;
       border: none;
-      background: #ccc;
       border-radius: 5px;
       padding: 10px;
+      background: var(--dark-grey);
+      color: var(--white);
+      outline: none;
+      font-size: 16px;
     }
+
+    button {
+      width: 100px;
+      margin-top: 10px;
+      background: var(--orange);
+      border: none;
+      color: var(--white);
+      border-radius: 5px;
+      padding: 5px 0;
+      font-size: 16px;
+    }
+  }
+
+  .add-image {
+    padding-top: 20px;
+
+    .image {
+      width: calc((100vw - 40px) / 3);
+      height: calc((100vw - 40px) / 3);
+      position: relative;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
+  }
+
+  .user-images {
+    margin-bottom: 30px;
+
+    label {
+      border: 2px dashed var(--light-grey);
+      padding: 10px 30px;
+      color: var(--white);
+    }
+
+    input {
+      display: none;
+    }
+  }
+
+  .uploaded-files {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  button {
+    background: var(--orange);
+    border: none;
+    color: var(--white);
+    border-radius: 5px;
+    padding: 10px 40px;
+    font-size: 20px;
+    margin-top: 20px;
   }
 }

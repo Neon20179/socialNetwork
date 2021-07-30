@@ -1,8 +1,8 @@
 from django.urls import path
-from .views import UserAPI
+from .views import UserAPI, ProfileDetails
 
 
 urlpatterns = [
-    # path('<str:pk>/', v.as_view()),
     path('', UserAPI.as_view()),
+    path('<int:pk>/', ProfileDetails.as_view())
 ]

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { ComponentsState } from "@/typing";
+import { ComponentsState } from "@/typing/state";
 
 const initialState: ComponentsState = {
   activeNavbarLink: ""

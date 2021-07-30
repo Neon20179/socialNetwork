@@ -1,5 +1,5 @@
 import { put, call, takeLatest } from "redux-saga/effects";
-import { Login, SignUp } from "@/typing";
+import { Login, SignUp } from "@/typing/actions";
 import * as actions from "./authSlice";
 import * as api from "./authApi";
 

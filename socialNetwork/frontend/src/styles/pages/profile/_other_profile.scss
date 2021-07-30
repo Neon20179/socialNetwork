@@ -1,0 +1,18 @@
+.other-profile {
+  .follow-add-friend {
+    display: flex;
+    gap: 10px;
+    position: absolute;
+    right: 0;
+    transform: translate(-10px, -50px);
+
+    button {
+      background: var(--orange);
+      font-size: 1rem;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      color: var(--white);
+    }
+  }
+}

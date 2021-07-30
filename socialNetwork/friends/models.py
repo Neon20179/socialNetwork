@@ -1,11 +1,11 @@
-from django.db import models, IntegrityError
-from django.db.models import Q
 from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
+from django.db import models, IntegrityError
+from django.db.models import Q
 from django.utils import timezone
-from userprofile.models import User
 from core.cache_utils import get_cache_key, delete_cache_key
+from userprofile.models import User
 
 
 class FriendRequestManager(models.Manager):
@@ -63,9 +63,9 @@ class FriendRequestManager(models.Manager):
 
 class FriendRequest(models.Model):
     from_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
-                                  related_name='friendship_request_send')
+                                  related_name='friend_request_send')
     to_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
-                                related_name="friendship_request_received")
+                                related_name="friend_request_received")
     created = models.DateTimeField(default=timezone.now)
     rejected = models.DateTimeField(blank=True, null=True)
     objects = FriendRequestManager()

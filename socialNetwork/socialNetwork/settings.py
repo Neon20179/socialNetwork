@@ -32,7 +32,7 @@ INSTALLED_APPS = [
     'authentication',
     'chat',
     'userprofile',
-    'friendship',
+    'friends',
     'followers',
     'newsfeed',
     'frontend',

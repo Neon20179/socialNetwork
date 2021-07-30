@@ -1,37 +1,22 @@
-from rest_framework import generics, permissions, views
+from rest_framework import generics, permissions, status, views
 from rest_framework.response import Response
-from followers.models import Follow
 from .models import User
-from .serializers import UserSerializer
+from .serializers import UserSerializer, OtherUserSerializer
 
 
-class ProfileList(generics.RetrieveAPIView):
+class ProfileDetails(generics.RetrieveAPIView):
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = OtherUserSerializer
     permission_classes = (permissions.IsAuthenticated,)
+
+    def get_serializer_context(self):
+        return {"user_id": self.request.user.id}
 
 
 class UserAPI(views.APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
-    def get(self, request, format=None):
-        followers_number = Follow.objects.get_followers_quantity(request.user)
-        following_number = Follow.objects.get_following_quantity(request.user)
+    def get(self, request):
         user = User.objects.get(id=request.user.id)
-        data = {
-            "id": user.id,
-            "username": user.username,
-            "first_name": user.first_name,
-            "last_name": user.last_name,
-            "sex": user.sex,
-            "lang": user.lang,
-            "email": user.email,
-            "bio": user.bio,
-            "avatar_image": user.avatar_image,
-            "header_image": user.header_image,
-            "user_images": user.user_images,
-            "followers_quantity": followers_number,
-            "following_quantity": following_number
-        }
-        serialized_user = UserSerializer(data)
-        return Response(serialized_user.data)
+        serialized_user = UserSerializer(user)
+        return Response(serialized_user.data, status=status.HTTP_200_OK)

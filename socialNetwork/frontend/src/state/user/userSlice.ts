@@ -1,8 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { User, UserState } from "@/typing";
+import { UserState } from "@/typing/state";
+import { OtherUser, User } from "@/typing/entities";
 
 const initialState: UserState = {
-  data: {} as User,
+  user: {} as User,
+  otherUser: {} as OtherUser,
   isLoading: false
 };
 
@@ -14,15 +16,32 @@ const userSlice = createSlice({
       state.isLoading = true;
     },
     getUserDataSuccess: (state, { payload }) => {
-      state.data = payload;
+      state.user = payload;
       state.isLoading = false;
     },
     getUserDataFailed: (state) => {
+      state.isLoading = false;
+    },
+
+    getOtherUserData: (state, { payload }) => {
+      state.isLoading = true;
+    },
+    getOtherUserDataSuccess: (state, { payload }) => {
+      state.otherUser = payload;
+      state.isLoading = false;
+    },
+    getOtherUserDataFailed: (state) => {
       state.isLoading = false;
     }
   }
 });
 
 export default userSlice.reducer;
-export const { getUserData, getUserDataSuccess, getUserDataFailed } =
-  userSlice.actions;
+export const {
+  getUserData,
+  getUserDataSuccess,
+  getUserDataFailed,
+  getOtherUserData,
+  getOtherUserDataSuccess,
+  getOtherUserDataFailed
+} = userSlice.actions;

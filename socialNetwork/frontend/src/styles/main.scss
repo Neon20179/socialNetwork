@@ -5,3 +5,7 @@
 @use './components';
 
 @use './pages';
+
+main {
+  min-height: 100vh;
+}

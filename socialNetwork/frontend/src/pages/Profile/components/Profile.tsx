@@ -1,14 +1,18 @@
+import { Post, User } from "@/typing/entities";
 import React, { FC } from "react";
+import Head from "./Head";
+import Posts from "./Posts";
 
 interface ProfileProps {
-  children: React.ReactNode;
+  user: User;
+  posts: Post[];
 }
 
-const Profile: FC<ProfileProps> = ({ children }) => {
+const Profile: FC<ProfileProps> = ({ user, posts, children }) => {
   return (
-    <section>
-      <h1>Profile Page</h1>
-      {children}
+    <section className="profile-page">
+      <Head user={user}>{children}</Head>
+      <Posts posts={posts} />
     </section>
   );
 };

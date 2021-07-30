@@ -1,4 +1,5 @@
 import axios, { AxiosResponse, AxiosError } from "axios";
+import { Comment } from "@/typing/entities";
 
 export const getAccessToken = () => localStorage.getItem("access_token");
 export const getRefreshToken = () => localStorage.getItem("refresh_token");
@@ -77,9 +78,20 @@ export const removeHeaders = () => {
   axiosAPI.defaults.headers["Authentication"] = null;
 };
 
-export const getUrlPk = (match: { url: string }) => {
-  // .com/some_url/pk <-
-  const urlArray: string[] = match.url.split("/").filter((el) => el != "");
-  const pk: string = urlArray[urlArray.length - 1];
-  return pk;
+const findCommentHelper = (branch: Comment, comment_id: number): Comment => {
+  if (comment_id == branch.id) return branch;
+  else {
+    for (let idx = 0; idx < branch.children.length; idx += 1) {
+      let leave = branch.children[idx];
+      let result = findCommentHelper(leave, comment_id);
+      if (result) return result;
+    }
+  }
+};
+
+export const findComment = (comments: Comment[], comment_id: number) => {
+  for (let comment of comments) {
+    var result = findCommentHelper(comment, comment_id);
+    if (result) return result;
+  }
 };

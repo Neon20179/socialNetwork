@@ -1,12 +1,41 @@
+from typing import Union
 from django.db import models
 from django.conf import settings
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
+from userprofile.models import User
+
+
+class LikeManager(models.Manager):
+    use_for_related_fields = True
+
+    def like_dislike(self, object_, user: User):
+        try:
+            liked_object = self.get(user=user, content_type=ContentType.objects.get_for_model(object_),
+                                    object_id=object_.id)
+            liked_object.delete()
+        except Like.DoesNotExist:
+            self.create(user=user, content_type=ContentType.objects.get_for_model(object_), object_id=object_.id)
+
+    def is_liked(self, user_id: int) -> bool:
+        return self.filter(user=user_id).exists()
+
+
+class Like(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey()
+
+    objects = LikeManager()
 
 
 class Post(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='user_posts', on_delete=models.CASCADE)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
-    likes = models.PositiveIntegerField(default=0)
+    likes = GenericRelation(Like)
 
     class Meta:
         ordering = ["-created_at"]
@@ -24,4 +53,4 @@ class Comment(models.Model):
                                   blank=True)
     content = models.TextField(max_length=1000)
     created_at = models.DateTimeField(auto_now_add=True)
-    likes = models.PositiveIntegerField(default=0)
+    likes = GenericRelation(Like)

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { AuthState } from "@/typing";
+import { AuthState } from "@/typing/state";
 
 const initialState: AuthState = {
   isAuth: (localStorage.getItem("access_token") ? true : false) as boolean,

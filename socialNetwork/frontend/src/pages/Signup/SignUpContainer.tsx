@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { signUp } from "@/state/auth";
 import { selectIsAuth } from "@/selectors";
-import { SingUpData } from "@/typing";
+import { SingUpData } from "@/typing/entities";
 import SignUp from "./SignUp";
 
 const SignUpContainer: FC = () => {

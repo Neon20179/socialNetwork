@@ -1,5 +1,5 @@
 import { activateNavbarLink } from "@/state/components";
-import { NavbarLinks } from "@/typing";
+import { NavbarLinks } from "@/typing/entities";
 import React, { useEffect, FC } from "react";
 import { useDispatch } from "react-redux";
 

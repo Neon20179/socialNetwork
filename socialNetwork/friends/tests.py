@@ -6,7 +6,7 @@ from userprofile.models import User
 from .models import Friend, FriendRequest
 
 
-class FriendshipGetTests(APITestCase):
+class FriendsGetTests(APITestCase):
     def setUp(self):
         alice_login_data = {"username": "Alice", "password": "12345678"}
         self.alice_ = User.objects.create_user(**alice_login_data, email="alice@gmail.com")
@@ -94,7 +94,7 @@ class FriendshipGetTests(APITestCase):
         self.assertEqual(len(response.data), 0)
 
 
-class FriendshipPostTests(APITestCase):
+class FriendsPostTests(APITestCase):
     def setUp(self):
         alice_login_data = {"username": "Alice", "password": "12345678"}
         self.alice_ = User.objects.create_user(**alice_login_data, email="alice@gmail.com")

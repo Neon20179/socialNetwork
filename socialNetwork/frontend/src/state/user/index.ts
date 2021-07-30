@@ -1,1 +1,1 @@
-export { getUserData } from "./userSlice";
+export { getUserData, getOtherUserData } from "./userSlice";

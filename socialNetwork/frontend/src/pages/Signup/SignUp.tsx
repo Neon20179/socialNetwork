@@ -1,7 +1,7 @@
 import React, { FC, ChangeEvent } from "react";
 import { Redirect } from "react-router-dom";
 import { useInput } from "@/hooks";
-import { SingUpData } from "@/typing";
+import { SingUpData } from "@/typing/entities";
 
 interface SignUpProps {
   isAuth: boolean;

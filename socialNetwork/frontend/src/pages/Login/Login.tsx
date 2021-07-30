@@ -1,7 +1,7 @@
 import React, { FC, ChangeEvent } from "react";
 import { Redirect } from "react-router-dom";
 import { useInput } from "@/hooks";
-import { LoginData } from "@/typing";
+import { LoginData } from "@/typing/entities";
 
 interface LoginProps {
   isAuth: boolean;

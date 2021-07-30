@@ -1,16 +1,21 @@
 import React, { useEffect, FC } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { activateNavbarLink } from "@/state/components";
-import { NavbarLinks } from "@/typing";
+import { NavbarLinks } from "@/typing/entities";
+import { selectFriends } from "@/selectors";
+import Friends from "./Friends";
+import { getFriends } from "@/state/friends";
 
 const FriendsContainer: FC = () => {
   const dispatch = useDispatch();
+  const friends = useSelector(selectFriends);
 
   useEffect(() => {
     dispatch(activateNavbarLink(NavbarLinks.FRIENDS));
+    dispatch(getFriends(null));
   }, []);
 
-  return <h1>Friends</h1>;
+  return <Friends friends={friends} />;
 };
 
 export default FriendsContainer;

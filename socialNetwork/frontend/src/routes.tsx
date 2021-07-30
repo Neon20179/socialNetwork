@@ -7,10 +7,12 @@ import NavbarContainer from "./layout/Navbar/NavbarContainer";
 import LoginContainer from "./pages/Login/LoginContainer";
 import SignUpContainer from "./pages/SignUp/SignUpContainer";
 import OwnProfileContainer from "./pages/Profile/OwnProfile/OwnProfileContainer";
+import OtherProfileContainer from "./pages/Profile/OtherProfile/OtherProfileContainer";
 import AddPostContainer from "./pages/AddPost/AddPostContainer";
 import FeedContainer from "./pages/Feed/FeedContainer";
 import ChatsContainer from "./pages/Chats/ChatsContainer";
 import FriendsContainer from "./pages/Friends/FriendsContainer";
+import PostContainer from "./pages/Post/PostContainer";
 
 const routes = (
   <BrowserRouter>
@@ -25,6 +27,13 @@ const routes = (
         <PrivateRoute exact path="/feed/" component={FeedContainer} />
         <PrivateRoute exact path="/chats/" component={ChatsContainer} />
         <PrivateRoute exact path="/friends/" component={FriendsContainer} />
+
+        <PrivateRoute exact path="/post/:pk/" component={PostContainer} />
+        <PrivateRoute
+          exact
+          path="/user/:pk/"
+          component={OtherProfileContainer}
+        />
       </Switch>
     </main>
   </BrowserRouter>

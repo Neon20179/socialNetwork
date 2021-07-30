@@ -1,5 +1,7 @@
 from rest_framework import serializers
-from .models import UserImage, LANG_CHOICES
+from friends.models import Friend
+from followers.models import Follow
+from .models import User, UserImage
 
 
 class UserImageSerializer(serializers.ModelSerializer):
@@ -8,19 +10,33 @@ class UserImageSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class UserSerializer(serializers.Serializer):
-    id = serializers.IntegerField()
-    username = serializers.CharField()
-    first_name = serializers.CharField()
-    last_name = serializers.CharField()
-    sex = serializers.CharField()
-    lang = serializers.CharField()
-    email = serializers.EmailField()
-    bio = serializers.TimeField()
-    avatar_image = serializers.ImageField()
-    header_image = serializers.ImageField()
-
+class UserSerializer(serializers.ModelSerializer):
     user_images = UserImageSerializer(many=True)
 
-    followers_quantity = serializers.IntegerField()
-    following_quantity = serializers.IntegerField()
+    followers_quantity = serializers.SerializerMethodField()
+    following_quantity = serializers.SerializerMethodField()
+
+    class Meta:
+        model = User
+        fields = ["id", "username", "first_name", "last_name", "sex", "lang", "email", "bio", "avatar_image",
+                  "header_image", "followers_quantity", "following_quantity", "user_images"]
+
+    def get_followers_quantity(self, user):
+        return Follow.objects.get_followers_quantity(user)
+
+    def get_following_quantity(self, user):
+        return Follow.objects.get_followers_quantity(user)
+
+
+class OtherUserSerializer(UserSerializer):
+    is_following = serializers.SerializerMethodField()
+    is_friend = serializers.SerializerMethodField()
+
+    def get_is_following(self, other_user: User):
+        return Follow.objects.is_following(following=other_user.id, follower=self.context["user_id"])
+
+    def get_is_friend(self, other_user: User):
+        return Friend.objects.are_friends(self.context["user_id"], other_user.id)
+
+    class Meta(UserSerializer.Meta):
+        fields = UserSerializer.Meta.fields + ["is_following", "is_friend"]

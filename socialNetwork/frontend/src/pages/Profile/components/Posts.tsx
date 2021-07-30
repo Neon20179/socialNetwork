@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
-import { Post } from "@/typing";
+import { Post } from "@/typing/entities";
 
 interface PostsProps {
   posts: Post[];
@@ -18,12 +18,15 @@ const Posts: FC<PostsProps> = ({ posts }) => {
             style={
               post.post_images.length > 0
                 ? { backgroundImage: `url(${post.post_images[0].image})` }
-                : { background: "var(--light-grey)" }
+                : {
+                    background: "var(--light-grey)",
+                    border: "2px solid var(--grey)"
+                  }
             }
           ></Link>
         ))
       ) : (
-        <h2 className="no-posts-message">Post something</h2>
+        <h2 className="no-posts-message">there is nothing here yet</h2>
       )}
     </div>
   );

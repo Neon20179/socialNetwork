@@ -1,3 +1,10 @@
 @forward './profile';
 @forward './add_post';
 @forward './feed';
+@forward './post';
+@forward './friends';
+
+main {
+  background: var(--grey);
+  padding-bottom: 55px;
+}

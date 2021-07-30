@@ -1,12 +1,12 @@
 import React, { FC, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { getUserPosts } from "@/state/posts";
 import { activateNavbarLink } from "@/state/components";
 import { selectUserData, selectUserPosts } from "@/selectors";
-import { NavbarLinks } from "@/typing";
+import { NavbarLinks } from "@/typing/entities";
 import OwnProfile from "./OwnProfile";
-import Head from "./Head";
-import Posts from "./Posts";
+import Profile from "../components/Profile";
 
 const OwnProfileContainer: FC = () => {
   const user = useSelector(selectUserData);
@@ -20,8 +20,12 @@ const OwnProfileContainer: FC = () => {
 
   return (
     <OwnProfile>
-      <Head user={user} />
-      <Posts posts={posts} />
+      <Profile user={user} posts={posts}>
+        <div className="follow-info">
+          <Link to="/user/followers/">{user.followers_quantity} Followers</Link>
+          <Link to="/user/following/">{user.following_quantity} Following</Link>
+        </div>
+      </Profile>
     </OwnProfile>
   );
 };

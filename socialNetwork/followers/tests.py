@@ -1,3 +1,4 @@
+from django.test.testcases import TestCase
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase, APIClient
@@ -57,6 +58,29 @@ class FollowGetTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 0)
 
+
+class FollowPostTests(TestCase):
+    def setUp(self):
+        alice_login_data = {"username": "Alice", "password": "12345678"}
+        self.alice_ = User.objects.create_user(**alice_login_data, email="alice@gmail.com")
+        self.alice_.save()
+
+        bob_login_data = {"username": "Bob", "password": "12345678"}
+        self.bob_ = User.objects.create_user(**bob_login_data, email="bob@gmail.com")
+        self.bob_.save()
+
+        alice_token = self.client.post(reverse("token_obtain"), alice_login_data, format="json").data["access"]
+        bob_token = self.client.post(reverse("token_obtain"), bob_login_data, format="json").data["access"]
+
+        self.alice = APIClient()
+        self.alice.credentials(HTTP_AUTHORIZATION="Bearer " + alice_token)
+
+        self.bob = APIClient()
+        self.bob.credentials(HTTP_AUTHORIZATION="Bearer " + bob_token)
+
+        self.eve = APIClient()
+        self.eve.credentials(HTTP_AUTHORIZATION="Bearer " + "")
+
     def test_follow(self):
         url = reverse("follow")
 
@@ -70,9 +94,9 @@ class FollowGetTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(len(Follow.objects.filter(follower=self.alice_, following=self.bob_)), 1)
 
-    def test_remove_following(self):
+    def test_unfollow(self):
         Follow.objects.create(following=self.bob_, follower=self.alice_)
-        url = reverse("remove_following")
+        url = reverse("unfollow")
 
         response = self.eve.post(url, format="json")
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)

@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { NavLink } from "react-router-dom";
-import { NavbarLinks } from "@/typing";
+import { NavbarLinks } from "@/typing/entities";
 
 interface NavbarProps {
   avatarImage: string;

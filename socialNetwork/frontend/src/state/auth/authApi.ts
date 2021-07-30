@@ -1,4 +1,4 @@
-import { LoginData, SingUpData } from "@/typing";
+import { LoginData, SingUpData } from "@/typing/entities";
 import {
   axiosAPI,
   getRefreshToken,

@@ -8,5 +8,5 @@ urlpatterns = [
 
     # POST
     path("follow/", views.follow, name="follow"),
-    path("remove_following/", views.remove_following, name="remove_following"),
+    path("unfollow/", views.unfollow, name="unfollow"),
 ]
