@@ -155,13 +155,13 @@ class GroupChatViewSetTests(APITestCase):
     def test_create(self):
         url = reverse('group_chat-list')
 
-        data = {'users': [1, 2]}
+        data = {'users': [1, 2], 'name': "Party"}
 
         response = self.eve.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
         response = self.bob.post(url, data, format='json')
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
         response = self.alice.post(url, data, format='json')
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)

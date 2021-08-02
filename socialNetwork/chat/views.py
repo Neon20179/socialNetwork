@@ -32,7 +32,7 @@ class PrivateChatViewSet(viewsets.ViewSet):
         queryset = PrivateChat.objects.all()
         return get_object_or_404(queryset, pk=pk)
 
-    # @catch_unexpected_error
+    @catch_unexpected_error
     def create(self, request):
         create_data = {
             "user1": request.user.id,
@@ -58,12 +58,12 @@ class GroupChatViewSet(viewsets.ViewSet):
         queryset = GroupChat.objects.all()
         return get_object_or_404(queryset, pk=pk)
 
-    # @catch_unexpected_error
+    @catch_unexpected_error
     def create(self, request):
         serialize_ready_data = {
-            "users": [request.user.id] + list(map(int, request.data['users'])),
-            "name": request.data["name"],
-            "icon": request.FILES.getlist('icon')[0]
+            'users': [request.user.id] + list(map(int, request.data['users'])),
+            'name': request.data['name'],
+            'icon': request.FILES.getlist('icon')[0] or None
         }
         serialized_chat = serializers.GroupChatCreateSerializer(data=serialize_ready_data)
         if serialized_chat.is_valid():
