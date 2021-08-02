@@ -18,6 +18,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
+    'chat',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -27,10 +30,8 @@ INSTALLED_APPS = [
     
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
-    'channels',
 
     'authentication',
-    'chat',
     'userprofile',
     'friends',
     'followers',
@@ -66,7 +67,6 @@ TEMPLATES = [
     },
 ]
 
-# WSGI_APPLICATION = 'socialNetwork.wsgi.application'
 ASGI_APPLICATION = 'socialNetwork.asgi.application'
 
 CHANNEL_LAYERS = {

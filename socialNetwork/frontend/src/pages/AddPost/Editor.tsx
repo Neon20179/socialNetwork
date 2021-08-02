@@ -7,7 +7,12 @@ interface EditorProps {
 
 const Editor: FC<EditorProps> = ({ createPost }) => {
   let [loadedImages, setLoadedImages] = useState([] as any);
-  const content = useInput();
+  const {
+    value: contentValue,
+    bind: contentBind,
+    reset: contentReset
+  } = useInput();
+
   let uploadedImagesContainer = useRef<HTMLSpanElement>(null).current;
   let form = useRef<HTMLFormElement>(null).current;
 
@@ -36,11 +41,12 @@ const Editor: FC<EditorProps> = ({ createPost }) => {
     for (let idx = 0; idx < loadedImages.length; idx++) {
       formData.append("post_images", loadedImages[idx]);
     }
-    formData.append("content", content.value);
+    formData.append("content", contentValue);
 
     createPost(formData);
 
     form.reset();
+    contentReset();
     uploadedImagesContainer.innerHTML = "";
     loadedImages = [];
   };
@@ -55,7 +61,10 @@ const Editor: FC<EditorProps> = ({ createPost }) => {
     >
       <div className="add-text">
         <h3>Content:</h3>
-        <textarea {...content} placeholder="Write an something..."></textarea>
+        <textarea
+          {...contentBind}
+          placeholder="Write an something..."
+        ></textarea>
       </div>
       <div className="add-image">
         <h3>Add Images</h3>

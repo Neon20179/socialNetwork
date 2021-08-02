@@ -1,4 +1,14 @@
-import { User, Post, UserLink, Comment, OtherUser } from "./entities";
+import {
+  User,
+  Post,
+  UserLink,
+  Comment,
+  OtherUser,
+  PrivateChat,
+  GroupChat,
+  PrivateChatDetails,
+  GroupChatDetails
+} from "./entities";
 
 export interface AuthState {
   isAuth: boolean;
@@ -26,10 +36,17 @@ export interface CommentsState {
 
 export interface ComponentsState {
   activeNavbarLink: string;
+  isShowCreateGroupChatTab: boolean;
 }
 
 export interface FriendsState {
   friends: UserLink[];
+  isLoading: boolean;
+}
+
+export interface ChatState {
+  chats: any;
+  singleChat: any;
   isLoading: boolean;
 }
 
@@ -40,4 +57,5 @@ export interface RootState {
   comments: CommentsState;
   components: ComponentsState;
   friends: FriendsState;
+  chat: ChatState;
 }

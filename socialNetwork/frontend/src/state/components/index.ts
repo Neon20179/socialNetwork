@@ -1,1 +1,4 @@
-export { activateNavbarLink } from "./componentsSlice";
+export {
+  activateNavbarLink,
+  toggleCreateGroupChatTab
+} from "./componentsSlice";

@@ -9,13 +9,23 @@ interface LoginProps {
 }
 
 const Login: FC<LoginProps> = ({ isAuth, login }) => {
-  const username = useInput();
-  const password = useInput();
+  const {
+    value: usernameValue,
+    bind: usernameBind,
+    reset: usernameReset
+  } = useInput();
+  const {
+    value: passwordValue,
+    bind: passwordBind,
+    reset: passwordReset
+  } = useInput();
 
   const handleSubmit = (e: ChangeEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    const payload = { username: username.value, password: password.value };
+    const payload = { username: usernameValue, password: passwordValue };
     login(payload);
+    usernameReset();
+    passwordReset();
   };
 
   if (isAuth) {
@@ -28,14 +38,14 @@ const Login: FC<LoginProps> = ({ isAuth, login }) => {
         <h2>Log in</h2>
         <form onSubmit={handleSubmit}>
           <input
-            {...username}
+            {...usernameBind}
             placeholder="Username or email"
             type="text"
             name="username"
             required
           />
           <input
-            {...password}
+            {...passwordBind}
             placeholder="Password"
             type="password"
             name="password"

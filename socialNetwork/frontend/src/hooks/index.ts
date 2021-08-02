@@ -1,19 +1,20 @@
 import { useState, useEffect, ChangeEvent, RefObject } from "react";
 
-export function useInput() {
+export const useInput = () => {
   const [value, setValue] = useState("");
-
-  const onChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ): void => {
-    setValue(e.target.value);
-  };
 
   return {
     value,
-    onChange
+    setValue,
+    reset: () => setValue(""),
+    bind: {
+      value,
+      onChange: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setValue(e.target.value);
+      }
+    }
   };
-}
+};
 
 export function usePagination(ref: RefObject<HTMLDivElement>) {
   const [isAtPageBottom, setIsAtPageBottom] = useState(false);

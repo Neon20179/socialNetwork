@@ -7,6 +7,7 @@ import commentsReducer from "./comments/commentsSlice";
 import componentsReducer from "./components/componentsSlice";
 import friendsReducer from "./friends/friendsSlice";
 import followersReducer from "./followers/followersSlice";
+import chatReducer from "./chat/chatSlice";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
   comments: commentsReducer,
   components: componentsReducer,
   friends: friendsReducer,
-  followers: followersReducer
+  followers: followersReducer,
+  chat: chatReducer
 });
 
 export default rootReducer;

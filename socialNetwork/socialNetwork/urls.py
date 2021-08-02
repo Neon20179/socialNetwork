@@ -10,5 +10,6 @@ urlpatterns = [
     path('api/friends/', include('friends.urls')),
     path('api/followers/', include('followers.urls')),
     path('api/feed/', include('newsfeed.urls')),
+    path('api/chat/', include('chat.urls')),
     path('', include('frontend.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

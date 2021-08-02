@@ -8,6 +8,7 @@ import { follow, unfollow } from "@/state/followers";
 import { selectOtherUserData, selectOtherUserPosts } from "@/selectors";
 import OtherProfile from "./OtherProfile";
 import Profile from "../components/Profile";
+import { createPrivateChat } from "@/state/chat";
 
 const OtherProfileContainer: FC = () => {
   const otherUserData = useSelector(selectOtherUserData);
@@ -21,7 +22,10 @@ const OtherProfileContainer: FC = () => {
   }, []);
 
   return (
-    <OtherProfile>
+    <OtherProfile
+      message={(userId) => dispatch(createPrivateChat(userId))}
+      userId={pk}
+    >
       <Profile user={otherUserData} posts={otherUserPosts}>
         <div className="follow-add-friend">
           <button

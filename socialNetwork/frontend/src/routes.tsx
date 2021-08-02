@@ -13,6 +13,8 @@ import FeedContainer from "./pages/Feed/FeedContainer";
 import ChatsContainer from "./pages/Chats/ChatsContainer";
 import FriendsContainer from "./pages/Friends/FriendsContainer";
 import PostContainer from "./pages/Post/PostContainer";
+import PrivateChatContainer from "./pages/Chats/PrivateChat/PrivateChatContainer";
+import GroupChatContainer from "./pages/Chats/GroupChat/GroupChatContainer";
 
 const routes = (
   <BrowserRouter>
@@ -33,6 +35,16 @@ const routes = (
           exact
           path="/user/:pk/"
           component={OtherProfileContainer}
+        />
+        <PrivateRoute
+          exact
+          path="/private_chat/:pk/"
+          component={PrivateChatContainer}
+        />
+        <PrivateRoute
+          exact
+          path="/group_chat/:pk/"
+          component={GroupChatContainer}
         />
       </Switch>
     </main>

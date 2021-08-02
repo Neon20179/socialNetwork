@@ -72,6 +72,34 @@ export interface SingUpData extends LoginData {
   email: string;
 }
 
+export interface Message {
+  id: number;
+  user: UserLink;
+  text: string;
+  created_at: string;
+  room: number;
+}
+
+export interface PrivateChat {
+  id: number;
+  companion: UserLink;
+}
+
+export interface PrivateChatDetails extends PrivateChat {
+  messages: Message[];
+}
+
+export interface GroupChat {
+  id: number;
+  users: UserLink[];
+  name: string;
+  icon: string;
+}
+
+export interface GroupChatDetails extends GroupChat {
+  messages: Message[];
+}
+
 export enum NavbarLinks {
   FEED = "FEED",
   CHATS = "CHATS",

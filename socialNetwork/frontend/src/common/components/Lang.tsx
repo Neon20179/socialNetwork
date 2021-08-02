@@ -1,8 +1,14 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, FC } from "react";
 
-const Lang = (ruText, enText, userLang) => {
-  let enNode = useRef(null);
-  let ruNode = useRef(null);
+interface LangProps {
+  ruText: string;
+  enText: string;
+  userLang: any;
+}
+
+const Lang: FC<LangProps> = ({ ruText, enText, userLang }) => {
+  let enNode = useRef<HTMLSpanElement>(null).current;
+  let ruNode = useRef<HTMLSpanElement>(null).current;
 
   useEffect(() => {
     if (userLang === "EN") {

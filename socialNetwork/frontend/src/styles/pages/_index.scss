@@ -3,6 +3,7 @@
 @forward './feed';
 @forward './post';
 @forward './friends';
+@forward './chat';
 
 main {
   background: var(--grey);

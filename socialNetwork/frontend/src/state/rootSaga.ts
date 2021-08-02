@@ -5,6 +5,7 @@ import userWatcher from "./user/userSaga";
 import commentsWatcher from "./comments/commentsSaga";
 import friendsWatcher from "./friends/friendsSaga";
 import followersWatcher from "./followers/followersSage";
+import chatWatcher from "./chat/chatSaga";
 
 function* rootSaga() {
   yield all([
@@ -13,7 +14,8 @@ function* rootSaga() {
     postsWatcher(),
     commentsWatcher(),
     friendsWatcher(),
-    followersWatcher()
+    followersWatcher(),
+    chatWatcher()
   ]);
 }
 

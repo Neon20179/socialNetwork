@@ -10,21 +10,26 @@ interface CommentFormProps {
 
 const CommentForm: FC<CommentFormProps> = ({ postId, replayTo }) => {
   const dispatch = useDispatch();
-  const content = useInput();
+  const {
+    value: contentValue,
+    bind: contentBind,
+    reset: contentReset
+  } = useInput();
 
   const handleSubmit = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     const comment = {
       post: postId,
       replay_to: replayTo,
-      content: content.value
+      content: contentValue
     };
     dispatch(createComment(comment));
+    contentReset();
   };
 
   return (
     <form onSubmit={handleSubmit} className="comment-form">
-      <textarea {...content} placeholder="Write comment" />
+      <textarea {...contentBind} placeholder="Write comment" />
       <button className="comment-submit-button">Submit</button>
     </form>
   );

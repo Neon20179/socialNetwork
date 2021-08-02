@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import { ComponentsState } from "@/typing/state";
 
 const initialState: ComponentsState = {
-  activeNavbarLink: ""
+  activeNavbarLink: "",
+  isShowCreateGroupChatTab: false
 };
 
 const componentsSlice = createSlice({
@@ -11,9 +12,13 @@ const componentsSlice = createSlice({
   reducers: {
     activateNavbarLink: (state, { payload }) => {
       state.activeNavbarLink = payload;
+    },
+    toggleCreateGroupChatTab: (state) => {
+      state.isShowCreateGroupChatTab = !state.isShowCreateGroupChatTab;
     }
   }
 });
 
 export default componentsSlice.reducer;
-export const { activateNavbarLink } = componentsSlice.actions;
+export const { activateNavbarLink, toggleCreateGroupChatTab } =
+  componentsSlice.actions;

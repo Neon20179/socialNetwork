@@ -21,7 +21,13 @@ export const selectIsCommentLoading = (state: RootState) =>
 
 export const selectActiveNavbarLink = (state: RootState) =>
   state.components.activeNavbarLink;
+export const selectIsShowCreateGroupChatTab = (state: RootState) =>
+  state.components.isShowCreateGroupChatTab;
 
 export const selectFriends = (state: RootState) => state.friends.friends;
 export const selectIsFriendsLoading = (state: RootState) =>
   state.friends.isLoading;
+
+export const selectChats = (state: RootState) => state.chat.chats;
+export const selectSingleChat = (state: RootState) => state.chat.singleChat;
+export const selectIsChatLoading = (state: RootState) => state.chat.isLoading;

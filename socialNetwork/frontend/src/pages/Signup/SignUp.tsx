@@ -9,19 +9,30 @@ interface SignUpProps {
 }
 
 const SignUp: FC<SignUpProps> = ({ isAuth, signUp }) => {
-  const username = useInput();
-  const email = useInput();
-  const password = useInput();
+  const {
+    value: usernameValue,
+    bind: usernameBind,
+    reset: usernameReset
+  } = useInput();
+  const { value: emailValue, bind: emailBind, reset: emailReset } = useInput();
+  const {
+    value: passwordValue,
+    bind: passwordBind,
+    reset: passwordReset
+  } = useInput();
 
   const handleSubmit = (e: ChangeEvent<HTMLFormElement>): void => {
     e.preventDefault();
     const payload = {
-      username: username.value,
-      email: email.value,
-      password: password.value
+      username: usernameValue,
+      email: emailValue,
+      password: passwordValue
     };
 
     signUp(payload);
+    usernameReset();
+    emailReset();
+    passwordReset();
   };
 
   if (isAuth) return <Redirect to="/feed/" />;
@@ -32,21 +43,21 @@ const SignUp: FC<SignUpProps> = ({ isAuth, signUp }) => {
         <h2>Sign up</h2>
         <form onSubmit={handleSubmit}>
           <input
-            {...username}
+            {...usernameBind}
             type="text"
             name="username"
             placeholder="Username"
             required
           />
           <input
-            {...email}
+            {...emailBind}
             type="text"
             name="email"
             placeholder="Email"
             required
           />
           <input
-            {...password}
+            {...passwordBind}
             type="password"
             name="password"
             placeholder="Password"

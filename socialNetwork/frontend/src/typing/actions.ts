@@ -10,6 +10,12 @@ import { getFriends, addFriend, removeFriend } from "@/state/friends";
 import { LoginData, SingUpData, CreatedComment } from "./entities";
 import { getOtherUserData } from "@/state/user";
 import { follow, unfollow } from "@/state/followers";
+import {
+  getPrivateChat,
+  getGroupChat,
+  createGroupChat,
+  createPrivateChat
+} from "@/state/chat";
 
 export interface Login {
   type: typeof login.type;
@@ -88,5 +94,25 @@ export interface Follow {
 
 export interface Unfollow {
   type: typeof unfollow.type;
+  payload: number;
+}
+
+export interface GetPrivateChat {
+  type: typeof getPrivateChat.type;
+  payload: number;
+}
+
+export interface GetGroupChat {
+  type: typeof getGroupChat.type;
+  payload: number;
+}
+
+export interface CreateGroupChat {
+  type: typeof createGroupChat.type;
+  payload: FormData;
+}
+
+export interface CreatePrivateChat {
+  type: typeof createPrivateChat.type;
   payload: number;
 }
