@@ -1,14 +1,14 @@
 import { put, call, takeLatest } from "redux-saga/effects";
-import { Login, SignUp } from "@/typing/actions";
+import { SignIn, SignUp } from "@/typing/actions";
 import * as actions from "./authSlice";
 import * as api from "./authApi";
 
-function* loginWorker({ payload }: Login) {
+function* signInWorker({ payload }: SignIn) {
   try {
-    yield call(api.loginApi, payload);
-    yield put(actions.loginSuccess());
+    yield call(api.signInApi, payload);
+    yield put(actions.signInSuccess());
   } catch (error) {
-    yield put(actions.loginFailed());
+    yield put(actions.signInFailed());
   }
 }
 
@@ -21,19 +21,19 @@ function* signUpWorker({ payload }: SignUp) {
   }
 }
 
-function* logoutWorker() {
+function* signOutWorker() {
   try {
-    yield call(api.logoutApi);
-    yield put(actions.logoutSuccess);
+    yield call(api.signOutApi);
+    yield put(actions.signOutSuccess());
   } catch (error) {
-    yield put(actions.loginFailed);
+    yield put(actions.signOutFailed());
   }
 }
 
 function* authWatcher() {
-  yield takeLatest(actions.login.type, loginWorker);
+  yield takeLatest(actions.signIn.type, signInWorker);
   yield takeLatest(actions.signUp.type, signUpWorker);
-  yield takeLatest(actions.logout.type, logoutWorker);
+  yield takeLatest(actions.signOut.type, signOutWorker);
 }
 
 export default authWatcher;

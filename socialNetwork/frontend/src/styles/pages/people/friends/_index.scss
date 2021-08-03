@@ -1,4 +1,7 @@
-.friends__page {
+@forward './search';
+
+.friends-tab,
+.search-tab {
   padding: 20px;
 
   .header {

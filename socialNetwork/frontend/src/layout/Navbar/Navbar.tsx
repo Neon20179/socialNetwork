@@ -43,7 +43,7 @@ const Navbar: FC<NavbarProps> = ({ avatarImage, activeNavbarLink }) => {
           />
         </svg>
       </NavLink>
-      <NavLink to="/friends/">
+      <NavLink to="/people/">
         <svg
           style={{
             fill:

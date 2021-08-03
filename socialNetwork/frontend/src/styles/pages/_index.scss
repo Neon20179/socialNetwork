@@ -2,10 +2,11 @@
 @forward './add_post';
 @forward './feed';
 @forward './post';
-@forward './friends';
+@forward './people';
 @forward './chat';
+@forward './sign_up';
+@forward './sign_in';
 
 main {
   background: var(--grey);
-  padding-bottom: 55px;
 }

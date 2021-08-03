@@ -1,1 +1,1 @@
-export { login, signUp, logout } from "./authSlice";
+export { signIn, signUp, signOut } from "./authSlice";

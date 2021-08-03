@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { signUp } from "@/state/auth";
 import { selectIsAuth } from "@/selectors";
-import { SingUpData } from "@/typing/entities";
+import { SignUpData } from "@/typing/entities";
 import SignUp from "./SignUp";
 
 const SignUpContainer: FC = () => {
@@ -12,7 +12,7 @@ const SignUpContainer: FC = () => {
   return (
     <SignUp
       isAuth={isAuth}
-      signUp={(payload: SingUpData) => dispatch(signUp(payload))}
+      signUp={(payload: SignUpData) => dispatch(signUp(payload))}
     />
   );
 };

@@ -1,5 +1,8 @@
 from rest_framework import generics, permissions, status, views
 from rest_framework.response import Response
+from rest_framework.decorators import api_view, permission_classes
+from core.serializers import UserLinkSerializer
+from core.utils import catch_unexpected_error
 from .models import User
 from .serializers import UserSerializer, OtherUserSerializer
 
@@ -20,3 +23,12 @@ class UserAPI(views.APIView):
         user = User.objects.get(id=request.user.id)
         serialized_user = UserSerializer(user)
         return Response(serialized_user.data, status=status.HTTP_200_OK)
+
+
+@permission_classes((permissions.IsAuthenticated, ))
+@api_view(["GET"])
+@catch_unexpected_error
+def find_user(request):
+    users = User.objects.filter(username__contains=request.query_params.get('search'))[:10]
+    serialized_users = UserLinkSerializer(users, many=True)
+    return Response(serialized_users.data, status=status.HTTP_200_OK)

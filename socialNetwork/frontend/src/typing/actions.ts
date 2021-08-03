@@ -1,4 +1,4 @@
-import { login, signUp } from "@/state/auth";
+import { signIn, signUp } from "@/state/auth";
 import {
   createPost,
   getSinglePost,
@@ -7,8 +7,8 @@ import {
 } from "@/state/posts";
 import { createComment, getPostComments, likeComment } from "@/state/comments";
 import { getFriends, addFriend, removeFriend } from "@/state/friends";
-import { LoginData, SingUpData, CreatedComment } from "./entities";
-import { getOtherUserData } from "@/state/user";
+import { SignInData, SignUpData, CreatedComment } from "./entities";
+import { findUser, getOtherUserData } from "@/state/user";
 import { follow, unfollow } from "@/state/followers";
 import {
   getPrivateChat,
@@ -17,14 +17,14 @@ import {
   createPrivateChat
 } from "@/state/chat";
 
-export interface Login {
-  type: typeof login.type;
-  payload: LoginData;
+export interface SignIn {
+  type: typeof signIn.type;
+  payload: SignInData;
 }
 
 export interface SignUp {
   type: typeof signUp.type;
-  payload: SingUpData;
+  payload: SignUpData;
 }
 
 export interface GetOtherUserData {
@@ -115,4 +115,9 @@ export interface CreateGroupChat {
 export interface CreatePrivateChat {
   type: typeof createPrivateChat.type;
   payload: number;
+}
+
+export interface FindUser {
+  type: typeof findUser.type;
+  payload: string;
 }

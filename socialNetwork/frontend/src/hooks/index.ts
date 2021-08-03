@@ -1,4 +1,11 @@
-import { useState, useEffect, ChangeEvent, RefObject } from "react";
+import {
+  useState,
+  useEffect,
+  ChangeEvent,
+  RefObject,
+  useRef,
+  useCallback
+} from "react";
 
 export const useInput = () => {
   const [value, setValue] = useState("");
@@ -16,7 +23,7 @@ export const useInput = () => {
   };
 };
 
-export function usePagination(ref: RefObject<HTMLDivElement>) {
+export const usePagination = (ref: RefObject<HTMLDivElement>) => {
   const [isAtPageBottom, setIsAtPageBottom] = useState(false);
 
   const onScroll = () => {
@@ -34,4 +41,21 @@ export function usePagination(ref: RefObject<HTMLDivElement>) {
   }, []);
 
   return isAtPageBottom;
-}
+};
+
+export const useDebounce = (callback: any, delay: number) => {
+  const timer = useRef<any>();
+
+  const debouncedCallback = useCallback(
+    (...args) => {
+      if (timer.current) clearTimeout(timer.current);
+
+      timer.current = setTimeout(() => {
+        callback(...args);
+      }, delay);
+    },
+    [callback, delay]
+  );
+
+  return debouncedCallback;
+};

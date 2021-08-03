@@ -10,14 +10,14 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    login: (state, { payload }) => {
+    signIn: (state, { payload }) => {
       state.isLoading = true;
     },
-    loginSuccess: (state) => {
+    signInSuccess: (state) => {
       state.isAuth = true;
       state.isLoading = false;
     },
-    loginFailed: (state) => {
+    signInFailed: (state) => {
       (state.isAuth = false), (state.isLoading = false);
     },
 
@@ -31,14 +31,14 @@ const authSlice = createSlice({
       (state.isAuth = false), (state.isLoading = false);
     },
 
-    logout: (state) => {
+    signOut: (state) => {
       state.isLoading = true;
     },
-    logoutSuccess: (state) => {
+    signOutSuccess: (state) => {
       state.isAuth = false;
       state.isLoading = false;
     },
-    logoutFailed: (state) => {
+    signOutFailed: (state) => {
       state.isLoading = false;
     }
   }
@@ -46,13 +46,13 @@ const authSlice = createSlice({
 
 export default authSlice.reducer;
 export const {
-  login,
-  loginSuccess,
-  loginFailed,
+  signIn,
+  signInSuccess,
+  signInFailed,
   signUp,
   signUpSuccess,
   signUpFailed,
-  logout,
-  logoutSuccess,
-  logoutFailed
+  signOut,
+  signOutSuccess,
+  signOutFailed
 } = authSlice.actions;

@@ -1,14 +1,4 @@
-import {
-  User,
-  Post,
-  UserLink,
-  Comment,
-  OtherUser,
-  PrivateChat,
-  GroupChat,
-  PrivateChatDetails,
-  GroupChatDetails
-} from "./entities";
+import { User, Post, UserLink, Comment, OtherUser } from "./entities";
 
 export interface AuthState {
   isAuth: boolean;
@@ -18,6 +8,7 @@ export interface AuthState {
 export interface UserState {
   user: User;
   otherUser: OtherUser;
+  searchResult: UserLink[];
   isLoading: boolean;
 }
 

@@ -1,4 +1,4 @@
-import { LoginData, SingUpData } from "@/typing/entities";
+import { SignInData, SignUpData } from "@/typing/entities";
 import {
   axiosAPI,
   getRefreshToken,
@@ -6,15 +6,15 @@ import {
   setNewHeaders
 } from "@/utils";
 
-export const loginApi = (payload: LoginData) =>
+export const signInApi = (payload: SignInData) =>
   axiosAPI
     .post("/api/auth/token/obtain/", payload)
     .then((response) => setNewHeaders(response));
 
-export const signUpApi = (payload: SingUpData) =>
+export const signUpApi = (payload: SignUpData) =>
   axiosAPI.post("/api/auth/sign_up/", payload);
 
-export const logoutApi = () =>
+export const signOutApi = () =>
   axiosAPI
     .post("/api/auth/token/blacklist/", { refresh_token: getRefreshToken() })
     .then(() => removeHeaders());

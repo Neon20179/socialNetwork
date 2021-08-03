@@ -5,6 +5,7 @@ import { OtherUser, User } from "@/typing/entities";
 const initialState: UserState = {
   user: {} as User,
   otherUser: {} as OtherUser,
+  searchResult: [],
   isLoading: false
 };
 
@@ -32,6 +33,17 @@ const userSlice = createSlice({
     },
     getOtherUserDataFailed: (state) => {
       state.isLoading = false;
+    },
+
+    findUser: (state, { payload }) => {
+      state.isLoading = true;
+    },
+    findUserSuccess: (state, { payload }) => {
+      state.searchResult = payload;
+      state.isLoading = false;
+    },
+    findUserFailed: (state) => {
+      state.isLoading = false;
     }
   }
 });
@@ -43,5 +55,8 @@ export const {
   getUserDataFailed,
   getOtherUserData,
   getOtherUserDataSuccess,
-  getOtherUserDataFailed
+  getOtherUserDataFailed,
+  findUser,
+  findUserSuccess,
+  findUserFailed
 } = userSlice.actions;

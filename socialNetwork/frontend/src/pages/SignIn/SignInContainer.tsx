@@ -1,20 +1,20 @@
 import React, { FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "@/state/auth";
+import { signIn } from "@/state/auth";
 import { selectIsAuth } from "@/selectors";
-import { LoginData } from "@/typing/entities";
-import Login from "./Login";
+import { SignInData } from "@/typing/entities";
+import SignIn from "./SignIn";
 
-const LoginContainer: FC = () => {
+const SignInContainer: FC = () => {
   const isAuth = useSelector(selectIsAuth);
   const dispatch = useDispatch();
 
   return (
-    <Login
+    <SignIn
       isAuth={isAuth}
-      login={(payload: LoginData) => dispatch(login(payload))}
+      signIn={(payload: SignInData) => dispatch(signIn(payload))}
     />
   );
 };
 
-export default LoginContainer;
+export default SignInContainer;

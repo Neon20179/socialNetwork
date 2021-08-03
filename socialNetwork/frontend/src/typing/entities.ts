@@ -63,12 +63,12 @@ export interface CreatedComment {
   replay_to: number;
 }
 
-export interface LoginData {
+export interface SignInData {
   username: string;
   password: string;
 }
 
-export interface SingUpData extends LoginData {
+export interface SignUpData extends SignInData {
   email: string;
 }
 

@@ -1,14 +1,14 @@
 import React, { FC, ChangeEvent } from "react";
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { useInput } from "@/hooks";
-import { LoginData } from "@/typing/entities";
+import { SignInData } from "@/typing/entities";
 
-interface LoginProps {
+interface SignInProps {
   isAuth: boolean;
-  login: (payload: LoginData) => void;
+  signIn: (payload: SignInData) => void;
 }
 
-const Login: FC<LoginProps> = ({ isAuth, login }) => {
+const SignIn: FC<SignInProps> = ({ isAuth, signIn }) => {
   const {
     value: usernameValue,
     bind: usernameBind,
@@ -23,7 +23,7 @@ const Login: FC<LoginProps> = ({ isAuth, login }) => {
   const handleSubmit = (e: ChangeEvent<HTMLFormElement>): void => {
     e.preventDefault();
     const payload = { username: usernameValue, password: passwordValue };
-    login(payload);
+    signIn(payload);
     usernameReset();
     passwordReset();
   };
@@ -33,8 +33,11 @@ const Login: FC<LoginProps> = ({ isAuth, login }) => {
   }
 
   return (
-    <section className="login-page">
+    <section className="sign-in__page">
       <div className="container">
+        <div className="circle-1"></div>
+        <div className="circle-2"></div>
+        <div className="circle-3"></div>
         <h2>Log in</h2>
         <form onSubmit={handleSubmit}>
           <input
@@ -52,10 +55,14 @@ const Login: FC<LoginProps> = ({ isAuth, login }) => {
             required
           />
           <button type="submit">Login</button>
+          <Link to="/sign_up/">Sign up</Link>
         </form>
+        <div className="circle-4"></div>
+        <div className="circle-5"></div>
+        <div className="circle-6"></div>
       </div>
     </section>
   );
 };
 
-export default Login;
+export default SignIn;

@@ -1,4 +1,5 @@
-.friends__page {
+.friends-tab,
+.search-tab {
   .search {
     display: none;
     padding: 20px;
@@ -12,16 +13,5 @@
       width: 100%;
       font-size: 30px;
     }
-  }
-
-  .search-active {
-    display: block;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    transition: all 1s ease;
-    background: rgba(0, 0, 0, 0.6);
   }
 }

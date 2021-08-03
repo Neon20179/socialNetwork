@@ -11,6 +11,7 @@ export const selectIsPostsLoading = (state: RootState) => state.posts.isLoading;
 export const selectFeedPosts = (state: RootState) => state.posts.feedPosts;
 
 export const selectUserData = (state: RootState) => state.user.user;
+export const selectSearchResult = (state: RootState) => state.user.searchResult;
 export const selectOtherUserData = (state: RootState) => state.user.otherUser;
 export const selectIsUserLoading = (state: RootState) => state.user.isLoading;
 

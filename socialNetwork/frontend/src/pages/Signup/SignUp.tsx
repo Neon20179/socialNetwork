@@ -1,11 +1,11 @@
 import React, { FC, ChangeEvent } from "react";
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { useInput } from "@/hooks";
-import { SingUpData } from "@/typing/entities";
+import { SignUpData } from "@/typing/entities";
 
 interface SignUpProps {
   isAuth: boolean;
-  signUp: (payload: SingUpData) => void;
+  signUp: (payload: SignUpData) => void;
 }
 
 const SignUp: FC<SignUpProps> = ({ isAuth, signUp }) => {
@@ -38,8 +38,10 @@ const SignUp: FC<SignUpProps> = ({ isAuth, signUp }) => {
   if (isAuth) return <Redirect to="/feed/" />;
 
   return (
-    <section className="signup-page">
+    <section className="sign-up__page">
       <div className="container">
+        <div className="circle-1"></div>
+        <div className="circle-2"></div>
         <h2>Sign up</h2>
         <form onSubmit={handleSubmit}>
           <input
@@ -64,7 +66,11 @@ const SignUp: FC<SignUpProps> = ({ isAuth, signUp }) => {
             required
           />
           <button type="submit">Sign up</button>
+          <Link to="/sign_in/">I'm already have account</Link>
         </form>
+        <div className="circle-3"></div>
+        <div className="circle-4"></div>
+        <div className="circle-5"></div>
       </div>
     </section>
   );
