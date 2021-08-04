@@ -9,7 +9,9 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-env/
+backend/env/
+backend/socialNetwork/media/
+backend/socialNetwork/db.sqlite3
 build/
 develop-eggs/
 dist/
@@ -104,16 +106,17 @@ env/
 
 .DS_Store
 *.sqlite3
-media/
+media
+__pycache__
 shopApp/static/
-migrations/
+migrations
 *.pyc
 *.db
 *.pid
 
 # --- REACT ---
 .DS_STORE
-node_modules
+frontend/node_modules/
 scripts/flow/*/.flowconfig
 .flowconfig
 *~
