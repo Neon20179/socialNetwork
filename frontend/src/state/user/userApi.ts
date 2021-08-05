@@ -13,3 +13,6 @@ export const findUserApi = (payload: string) =>
   axiosAPI
     .get(`${rootUrl}find_user/?search=${payload}`)
     .then((response) => response.data);
+
+export const editUserApi = (payload: FormData) =>
+  axiosAPI.patch(`${rootUrl}`, payload).then((response) => response.data);

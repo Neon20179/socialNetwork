@@ -8,8 +8,6 @@ export const getRefreshToken = () => localStorage.getItem("refresh_token");
 export const axiosAPI = axios.create({
   headers: {
     Authorization: "Bearer " + getAccessToken(),
-    "Content-Type": "application/json",
-    accept: "application/json",
   },
 });
 
@@ -76,7 +74,7 @@ export const setNewHeaders = (response: AxiosResponse) => {
 export const removeHeaders = () => {
   localStorage.removeItem("access_token");
   localStorage.removeItem("refresh_token");
-  axiosAPI.defaults.headers["Authentication"] = null;
+  axiosAPI.defaults.headers["Authentication"] = "Bearer";
 };
 
 const findCommentHelper = (branch: Comment, comment_id: number): Comment => {

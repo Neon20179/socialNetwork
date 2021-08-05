@@ -34,7 +34,6 @@ class UserPostList(APIView):
         if serialized_post.is_valid():
             serialized_post.save()
             return Response(serialized_post.data, status=status.HTTP_201_CREATED)
-        print(serialized_post.errors)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 

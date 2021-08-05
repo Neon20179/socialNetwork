@@ -40,3 +40,9 @@ class OtherUserSerializer(UserSerializer):
 
     class Meta(UserSerializer.Meta):
         fields = UserSerializer.Meta.fields + ["is_following", "is_friend"]
+
+
+class UserPatchSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'bio', 'avatar_image', 'header_image']

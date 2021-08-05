@@ -5,11 +5,15 @@ interface EditorProps {
   createPost: (post: FormData) => void;
 }
 
+interface LoadedImage {
+  index: number;
+  image: any;
+  url: any;
+}
+
 const Editor: FC<EditorProps> = ({ createPost }) => {
-  const [loadedImages, setLoadedImages] = useState<any[]>([]);
-  const [loadedImagesUrlsResult, setLoadedImagesUrlsResult] = useState<any[]>(
-    []
-  );
+  const [loadedImages, setLoadedImages] = useState<LoadedImage[]>([]);
+  const [loadedImagesIndex, setLoadedImagesIndex] = useState(0);
   const {
     value: contentValue,
     bind: contentBind,
@@ -23,18 +27,25 @@ const Editor: FC<EditorProps> = ({ createPost }) => {
     const render = new FileReader();
 
     render.onload = (e) => {
-      setLoadedImagesUrlsResult((prevValue) => [...prevValue, e.target.result]);
+      setLoadedImages((prevValue) => [
+        ...prevValue,
+        { index: loadedImagesIndex, image, url: e.target.result },
+      ]);
     };
 
     render.readAsDataURL(image);
-    setLoadedImages((prevValue) => [...prevValue, image]);
+    setLoadedImagesIndex((prevIndex) => prevIndex + 1);
+  };
+
+  const removeLoadedImage = (imageIndex: number) => {
+    setLoadedImages(loadedImages.filter((image) => image.index !== imageIndex));
   };
 
   const handleSubmit = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData();
     for (let idx = 0; idx < loadedImages.length; idx++) {
-      formData.append("post_images", loadedImages[idx]);
+      formData.append("post_images", loadedImages[idx].image);
     }
     formData.append("content", contentValue);
 
@@ -43,7 +54,6 @@ const Editor: FC<EditorProps> = ({ createPost }) => {
     form.reset();
     contentReset();
     setLoadedImages([]);
-    setLoadedImagesUrlsResult([]);
   };
 
   return (
@@ -76,12 +86,14 @@ const Editor: FC<EditorProps> = ({ createPost }) => {
           />
         </div>
         <div className="uploaded-files">
-          {loadedImagesUrlsResult.map((imageUrl, idx) => (
-            <div
-              className="image"
-              style={{ backgroundImage: `url(${imageUrl})` }}
-              key={idx}
-            ></div>
+          {loadedImages.map((image) => (
+            <div className="image-container" key={image.index}>
+              <button onClick={() => removeLoadedImage(image.index)}>+</button>
+              <div
+                className="image"
+                style={{ backgroundImage: `url(${image.url})` }}
+              ></div>
+            </div>
           ))}
         </div>
       </div>

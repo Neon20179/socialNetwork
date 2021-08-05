@@ -105,5 +105,5 @@ export enum NavbarLinks {
   CHATS = "CHATS",
   FRIENDS = "FRIENDS",
   ADD_POST = "ADD_POST",
-  PROFILE = "PROFILE"
+  PROFILE = "PROFILE",
 }

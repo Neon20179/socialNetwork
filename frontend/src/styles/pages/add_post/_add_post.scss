@@ -1,5 +1,5 @@
-.add-post-page {
-  padding: 20px;
+.add-post__page {
+  padding: 20px 20px 70px;
 
   h2 {
     color: var(--white);
@@ -41,13 +41,27 @@
   .add-image {
     padding-top: 20px;
 
-    .image {
-      width: calc((100vw - 40px) / 3);
-      height: calc((100vw - 40px) / 3);
-      position: relative;
-      background-repeat: no-repeat;
-      background-size: cover;
-      background-position: center;
+    .image-container {
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+
+      button {
+        transform: rotate(45deg);
+        border: none;
+        background: none;
+        font-size: 30px;
+        color: var(--light-grey);
+      }
+
+      .image {
+        width: calc((100vw - 40px) / 3);
+        height: calc((100vw - 40px) / 3);
+        position: relative;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+      }
     }
   }
 
@@ -70,7 +84,7 @@
     flex-wrap: wrap;
   }
 
-  button {
+  .add-button {
     background: var(--orange);
     border: none;
     color: var(--white);

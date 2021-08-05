@@ -6,7 +6,7 @@ const initialState: UserState = {
   user: {} as User,
   otherUser: {} as OtherUser,
   searchResult: [],
-  isLoading: false
+  isLoading: false,
 };
 
 const userSlice = createSlice({
@@ -44,8 +44,18 @@ const userSlice = createSlice({
     },
     findUserFailed: (state) => {
       state.isLoading = false;
-    }
-  }
+    },
+
+    editUser: (state, { payload }) => {
+      state.isLoading = true;
+    },
+    editUserSuccess: (state) => {
+      state.isLoading = false;
+    },
+    editUserFailed: (state) => {
+      state.isLoading = false;
+    },
+  },
 });
 
 export default userSlice.reducer;
@@ -58,5 +68,8 @@ export const {
   getOtherUserDataFailed,
   findUser,
   findUserSuccess,
-  findUserFailed
+  findUserFailed,
+  editUser,
+  editUserSuccess,
+  editUserFailed,
 } = userSlice.actions;

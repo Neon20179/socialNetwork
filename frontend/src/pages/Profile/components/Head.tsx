@@ -1,8 +1,7 @@
 import { FC } from "react";
-import { User } from "@/typing/entities";
 
 interface HeadProps {
-  user: User;
+  user: any;
 }
 
 const Head: FC<HeadProps> = ({ user, children }) => {

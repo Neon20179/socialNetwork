@@ -6,6 +6,7 @@
 @forward './chat';
 @forward './sign_up';
 @forward './sign_in';
+@forward './settings';
 
 main {
   background: var(--grey);

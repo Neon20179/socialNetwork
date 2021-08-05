@@ -3,18 +3,18 @@ import {
   createPost,
   getSinglePost,
   getUserPosts,
-  likePost
+  likePost,
 } from "@/state/posts";
 import { createComment, getPostComments, likeComment } from "@/state/comments";
 import { getFriends, addFriend, removeFriend } from "@/state/friends";
 import { SignInData, SignUpData, CreatedComment } from "./entities";
-import { findUser, getOtherUserData } from "@/state/user";
+import { editUser, findUser, getOtherUserData } from "@/state/user";
 import { follow, unfollow } from "@/state/followers";
 import {
   getPrivateChat,
   getGroupChat,
   createGroupChat,
-  createPrivateChat
+  createPrivateChat,
 } from "@/state/chat";
 
 export interface SignIn {
@@ -120,4 +120,9 @@ export interface CreatePrivateChat {
 export interface FindUser {
   type: typeof findUser.type;
   payload: string;
+}
+
+export interface EditUser {
+  type: typeof editUser.type;
+  payload: FormData;
 }

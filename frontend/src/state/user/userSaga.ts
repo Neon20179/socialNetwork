@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from "redux-saga/effects";
 import * as actions from "./userSlice";
 import * as api from "./userApi";
-import { FindUser, GetOtherUserData } from "@/typing/actions";
+import { EditUser, FindUser, GetOtherUserData } from "@/typing/actions";
 
 function* getUserDataWorker(): any {
   try {
@@ -30,10 +30,20 @@ function* findUserWorker({ payload }: FindUser): any {
   }
 }
 
+function* editUserWorker({ payload }: EditUser) {
+  try {
+    yield call(api.editUserApi, payload);
+    yield put(actions.editUserSuccess());
+  } catch (error) {
+    yield put(actions.editUserFailed());
+  }
+}
+
 function* userWatcher() {
   yield takeLatest(actions.getUserData.type, getUserDataWorker);
   yield takeLatest(actions.getOtherUserData.type, getOtherUserDataWorker);
   yield takeLatest(actions.findUser.type, findUserWorker);
+  yield takeLatest(actions.editUser.type, editUserWorker);
 }
 
 export default userWatcher;
