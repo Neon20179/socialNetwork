@@ -20,8 +20,9 @@ class UserPostListTests(APITestCase):
         post = Post.objects.create(user=alice, content="Lorem ipsum dolor sit amet")
         post.save()
 
-        alice_token = self.client.post(reverse("token_obtain"), alice_login_data, format="json").data["access"]
-        bob_token = self.client.post(reverse("token_obtain"), bob_login_data, format="json").data["access"]
+
+        alice_token = self.client.post(reverse("token_obtain"), alice_login_data, format="json").data['access']
+        bob_token = self.client.post(reverse("token_obtain"), bob_login_data, format="json").data['access']
 
         self.url = reverse("user_post_list")
 

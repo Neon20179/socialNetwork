@@ -41,6 +41,12 @@ export interface ChatState {
   isLoading: boolean;
 }
 
+export interface FollowersState {
+  followers: UserLink[];
+  following: UserLink[];
+  isLoading: boolean;
+}
+
 export interface RootState {
   auth: AuthState;
   user: UserState;
@@ -49,4 +55,5 @@ export interface RootState {
   components: ComponentsState;
   friends: FriendsState;
   chat: ChatState;
+  followers: FollowersState;
 }

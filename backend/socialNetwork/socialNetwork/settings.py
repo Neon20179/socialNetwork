@@ -18,25 +18,24 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'channels',
-    'chat',
-
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    
     'corsheaders',
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
+    'channels',
 
     'authentication',
     'userprofile',
     'friends',
     'followers',
-    'newsfeed'
+    'newsfeed',
+    'chat',
 ]
 
 MIDDLEWARE = [
@@ -119,17 +118,17 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'DEFAULT_THROTTLE_CLASSES': [
-            'rest_framework.throttling.AnonRateThrottle',
-            'rest_framework.throttling.UserRateThrottle'
-        ],
-    'DEFAULT_THROTTLE_RATES': {
-            'anon': '20/minute',
-            'user': '100/minute',
-            'user_sec': '5/second',
-            'user_min': '120/minute',
-            'user_hour': '7200/hour',
-    },
+    # 'DEFAULT_THROTTLE_CLASSES': [
+    #         'rest_framework.throttling.AnonRateThrottle',
+    #         'rest_framework.throttling.UserRateThrottle'
+    #     ],
+    # 'DEFAULT_THROTTLE_RATES': {
+    #         'anon': '20/minute',
+    #         'user': '100/minute',
+    #         'user_sec': '25/second',
+    #         'user_min': '120/minute',
+    #         'user_hour': '7200/hour',
+    # },
 }
 
 # CORS
@@ -146,7 +145,7 @@ CORS_ALLOW_HEADERS = (
     'Access-Control-Allow-Credentials',
     'Authorization',
     'Content-Type',
-    'authentication'
+    'Authentication',
 )
 
 # JWT

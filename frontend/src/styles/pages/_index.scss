@@ -7,6 +7,8 @@
 @forward './sign_up';
 @forward './sign_in';
 @forward './settings';
+@forward './follow';
+@forward './home';
 
 main {
   background: var(--grey);

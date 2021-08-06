@@ -16,12 +16,17 @@ import GroupChatContainer from "./pages/Chats/GroupChat/GroupChatContainer";
 import People from "./pages/People/People";
 import Settings from "./pages/Settings/Settings";
 import EditProfile from "./pages/Settings/EditProfile";
+import Followers from "./pages/Follow/Followers";
+import Following from "./pages/Follow/Following";
+import Home from "./pages/Home/Home";
 
 const routes = (
   <BrowserRouter>
     <NavbarContainer />
     <main>
       <Switch>
+        <Route exact path="/" component={Home} />
+
         <Route exact path="/sign_in/" component={SignInContainer} />
         <Route exact path="/sign_up/" component={SignUpContainer} />
 
@@ -33,6 +38,9 @@ const routes = (
 
         <PrivateRoute exact path="/settings/" component={Settings} />
         <PrivateRoute exact path="/edit_profile/" component={EditProfile} />
+
+        <PrivateRoute exact path="/followers/" component={Followers} />
+        <PrivateRoute exact path="/following/" component={Following} />
 
         <PrivateRoute exact path="/post/:pk/" component={PostContainer} />
         <PrivateRoute

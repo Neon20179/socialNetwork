@@ -25,7 +25,7 @@ class UserSerializer(serializers.ModelSerializer):
         return Follow.objects.get_followers_quantity(user)
 
     def get_following_quantity(self, user):
-        return Follow.objects.get_followers_quantity(user)
+        return Follow.objects.get_following_quantity(user)
 
 
 class OtherUserSerializer(UserSerializer):

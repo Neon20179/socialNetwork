@@ -32,3 +32,8 @@ export const selectIsFriendsLoading = (state: RootState) =>
 export const selectChats = (state: RootState) => state.chat.chats;
 export const selectSingleChat = (state: RootState) => state.chat.singleChat;
 export const selectIsChatLoading = (state: RootState) => state.chat.isLoading;
+
+export const selectFollowers = (state: RootState) => state.followers.followers;
+export const selectFollowing = (state: RootState) => state.followers.following;
+export const selectIsFollowersLoading = (state: RootState) =>
+  state.followers.isLoading;

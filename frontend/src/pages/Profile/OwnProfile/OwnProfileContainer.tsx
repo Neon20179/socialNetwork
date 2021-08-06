@@ -22,8 +22,8 @@ const OwnProfileContainer: FC = () => {
     <OwnProfile>
       <Profile user={user} posts={posts}>
         <div className="follow-info">
-          <Link to="/user/followers/">{user.followers_quantity} Followers</Link>
-          <Link to="/user/following/">{user.following_quantity} Following</Link>
+          <Link to="/followers/">{user.followers_quantity} Followers</Link>
+          <Link to="/following/">{user.following_quantity} Following</Link>
         </div>
       </Profile>
     </OwnProfile>
