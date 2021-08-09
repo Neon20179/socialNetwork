@@ -4,6 +4,7 @@ import { signUp } from "@/state/auth";
 import { selectIsAuth } from "@/selectors";
 import { SignUpData } from "@/typing/entities";
 import SignUp from "./SignUp";
+import { sendWarningMessageToAlert } from "@/state/components";
 
 const SignUpContainer: FC = () => {
   const isAuth = useSelector(selectIsAuth);
@@ -13,6 +14,9 @@ const SignUpContainer: FC = () => {
     <SignUp
       isAuth={isAuth}
       signUp={(payload: SignUpData) => dispatch(signUp(payload))}
+      sendWarningMessageToAlert={(message: string) =>
+        dispatch(sendWarningMessageToAlert(message))
+      }
     />
   );
 };

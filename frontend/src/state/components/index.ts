@@ -1,4 +1,7 @@
 export {
   activateNavbarLink,
-  toggleCreateGroupChatTab
+  toggleCreateGroupChatTab,
+  sendInfoMessageToAlert,
+  sendWarningMessageToAlert,
+  sendErrorMessageToAlert,
 } from "./componentsSlice";

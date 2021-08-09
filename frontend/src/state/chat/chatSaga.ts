@@ -7,6 +7,7 @@ import {
 } from "@/typing/actions";
 import * as api from "./chatApi";
 import * as actions from "./chatSlice";
+import { sendErrorMessageToAlert, sendInfoMessageToAlert } from "../components";
 
 function* getChatsWorker(): any {
   try {
@@ -14,6 +15,11 @@ function* getChatsWorker(): any {
     yield put(actions.getChatsSuccess(chats));
   } catch (error) {
     yield put(actions.getChatsFailed());
+    yield put(
+      sendErrorMessageToAlert(
+        "An error occurred while trying to get chats. Check your internet connection."
+      )
+    );
   }
 }
 
@@ -23,6 +29,11 @@ function* getPrivateChatWorker({ payload }: GetPrivateChat): any {
     yield put(actions.getPrivateChatSuccess(chat));
   } catch (error) {
     yield put(actions.getPrivateChatFailed());
+    yield put(
+      sendErrorMessageToAlert(
+        "An error occurred while trying to get chat data. Check your internet connection."
+      )
+    );
   }
 }
 
@@ -32,6 +43,11 @@ function* getGroupChatWorker({ payload }: GetGroupChat): any {
     yield put(actions.getGroupChatSuccess(chat));
   } catch (error) {
     yield put(actions.getGroupChatFailed());
+    yield put(
+      sendErrorMessageToAlert(
+        "An error occurred while trying to get chat data. Check your internet connection."
+      )
+    );
   }
 }
 
@@ -39,8 +55,14 @@ function* createGroupChatWorker({ payload }: CreateGroupChat) {
   try {
     yield call(api.createGroupChatApi, payload);
     yield put(actions.createGroupChatSuccess());
-  } catch (error) {
+    sendInfoMessageToAlert("Group chat successfully created.");
+  } catch (error: any) {
     yield put(actions.createGroupChatFailed());
+    yield put(
+      sendErrorMessageToAlert(
+        `An error occurred while trying to create group chat. Error: ${error.response.data.error_message.invalid}}`
+      )
+    );
   }
 }
 
@@ -48,8 +70,14 @@ function* createPrivateChatWorker({ payload }: CreatePrivateChat) {
   try {
     yield call(api.createPrivateChatApi, payload);
     yield put(actions.createPrivateChatSuccess());
-  } catch (error) {
+    sendInfoMessageToAlert("Private chat successfully created.");
+  } catch (error: any) {
     yield put(actions.createPrivateChatFailed());
+    yield put(
+      sendErrorMessageToAlert(
+        `An error occurred while trying to create chat. Error: ${error.response.data.error_message.invalid}}`
+      )
+    );
   }
 }
 
@@ -59,6 +87,11 @@ function* getUnseenChatsNotificationsWorker(): any {
     yield put(actions.getUnseenChatsNotificationsSuccess(chatsIds));
   } catch (error) {
     yield put(actions.getUnseenChatsNotificationsFailed());
+    yield put(
+      sendErrorMessageToAlert(
+        `An error occurred while trying to get chat notifications. Check your internet connection.`
+      )
+    );
   }
 }
 

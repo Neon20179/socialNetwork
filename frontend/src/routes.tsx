@@ -20,10 +20,12 @@ import Followers from "./pages/Follow/Followers";
 import Following from "./pages/Follow/Following";
 import Home from "./pages/Home/Home";
 import NotificationsContainer from "./pages/Notifications/NotificationsContainer";
+import Alert from "./common/components/Alert";
 
 const routes = (
   <BrowserRouter>
     <NavbarContainer />
+    <Alert />
     <main>
       <Switch>
         <Route exact path="/" component={Home} />

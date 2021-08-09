@@ -29,7 +29,7 @@ const CommentForm: FC<CommentFormProps> = ({ postId, replayTo }) => {
 
   return (
     <form onSubmit={handleSubmit} className="comment-form">
-      <textarea {...contentBind} placeholder="Write comment" />
+      <textarea {...contentBind} placeholder="Write comment" required />
       <button className="comment-submit-button">Submit</button>
     </form>
   );

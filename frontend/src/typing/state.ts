@@ -1,4 +1,4 @@
-import { User, Post, UserLink, Comment, OtherUser } from "./entities";
+import { User, Post, UserLink, Comment, OtherUser, Alert } from "./entities";
 
 export interface AuthState {
   isAuth: boolean;
@@ -28,6 +28,7 @@ export interface CommentsState {
 export interface ComponentsState {
   activeNavbarLink: string;
   isShowCreateGroupChatTab: boolean;
+  alert: Alert;
 }
 
 export interface FriendsState {

@@ -4,10 +4,11 @@ import {
   GetOtherUserPosts,
   GetSinglePost,
   GetUserPosts,
-  LikePost
+  LikePost,
 } from "@/typing/actions";
 import * as actions from "./postsSlice";
 import * as api from "./postsApi";
+import { sendErrorMessageToAlert, sendInfoMessageToAlert } from "../components";
 
 function* getUserPostsWorker(): any {
   try {
@@ -15,6 +16,11 @@ function* getUserPostsWorker(): any {
     yield put(actions.getUserPostsSuccess(payload));
   } catch (error) {
     yield put(actions.getUserPostsFailed());
+    yield put(
+      sendErrorMessageToAlert(
+        "An error occurred while trying to get user posts. Check your internet connection."
+      )
+    );
   }
 }
 
@@ -24,6 +30,11 @@ function* getOtherUserPostsWorker({ payload }: GetOtherUserPosts): any {
     yield put(actions.getOtherUserPostsSuccess(otherUserPosts));
   } catch (error) {
     yield put(actions.getOtherUserPostsFailed());
+    yield put(
+      sendErrorMessageToAlert(
+        "An error occurred while trying to get user data. Check your internet connection."
+      )
+    );
   }
 }
 
@@ -31,8 +42,14 @@ function* createPostWorker({ payload }: CreatePost) {
   try {
     yield call(api.createPostApi, payload);
     yield put(actions.createPostSuccess());
+    yield put(sendInfoMessageToAlert("Posts successfully created."));
   } catch (error) {
     yield put(actions.createPostFailed());
+    yield put(
+      sendErrorMessageToAlert(
+        "An error occurred while trying to create posts. Check your internet connection."
+      )
+    );
   }
 }
 
@@ -42,6 +59,11 @@ function* getSinglePostWorker({ payload }: GetSinglePost): any {
     yield put(actions.getSinglePostSuccess(post));
   } catch (error) {
     yield put(actions.getSinglePostFailed);
+    yield put(
+      sendErrorMessageToAlert(
+        "An error occurred while trying to get post. Check your internet connection."
+      )
+    );
   }
 }
 
@@ -51,6 +73,11 @@ function* getFeedPostsWorker({ payload }: GetUserPosts): any {
     yield put(actions.getFeedPostsSuccess(feedPosts));
   } catch (error) {
     yield put(actions.getFeedPostsFailed);
+    yield put(
+      sendErrorMessageToAlert(
+        "An error occurred while trying to get newsfeed. Check your internet connection."
+      )
+    );
   }
 }
 
@@ -60,6 +87,11 @@ function* likePostWorker({ payload }: LikePost) {
     yield put(actions.likePostSuccess());
   } catch (error) {
     yield put(actions.likePostFailed());
+    yield put(
+      sendErrorMessageToAlert(
+        "An error occurred while trying to like post. Check your internet connection."
+      )
+    );
   }
 }
 

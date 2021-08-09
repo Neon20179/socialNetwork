@@ -55,5 +55,5 @@ class UserAPI(views.APIView):
 @catch_unexpected_error
 def find_user(request):
     users = User.objects.filter(username__contains=request.query_params.get('search'))[:10]
-    serialized_users = UserLinkSerializer(users, many=True)
+    serialized_users = UserLinkSerializer(users, many=True, context={'request': request})
     return Response(serialized_users.data, status=status.HTTP_200_OK)

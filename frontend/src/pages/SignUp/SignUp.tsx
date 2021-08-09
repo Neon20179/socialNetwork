@@ -6,9 +6,14 @@ import { SignUpData } from "@/typing/entities";
 interface SignUpProps {
   isAuth: boolean;
   signUp: (payload: SignUpData) => void;
+  sendWarningMessageToAlert: (message: string) => void;
 }
 
-const SignUp: FC<SignUpProps> = ({ isAuth, signUp }) => {
+const SignUp: FC<SignUpProps> = ({
+  isAuth,
+  signUp,
+  sendWarningMessageToAlert,
+}) => {
   const {
     value: usernameValue,
     bind: usernameBind,
@@ -23,6 +28,14 @@ const SignUp: FC<SignUpProps> = ({ isAuth, signUp }) => {
 
   const handleSubmit = (e: ChangeEvent<HTMLFormElement>): void => {
     e.preventDefault();
+
+    if (passwordValue.length < 8) {
+      sendWarningMessageToAlert(
+        "Password length must be more then 8 characters"
+      );
+      return;
+    }
+
     const payload = {
       username: usernameValue,
       email: emailValue,

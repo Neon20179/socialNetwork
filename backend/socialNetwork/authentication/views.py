@@ -1,7 +1,8 @@
-from rest_framework import permissions, status
+from rest_framework import permissions, serializers, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
+from core.utils import catch_unexpected_error
 from .serializers import UserSignUpSerializer
 
 
@@ -9,24 +10,22 @@ class SignUp(APIView):
     permission_classes = (permissions.AllowAny,)
     authentication_classes = ()
 
+    @catch_unexpected_error
     def post(self, request):
         serialized_user_data = UserSignUpSerializer(data=request.data)
         if serialized_user_data.is_valid():
             user = serialized_user_data.save()
             if user:
                 return Response(status=status.HTTP_201_CREATED)
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response({'error_message': serialized_user_data.error_messages}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class Logout(APIView):
     permission_classes = (permissions.AllowAny,)
     authentication_classes = ()
 
+    @catch_unexpected_error
     def post(self, request):
-        try:
-            token = RefreshToken(request.data["refresh_token"])
-            token.blacklist()
-            return Response(status=status.HTTP_205_RESET_CONTENT)
-        except Exception as ex:
-            print(ex)
-            return Response(status.HTTP_400_BAD_REQUEST)
+        token = RefreshToken(request.data["refresh_token"])
+        token.blacklist()
+        return Response(status=status.HTTP_205_RESET_CONTENT)

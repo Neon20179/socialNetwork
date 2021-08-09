@@ -100,7 +100,7 @@ const CreateGroupChatTab: FC = () => {
         ))}
       </div>
       <form onSubmit={handleSubmit}>
-        <input {...bindChatName} type="text" placeholder="Chat name" required />
+        <input {...bindChatName} required type="text" placeholder="Chat name" />
         <label className="chat-icon" htmlFor="chat-icon-input">
           <h4>Select icon</h4>
           <div className="load-icon">+</div>

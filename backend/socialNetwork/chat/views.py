@@ -51,7 +51,7 @@ class PrivateChatViewSet(viewsets.ViewSet):
         if serialized_chat.is_valid():
             serialized_chat.save()
             return Response(status=status.HTTP_201_CREATED)
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response({'error_message': serialized_chat.error_messages}, status=status.HTTP_400_BAD_REQUEST)
 
     @catch_unexpected_error
     def retrieve(self, request, pk):
@@ -85,8 +85,7 @@ class GroupChatViewSet(viewsets.ViewSet):
         if serialized_chat.is_valid():
             serialized_chat.save()
             return Response(status=status.HTTP_201_CREATED)
-        print(serialized_chat.errors)
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response({'error_message': serialized_chat.error_messages}, status=status.HTTP_400_BAD_REQUEST)
 
     @catch_unexpected_error
     def retrieve(self, request, pk):

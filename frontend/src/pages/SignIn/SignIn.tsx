@@ -55,7 +55,7 @@ const SignIn: FC<SignInProps> = ({ isAuth, signIn }) => {
             required
           />
           <button type="submit">Login</button>
-          <Link to="/sign_up/">Sign up</Link>
+          <Link to="/sign_up/">Create new account</Link>
         </form>
         <div className="circle-4"></div>
         <div className="circle-5"></div>

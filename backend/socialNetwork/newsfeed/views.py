@@ -91,7 +91,7 @@ class CommentAPI(APIView):
         if serialized_comment.is_valid():
             serialized_comment.save()
             return Response(serialized_comment.data, status=status.HTTP_201_CREATED)
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response({'error_message': serialized_comment.error_messages}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class NewsfeedAPI(APIView, LimitOffsetPagination):

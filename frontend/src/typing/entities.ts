@@ -101,6 +101,17 @@ export interface GroupChatDetails extends GroupChat {
   messages: Message[];
 }
 
+export interface Alert {
+  alertType: AlertTypes;
+  message: string;
+}
+
+export enum AlertTypes {
+  INFO = "INFO",
+  WARNING = "WARNING",
+  ERROR = "ERROR",
+}
+
 export enum NavbarLinks {
   FEED = "FEED",
   CHATS = "CHATS",

@@ -2,13 +2,20 @@ import { put, call, takeLatest } from "redux-saga/effects";
 import { SignIn, SignUp } from "@/typing/actions";
 import * as actions from "./authSlice";
 import * as api from "./authApi";
+import { sendErrorMessageToAlert, sendInfoMessageToAlert } from "../components";
 
 function* signInWorker({ payload }: SignIn) {
   try {
     yield call(api.signInApi, payload);
     yield put(actions.signInSuccess());
-  } catch (error) {
+    yield put(sendInfoMessageToAlert("You are successfully signed in."));
+  } catch (error: any) {
     yield put(actions.signInFailed());
+    yield put(
+      sendErrorMessageToAlert(
+        `An error occurred while signing in. Error: ${error.response.data.error_message.invalid}`
+      )
+    );
   }
 }
 
@@ -16,8 +23,13 @@ function* signUpWorker({ payload }: SignUp) {
   try {
     yield call(api.signUpApi, payload);
     yield put(actions.signUpSuccess());
-  } catch (error) {
+  } catch (error: any) {
     yield put(actions.signUpFailed());
+    yield put(
+      sendErrorMessageToAlert(
+        `An error occurred while signing up. Error: ${error.response.data.error_message.invalid}`
+      )
+    );
   }
 }
 
@@ -27,6 +39,11 @@ function* signOutWorker() {
     yield put(actions.signOutSuccess());
   } catch (error) {
     yield put(actions.signOutFailed());
+    yield put(
+      sendErrorMessageToAlert(
+        "An error occurred while signing out. Check your internet connection."
+      )
+    );
   }
 }
 
