@@ -6,7 +6,14 @@ import {
   likePost,
 } from "@/state/posts";
 import { createComment, getPostComments, likeComment } from "@/state/comments";
-import { getFriends, addFriend, removeFriend } from "@/state/friends";
+import {
+  getFriends,
+  addFriend,
+  removeFriend,
+  acceptFriendRequest,
+  rejectFriendRequest,
+  cancelFriendRequest,
+} from "@/state/friends";
 import { SignInData, SignUpData, CreatedComment } from "./entities";
 import { editUser, findUser, getOtherUserData } from "@/state/user";
 import { follow, unfollow } from "@/state/followers";
@@ -125,4 +132,19 @@ export interface FindUser {
 export interface EditUser {
   type: typeof editUser.type;
   payload: FormData;
+}
+
+export interface AcceptFriendRequest {
+  type: typeof acceptFriendRequest.type;
+  payload: number;
+}
+
+export interface RejectFriendRequest {
+  type: typeof rejectFriendRequest.type;
+  payload: number;
+}
+
+export interface CancelFriendRequest {
+  type: typeof cancelFriendRequest.type;
+  payload: number;
 }

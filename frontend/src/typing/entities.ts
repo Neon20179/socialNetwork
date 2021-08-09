@@ -16,6 +16,7 @@ export interface User {
 export interface OtherUser extends User {
   is_following: boolean;
   is_friend: boolean;
+  is_friend_request_sent: boolean;
 }
 
 export interface UserLink {

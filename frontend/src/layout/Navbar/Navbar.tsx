@@ -5,9 +5,16 @@ import { NavbarLinks } from "@/typing/entities";
 interface NavbarProps {
   avatarImage: string;
   activeNavbarLink: string;
+  isChatHasNotifications: boolean;
+  isUserHasFriendRequests: boolean;
 }
 
-const Navbar: FC<NavbarProps> = ({ avatarImage, activeNavbarLink }) => {
+const Navbar: FC<NavbarProps> = ({
+  avatarImage,
+  activeNavbarLink,
+  isChatHasNotifications,
+  isUserHasFriendRequests,
+}) => {
   return (
     <nav>
       <NavLink to="/feed/">
@@ -26,6 +33,10 @@ const Navbar: FC<NavbarProps> = ({ avatarImage, activeNavbarLink }) => {
         </svg>
       </NavLink>
       <NavLink to="/chats/">
+        <div
+          className="chat-notification-circle"
+          style={{ display: isChatHasNotifications ? "block" : "none" }}
+        ></div>
         <svg
           style={{
             fill:
@@ -82,6 +93,10 @@ const Navbar: FC<NavbarProps> = ({ avatarImage, activeNavbarLink }) => {
         </svg>
       </NavLink>
       <NavLink to="/profile/">
+        <div
+          className="chat-notification-circle"
+          style={{ display: isUserHasFriendRequests ? "block" : "none" }}
+        ></div>
         <div
           className="profile"
           style={

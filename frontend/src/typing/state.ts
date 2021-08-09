@@ -32,6 +32,8 @@ export interface ComponentsState {
 
 export interface FriendsState {
   friends: UserLink[];
+  requests: UserLink[];
+  notificationsQuantity: number;
   isLoading: boolean;
 }
 
@@ -39,6 +41,7 @@ export interface ChatState {
   chats: any;
   singleChat: any;
   isLoading: boolean;
+  notifications: number[];
 }
 
 export interface FollowersState {

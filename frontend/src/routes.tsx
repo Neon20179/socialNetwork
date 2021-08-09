@@ -19,6 +19,7 @@ import EditProfile from "./pages/Settings/EditProfile";
 import Followers from "./pages/Follow/Followers";
 import Following from "./pages/Follow/Following";
 import Home from "./pages/Home/Home";
+import NotificationsContainer from "./pages/Notifications/NotificationsContainer";
 
 const routes = (
   <BrowserRouter>
@@ -38,6 +39,11 @@ const routes = (
 
         <PrivateRoute exact path="/settings/" component={Settings} />
         <PrivateRoute exact path="/edit_profile/" component={EditProfile} />
+        <PrivateRoute
+          exact
+          path="/notifications/"
+          component={NotificationsContainer}
+        />
 
         <PrivateRoute exact path="/followers/" component={Followers} />
         <PrivateRoute exact path="/following/" component={Following} />

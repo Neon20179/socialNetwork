@@ -1,20 +1,22 @@
-import { getAccessToken } from "@/utils";
 import { Middleware } from "redux";
+import { getAccessToken } from "@/utils";
 import {
   addMessageToChat,
   getPrivateChatSuccess,
   getGroupChatSuccess,
   sendMessage,
   createGroupChatSuccess,
-  getChats
+  getChats,
+  getUnseenChatsNotificationsSuccess,
 } from "./chatSlice";
 
-let socket: WebSocket = null;
-let accessToken = getAccessToken();
+const accessToken = getAccessToken();
 
-const chatMiddleware: Middleware = (store) => (next) => (action) => {
-  if (socket !== null) {
-    socket.onmessage = (e) => {
+let chatSocket: WebSocket = null;
+
+export const chatMiddleware: Middleware = (store) => (next) => (action) => {
+  if (chatSocket !== null) {
+    chatSocket.onmessage = (e) => {
       const newMessage = JSON.parse(e.data);
       store.dispatch(addMessageToChat(newMessage));
     };
@@ -22,18 +24,18 @@ const chatMiddleware: Middleware = (store) => (next) => (action) => {
 
   switch (action.type) {
     case getPrivateChatSuccess.type:
-      if (socket !== null) socket.close();
+      if (chatSocket !== null) chatSocket.close();
       let privateChatId = action.payload.id;
 
-      socket = new WebSocket(
+      chatSocket = new WebSocket(
         `ws://127.0.0.1:8000/ws/private_chat/${privateChatId}/?token=${accessToken}`
       );
       break;
 
     case getGroupChatSuccess.type:
-      if (socket !== null) socket.close();
+      if (chatSocket !== null) chatSocket.close();
       let groupChatId = action.payload.id;
-      socket = new WebSocket(
+      chatSocket = new WebSocket(
         `ws://127.0.0.1:8000/ws/group_chat/${groupChatId}/?token=${accessToken}`
       );
       break;
@@ -43,11 +45,23 @@ const chatMiddleware: Middleware = (store) => (next) => (action) => {
       break;
 
     case sendMessage.type:
-      socket.send(JSON.stringify({ message: action.payload }));
+      chatSocket.send(JSON.stringify({ message: action.payload }));
       break;
   }
 
   return next(action);
 };
 
-export default chatMiddleware;
+const notificationSocket = new WebSocket(
+  `ws://127.0.0.1:8000/ws/chat_notifications/?token=${accessToken}`
+);
+
+export const chatNotificationSocket: Middleware =
+  (store) => (next) => (action) => {
+    notificationSocket.onmessage = (e) => {
+      const chatId = JSON.parse(e.data);
+      store.dispatch(getUnseenChatsNotificationsSuccess(chatId));
+    };
+
+    return next(action);
+  };

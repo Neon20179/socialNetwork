@@ -25,3 +25,8 @@ export const createPrivateChatApi = (data: number) =>
   axiosAPI
     .post(`${rootUrl}/private_chat/`, { companion: data })
     .then((response) => response.data);
+
+export const getUnseenChatsNotificationsApi = () =>
+  axiosAPI
+    .get(`${rootUrl}/unseen_chats_notifications/`)
+    .then((response) => response.data.chats_ids);

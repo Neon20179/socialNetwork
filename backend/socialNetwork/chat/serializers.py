@@ -1,4 +1,3 @@
-from django.http import request
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 from core.serializers import UserLinkSerializer
@@ -14,10 +13,12 @@ class MessageSerializer(ModelSerializer):
         model = Message
         fields = '__all__'
 
-    def get_created_at(self, message: Message):
+    @staticmethod
+    def get_created_at(message: Message):
         return stringify_created_at(message.created_at)
-    
-    def get_user(self, message: Message):
+
+    @staticmethod
+    def get_user(message: Message):
         return UserLinkSerializer(message.user).data
 
 
@@ -26,12 +27,15 @@ class PrivateChatsListSerializer(ModelSerializer):
 
     class Meta:
         model = PrivateChat
-        fields = ["id", "companion"]
-    
+        fields = ['id', 'companion', 'last_update']
+
     def get_companion(self, chat: PrivateChat):
         request = self.context['request']
         companion = chat.user1 if request.user != chat.user1 else chat.user2
         return UserLinkSerializer(companion, context={'request': request}).data
+
+    def create(self, validated_data):
+        return PrivateChat.objects.create_chat(**validated_data)
 
 
 class PrivateChatDetailSerializer(PrivateChatsListSerializer):
@@ -41,7 +45,8 @@ class PrivateChatDetailSerializer(PrivateChatsListSerializer):
         model = PrivateChat
         fields = PrivateChatsListSerializer.Meta.fields + ['messages']
 
-    def get_messages(self, chat: PrivateChat):
+    @staticmethod
+    def get_messages(chat: PrivateChat):
         return MessageSerializer(chat.messages, many=True).data
 
 
@@ -49,10 +54,14 @@ class PrivateChatCreateSerializer(ModelSerializer):
     class Meta:
         model = PrivateChat
         fields = ["user1", "user2"]
-    
+
     def create(self, validated_data):
-        chat = PrivateChat.objects.get_or_create(user1=validated_data.pop("user1"), user2=validated_data.pop("user2"))
-        return chat
+        user1 = validated_data.pop("user1")
+        user2 = validated_data.pop("user2")
+        try:
+            return PrivateChat.objects.get(user1=user1, user2=user2)
+        except PrivateChat.DoesNotExist:
+            return PrivateChat.objects.create_chat(user1=user1, user2=user2)
 
 
 class GroupChatsListSerializer(ModelSerializer):
@@ -66,10 +75,10 @@ class GroupChatsListSerializer(ModelSerializer):
 class GroupChatCreateSerializer(ModelSerializer):
     class Meta:
         model = GroupChat
-        fields = '__all__'
-    
+        fields = ['name', 'icon', 'users']
+
     def create(self, validated_data):
-        chat = GroupChat.objects.create(name=validated_data.pop("name"), icon=validated_data.pop("icon", None))
+        chat = GroupChat.objects.create_chat(name=validated_data.pop("name"), icon=validated_data.pop("icon", None))
         users = validated_data.pop('users')
         for userId in users:
             chat.users.add(userId)
@@ -83,6 +92,6 @@ class GroupChatDetailSerializer(ModelSerializer):
     class Meta:
         model = GroupChat
         fields = '__all__'
-    
+
     def get_messages(self, chat: PrivateChat):
         return MessageSerializer(chat.messages, many=True, context={'request': self.context['request']}).data

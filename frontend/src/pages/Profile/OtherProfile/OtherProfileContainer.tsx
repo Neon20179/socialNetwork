@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getOtherUserData } from "@/state/user";
 import { getOtherUserPosts } from "@/state/posts";
-import { addFriend, removeFriend } from "@/state/friends";
+import { addFriend, cancelFriendRequest, removeFriend } from "@/state/friends";
 import { follow, unfollow } from "@/state/followers";
 import { selectOtherUserData, selectOtherUserPosts } from "@/selectors";
 import OtherProfile from "./OtherProfile";
@@ -39,12 +39,18 @@ const OtherProfileContainer: FC = () => {
           </button>
           <button
             onClick={() =>
-              otherUserData.is_friend
+              otherUserData.is_friend_request_sent
+                ? dispatch(cancelFriendRequest(pk))
+                : otherUserData.is_friend
                 ? dispatch(removeFriend(pk))
                 : dispatch(addFriend(pk))
             }
           >
-            {otherUserData.is_friend ? "Remove from friend" : "Add friend"}
+            {otherUserData.is_friend_request_sent
+              ? "Cancel request"
+              : otherUserData.is_friend
+              ? "Remove from friend"
+              : "Add friend"}
           </button>
         </div>
       </Profile>

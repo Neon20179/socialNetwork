@@ -1,5 +1,12 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { AddFriend, GetFriends, RemoveFriend } from "@/typing/actions";
+import {
+  AcceptFriendRequest,
+  AddFriend,
+  CancelFriendRequest,
+  GetFriends,
+  RejectFriendRequest,
+  RemoveFriend,
+} from "@/typing/actions";
 import * as api from "./friendsApi";
 import * as actions from "./friendsSlice";
 
@@ -30,10 +37,63 @@ function* removeFriendWorker({ payload }: RemoveFriend) {
   }
 }
 
+function* getFriendRequestsWorker(): any {
+  try {
+    const requests = yield call(api.getFriendRequestsApi);
+    yield put(actions.getFriendRequestSuccess(requests));
+  } catch (error) {
+    yield put(actions.getFriendRequestFailed());
+  }
+}
+
+function* acceptFriendRequestWorker({ payload }: AcceptFriendRequest) {
+  try {
+    yield call(api.acceptFriendRequestApi, payload);
+    yield put(actions.acceptFriendRequestSuccess());
+  } catch (error) {
+    yield put(actions.acceptFriendRequestFailed());
+  }
+}
+
+function* rejectFriendRequestWorker({ payload }: RejectFriendRequest) {
+  try {
+    yield call(api.rejectFriendRequestApi, payload);
+    yield put(actions.rejectFriendRequestSuccess());
+  } catch (error) {
+    yield put(actions.rejectFriendRequestFailed());
+  }
+}
+
+function* cancelFriendRequestWorker({ payload }: CancelFriendRequest) {
+  try {
+    yield call(api.cancelFriendRequestApi, payload);
+    yield put(actions.cancelFriendRequestSuccess());
+  } catch (error) {
+    yield put(actions.cancelFriendRequestFailed());
+  }
+}
+
+function* getFriendNotificationsWorker(): any {
+  try {
+    const notifications = yield call(api.getFriendNotificationsApi);
+    yield put(actions.getFriendNotificationsSuccess(notifications));
+  } catch (error) {
+    yield put(actions.getFriendNotificationsFailed());
+  }
+}
+
 function* friendsWatcher() {
   yield takeLatest(actions.getFriends.type, getFriendsWorker);
   yield takeLatest(actions.addFriend.type, addFriendWorker);
   yield takeLatest(actions.removeFriend.type, removeFriendWorker);
+  yield takeLatest(actions.getFriendRequests.type, getFriendRequestsWorker);
+  yield takeLatest(actions.acceptFriendRequest.type, acceptFriendRequestWorker);
+  yield takeLatest(actions.rejectFriendRequest.type, rejectFriendRequestWorker);
+  yield takeLatest(actions.cancelFriendRequest.type, cancelFriendRequestWorker);
+  yield takeLatest(
+    actions.getFriendNotifications.type,
+    getFriendNotificationsWorker
+  );
 }
 
 export default friendsWatcher;

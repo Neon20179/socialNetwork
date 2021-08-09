@@ -50,15 +50,22 @@ class FriendRequestManager(models.Manager):
         if Friend.objects.are_friends(user1=from_user.id, user2=to_user.id):
             raise IntegrityError("Users are already friends")
 
-        request, is_created = self.get_or_create(from_user=from_user, to_user=to_user)
-
-        if not is_created:
+        if self.is_friend_request_sent(from_user, to_user):
             raise IntegrityError("Request already sent")
+
+        request = self.create(from_user=from_user, to_user=to_user)
 
         delete_cache_key("requests", to_user.id)
         delete_cache_key("sent_requests", from_user.id)
 
         return request
+
+    def is_friend_request_sent(self, from_user: int, to_user: int):
+        try:
+            self.get(from_user=from_user, to_user=to_user)
+            return True
+        except ObjectDoesNotExist:
+            return False
 
 
 class FriendRequest(models.Model):
@@ -78,26 +85,26 @@ class FriendRequest(models.Model):
         Friend.objects.create(user=self.to_user, friend=self.from_user)
         self.delete()
 
-        delete_cache_key("requests", self.to_user)
-        delete_cache_key("sent_requests", self.to_user)
-        delete_cache_key("friends", self.to_user)
+        delete_cache_key("requests", self.to_user.id)
+        delete_cache_key("sent_requests", self.to_user.id)
+        delete_cache_key("friends", self.to_user.id)
 
-        delete_cache_key("requests", self.from_user)
-        delete_cache_key("sent_requests", self.from_user)
-        delete_cache_key("friends", self.from_user)
+        delete_cache_key("requests", self.from_user.id)
+        delete_cache_key("sent_requests", self.from_user.id)
+        delete_cache_key("friends", self.from_user.id)
 
     def cancel(self) -> None:
         self.delete()
 
-        delete_cache_key("sent_requests", self.from_user)
-        delete_cache_key("requests", self.to_user)
+        delete_cache_key("sent_requests", self.from_user.id)
+        delete_cache_key("requests", self.to_user.id)
 
     def reject(self) -> None:
         self.rejected = timezone.now()
         self.save()
 
-        delete_cache_key("requests", self.to_user)
-        delete_cache_key("sent_requests", self.from_user)
+        delete_cache_key("requests", self.to_user.id)
+        delete_cache_key("sent_requests", self.from_user.id)
 
 
 class FriendManager(models.Manager):
@@ -153,3 +160,8 @@ class Friend(models.Model):
             ValidationError("User can't be friend with themselves.")
 
         super(Friend, self).save(*args, **kwargs)
+
+
+class FriendNotification(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    is_seen = models.BooleanField(default=False)

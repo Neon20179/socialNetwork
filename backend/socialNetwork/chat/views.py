@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from core.utils import catch_unexpected_error
-from .models import GroupChat, PrivateChat
+from .models import ChatNotification, GroupChat, PrivateChat
 from . import serializers
 
 
@@ -21,8 +21,17 @@ def get_user_chats(request):
         context={'request': request}
     ).data
     serialized_group_chats = serializers.GroupChatsListSerializer(group_chats, many=True, context={'request': request}).data
-    chats = serialized_private_chats + serialized_group_chats
+    chats = sorted(serialized_private_chats + serialized_group_chats, key=lambda chat: chat['last_update'], reverse=True)
     return Response(chats, status=status.HTTP_200_OK)
+
+
+@permission_classes((permissions.IsAuthenticated,))
+@api_view(["GET"])
+@catch_unexpected_error
+def get_unseen_chats_notifications(request):
+    unseen_chat_notifications = ChatNotification.objects.filter(Q(user=request.user) & Q(is_seen=False))
+    serialized_chats_id = {'chats_ids': set([n.chat_id.id for n in unseen_chat_notifications])}
+    return Response(serialized_chats_id, status=status.HTTP_200_OK)
 
 
 class PrivateChatViewSet(viewsets.ViewSet):
@@ -47,6 +56,9 @@ class PrivateChatViewSet(viewsets.ViewSet):
     @catch_unexpected_error
     def retrieve(self, request, pk):
         chat = self.get_object(pk)
+        
+        ChatNotification.objects.remove_notification(user=request.user, chat_id=chat.id)
+
         serialized_chat = serializers.PrivateChatDetailSerializer(chat, context={'request': request})
         return Response(serialized_chat.data, status=status.HTTP_200_OK)
 
@@ -60,11 +72,15 @@ class GroupChatViewSet(viewsets.ViewSet):
 
     @catch_unexpected_error
     def create(self, request):
+        icon = request.FILES.getlist('icon')
         serialize_ready_data = {
-            'users': [request.user.id] + list(map(int, request.data['users'])),
-            'name': request.data['name'],
-            'icon': request.FILES.getlist('icon')[0] or None
+            'users': [request.user.id] + list(map(int, request.data.get('users', default=[]))),
+            'name': request.data.get('name')
         }
+        
+        if icon:
+            serialize_ready_data['icon'] = icon
+
         serialized_chat = serializers.GroupChatCreateSerializer(data=serialize_ready_data, context={'request': request})
         if serialized_chat.is_valid():
             serialized_chat.save()
@@ -75,6 +91,9 @@ class GroupChatViewSet(viewsets.ViewSet):
     @catch_unexpected_error
     def retrieve(self, request, pk):
         chat = self.get_object(pk)
+
+        ChatNotification.objects.remove_notification(user=request.user, chat_id=chat.id)
+
         serialized_chat = serializers.GroupChatDetailSerializer(chat, context={'request': request})
         return Response(serialized_chat.data, status=status.HTTP_200_OK)
 

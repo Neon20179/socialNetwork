@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.test import APITestCase, APIClient
 from friends.models import Friend
 from userprofile.models import User
-from .models import PrivateChat, GroupChat
+from .models import ChatId, PrivateChat, GroupChat
 
 
 class GetUserChatTests(APITestCase):
@@ -17,8 +17,11 @@ class GetUserChatTests(APITestCase):
         self.bob_ = User.objects.create_user(**bob_login_data, email="bob@gmail.com")
         self.bob_.save()
 
-        PrivateChat.objects.create(user1=self.alice_, user2=self.bob_)
-        group_chat = GroupChat.objects.create()
+        private_chat_id = ChatId.objects.create()
+        PrivateChat.objects.create(id=private_chat_id, user1=self.alice_, user2=self.bob_)
+
+        group_chat_id = ChatId.objects.create()
+        group_chat = GroupChat.objects.create(id=group_chat_id)
         group_chat.users.add(self.alice_)
 
         alice_token = self.client.post(reverse('token_obtain'), alice_login_data, format='json').data['access']
@@ -35,7 +38,6 @@ class GetUserChatTests(APITestCase):
 
         self.url = reverse('user_chats')
 
-    
     def test(self):
         response = self.eve.get(self.url, format='json')
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
@@ -57,7 +59,8 @@ class PrivateChatViewSetTests(APITestCase):
         self.bob_ = User.objects.create_user(**bob_login_data, email="bob@gmail.com")
         self.bob_.save()
 
-        PrivateChat.objects.create(user1=self.alice_, user2=self.bob_)
+        chat_id = ChatId.objects.create()
+        PrivateChat.objects.create(id=chat_id, user1=self.alice_, user2=self.bob_)
 
         alice_token = self.client.post(reverse('token_obtain'), alice_login_data, format='json').data['access']
         bob_token = self.client.post(reverse('token_obtain'), bob_login_data, format='json').data['access']
@@ -78,11 +81,11 @@ class PrivateChatViewSetTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
         response = self.bob.get(url, format='json')
-        self.assertEqual(len(response.data), 3)
+        self.assertEqual(len(response.data), 4)
 
         response = self.alice.get(url, format='json')
-        self.assertEqual(len(response.data), 3)
-    
+        self.assertEqual(len(response.data), 4)
+
     def test_create(self):
         url = reverse('private_chat-list')
 
@@ -108,7 +111,8 @@ class GroupChatViewSetTests(APITestCase):
         self.bob_ = User.objects.create_user(**bob_login_data, email="bob@gmail.com")
         self.bob_.save()
 
-        group_chat = GroupChat.objects.create()
+        chat_id = ChatId.objects.create()
+        group_chat = GroupChat.objects.create(id=chat_id)
         group_chat.users.add(self.alice_)
 
         Friend.objects.create(user=self.alice_, friend=self.bob_)
@@ -133,11 +137,11 @@ class GroupChatViewSetTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
         response = self.bob.get(url, format='json')
-        self.assertEqual(len(response.data), 5)
+        self.assertEqual(len(response.data), 6)
 
         response = self.alice.get(url, format='json')
-        self.assertEqual(len(response.data), 5)
-    
+        self.assertEqual(len(response.data), 6)
+
     def test_update(self):
         url = reverse('group_chat-detail', kwargs={'pk': 1})
 

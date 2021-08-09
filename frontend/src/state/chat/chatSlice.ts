@@ -5,7 +5,8 @@ import { PrivateChatDetails, GroupChatDetails } from "@/typing/entities";
 const initialState: ChatState = {
   chats: [],
   singleChat: {} as PrivateChatDetails | GroupChatDetails,
-  isLoading: false
+  notifications: [],
+  isLoading: false,
 };
 
 const chatSlice = createSlice({
@@ -65,12 +66,29 @@ const chatSlice = createSlice({
       state.isLoading = false;
     },
 
+    getUnseenChatsNotifications: (state) => {
+      state.isLoading = true;
+    },
+    getUnseenChatsNotificationsSuccess: (state, { payload }) => {
+      state.notifications = payload;
+      state.isLoading = false;
+    },
+    getUnseenChatsNotificationsFailed: (state) => {
+      state.isLoading = false;
+    },
+
     addMessageToChat: (state, { payload }) => {
       state.singleChat.messages.push(payload);
     },
 
-    sendMessage: (state, { payload }) => {}
-  }
+    removeChatNotification: (state, { payload }) => {
+      state.notifications = state.notifications.filter(
+        (chatId) => chatId !== payload
+      );
+    },
+
+    sendMessage: (state, { payload }) => {},
+  },
 });
 
 export default chatSlice.reducer;
@@ -90,6 +108,10 @@ export const {
   createPrivateChat,
   createPrivateChatSuccess,
   createPrivateChatFailed,
+  getUnseenChatsNotifications,
+  getUnseenChatsNotificationsSuccess,
+  getUnseenChatsNotificationsFailed,
   addMessageToChat,
-  sendMessage
+  removeChatNotification,
+  sendMessage,
 } = chatSlice.actions;

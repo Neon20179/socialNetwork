@@ -20,7 +20,6 @@ class UserPostListTests(APITestCase):
         post = Post.objects.create(user=alice, content="Lorem ipsum dolor sit amet")
         post.save()
 
-
         alice_token = self.client.post(reverse("token_obtain"), alice_login_data, format="json").data['access']
         bob_token = self.client.post(reverse("token_obtain"), bob_login_data, format="json").data['access']
 
@@ -198,7 +197,7 @@ class CommentAPITests(APITestCase):
 
         self.eve = APIClient()
         self.eve.credentials(HTTP_AUTHORIZATION="Bearer " + "")
-    
+
     def test_get(self):
         response = self.eve.get(self.url, format="json")
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)

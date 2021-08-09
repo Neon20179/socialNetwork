@@ -24,16 +24,16 @@ def get_user_following(request):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-@permission_classes((permissions.IsAuthenticated, ))
-@api_view(("POST", ))
+@permission_classes((permissions.IsAuthenticated,))
+@api_view(("POST",))
 @catch_unexpected_error
 def follow(request):
     Follow.objects.follow(following=request.data["following"], follower=request.user)
     return Response(status=status.HTTP_201_CREATED)
 
 
-@permission_classes((permissions.IsAuthenticated, ))
-@api_view(("POST", ))
+@permission_classes((permissions.IsAuthenticated,))
+@api_view(("POST",))
 @catch_unexpected_error
 def unfollow(request):
     Follow.objects.remove_following(following=request.data["following"], follower=request.user.id)

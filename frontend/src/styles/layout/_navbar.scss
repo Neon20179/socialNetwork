@@ -12,6 +12,17 @@ nav {
     align-items: center;
     display: flex;
     transition: all 0.6s ease 0s;
+    position: relative;
+  }
+
+  .chat-notification-circle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 10px;
+    background: var(--orange);
+    border-radius: 100%;
   }
 
   svg {

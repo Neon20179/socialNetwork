@@ -5,11 +5,16 @@ import CreateGroupChatTab from "./CreateGroupChatTab";
 interface ChatProps {
   chats: any[];
   isShowTab: boolean;
+  chatNotifications: number[];
   toggleTab: () => void;
 }
 
-const Chats: FC<ChatProps> = ({ chats, isShowTab, toggleTab }) => {
-  let idx = -1;
+const Chats: FC<ChatProps> = ({
+  chats,
+  isShowTab,
+  chatNotifications,
+  toggleTab,
+}) => {
   return (
     <section className="chats__page">
       <div className="header">
@@ -25,14 +30,12 @@ const Chats: FC<ChatProps> = ({ chats, isShowTab, toggleTab }) => {
       <div className="chats">
         {chats.length > 0 ? (
           chats.map((chat: any) => {
-            idx++;
-
             if ("companion" in chat) {
               return (
                 <Link
                   className="user-link"
                   to={`/private_chat/${chat.id}/`}
-                  key={idx}
+                  key={chat.id}
                 >
                   <div
                     className="avatar-image"
@@ -45,6 +48,14 @@ const Chats: FC<ChatProps> = ({ chats, isShowTab, toggleTab }) => {
                     }
                   ></div>
                   <h4 className="username">{chat.companion.username}</h4>
+                  <div
+                    className="notification-circle"
+                    style={{
+                      display: chatNotifications?.includes(chat.id)
+                        ? "block"
+                        : "none",
+                    }}
+                  ></div>
                 </Link>
               );
             } else {
@@ -52,7 +63,7 @@ const Chats: FC<ChatProps> = ({ chats, isShowTab, toggleTab }) => {
                 <Link
                   className="user-link"
                   to={`/group_chat/${chat.id}/`}
-                  key={idx}
+                  key={chat.id}
                 >
                   <div
                     className="avatar-image"
@@ -65,6 +76,14 @@ const Chats: FC<ChatProps> = ({ chats, isShowTab, toggleTab }) => {
                     }
                   ></div>
                   <h4 className="username">{chat.name}</h4>
+                  <div
+                    className="notification-circle"
+                    style={{
+                      display: chatNotifications?.includes(chat.id)
+                        ? "block"
+                        : "none",
+                    }}
+                  ></div>
                 </Link>
               );
             }

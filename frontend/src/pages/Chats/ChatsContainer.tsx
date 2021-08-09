@@ -5,13 +5,18 @@ import {
   toggleCreateGroupChatTab,
 } from "@/state/components";
 import { getChats } from "@/state/chat";
-import { selectChats, selectIsShowCreateGroupChatTab } from "@/selectors";
+import {
+  selectChatNotifications,
+  selectChats,
+  selectIsShowCreateGroupChatTab,
+} from "@/selectors";
 import { NavbarLinks } from "@/typing/entities";
 import Chats from "./Chats";
 
 const ChatsContainer: FC = () => {
   const chats = useSelector(selectChats);
   const isShowTab = useSelector(selectIsShowCreateGroupChatTab);
+  const chatNotifications = useSelector(selectChatNotifications);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -23,6 +28,7 @@ const ChatsContainer: FC = () => {
     <Chats
       chats={chats}
       isShowTab={isShowTab}
+      chatNotifications={chatNotifications}
       toggleTab={() => dispatch(toggleCreateGroupChatTab())}
     />
   );

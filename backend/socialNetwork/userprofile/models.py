@@ -2,13 +2,11 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from .utils import _get_upload_path
 
-
 SEX_CHOICES = [
     ("M", "Male"),
     ("F", "Female"),
     ("N", "Not indicated"),
 ]
-
 
 LANG_CHOICES = [
     ("EN", "English"),

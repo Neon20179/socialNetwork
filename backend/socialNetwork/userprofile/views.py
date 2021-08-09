@@ -1,4 +1,3 @@
-from functools import partial
 from rest_framework import generics, permissions, status, views
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
@@ -28,7 +27,7 @@ class UserAPI(views.APIView):
         user = self.get_object(request)
         serialized_user = UserSerializer(user, context={'request': self.request})
         return Response(serialized_user.data, status=status.HTTP_200_OK)
-    
+
     @catch_unexpected_error
     def patch(self, request):
         user = self.get_object(request)
@@ -43,7 +42,7 @@ class UserAPI(views.APIView):
             serialize_ready_data['avatar_image'] = avatar_image[0]
         if header_image:
             serialize_ready_data['header_image'] = header_image[0]
-    
+
         serializer = UserPatchSerializer(user, data=serialize_ready_data, partial=True)
         if serializer.is_valid():
             serializer.save()
@@ -51,7 +50,7 @@ class UserAPI(views.APIView):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-@permission_classes((permissions.IsAuthenticated, ))
+@permission_classes((permissions.IsAuthenticated,))
 @api_view(["GET"])
 @catch_unexpected_error
 def find_user(request):

@@ -3,7 +3,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { getUserPosts } from "@/state/posts";
 import { activateNavbarLink } from "@/state/components";
-import { selectUserData, selectUserPosts } from "@/selectors";
+import {
+  selectFriendRequestsQuantity,
+  selectUserData,
+  selectUserPosts,
+} from "@/selectors";
 import { NavbarLinks } from "@/typing/entities";
 import OwnProfile from "./OwnProfile";
 import Profile from "../components/Profile";
@@ -11,6 +15,7 @@ import Profile from "../components/Profile";
 const OwnProfileContainer: FC = () => {
   const user = useSelector(selectUserData);
   const posts = useSelector(selectUserPosts);
+  const isUserHasFriendRequests = useSelector(selectFriendRequestsQuantity) > 0;
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -19,7 +24,7 @@ const OwnProfileContainer: FC = () => {
   }, [dispatch]);
 
   return (
-    <OwnProfile>
+    <OwnProfile isUserHasFriendRequests={isUserHasFriendRequests}>
       <Profile user={user} posts={posts}>
         <div className="follow-info">
           <Link to="/followers/">{user.followers_quantity} Followers</Link>

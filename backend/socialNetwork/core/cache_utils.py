@@ -33,5 +33,6 @@ def get_cache_key(cache_type: str, user_id: int) -> str:
 
 
 def delete_cache_key(cache_type: str, user_id: int) -> None:
-    keys = [GET_CACHE_TYPES[k] % user_id for k in DELETE_CACHE_TYPES[cache_type]]
-    cache.delete_many(keys)
+    for k in DELETE_CACHE_TYPES[cache_type]:
+        cache.delete(GET_CACHE_TYPES[k] % user_id)
+

@@ -3,7 +3,7 @@ import {
   GetPrivateChat,
   GetGroupChat,
   CreateGroupChat,
-  CreatePrivateChat
+  CreatePrivateChat,
 } from "@/typing/actions";
 import * as api from "./chatApi";
 import * as actions from "./chatSlice";
@@ -53,12 +53,25 @@ function* createPrivateChatWorker({ payload }: CreatePrivateChat) {
   }
 }
 
+function* getUnseenChatsNotificationsWorker(): any {
+  try {
+    const chatsIds = yield call(api.getUnseenChatsNotificationsApi);
+    yield put(actions.getUnseenChatsNotificationsSuccess(chatsIds));
+  } catch (error) {
+    yield put(actions.getUnseenChatsNotificationsFailed());
+  }
+}
+
 function* chatWatcher() {
   yield takeLatest(actions.getChats.type, getChatsWorker);
   yield takeLatest(actions.getPrivateChat.type, getPrivateChatWorker);
   yield takeLatest(actions.getGroupChat.type, getGroupChatWorker);
   yield takeLatest(actions.createGroupChat.type, createGroupChatWorker);
   yield takeLatest(actions.createPrivateChat.type, createPrivateChatWorker);
+  yield takeLatest(
+    actions.getUnseenChatsNotifications.type,
+    getUnseenChatsNotificationsWorker
+  );
 }
 
 export default chatWatcher;

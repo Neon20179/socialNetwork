@@ -26,11 +26,17 @@ export const selectIsShowCreateGroupChatTab = (state: RootState) =>
   state.components.isShowCreateGroupChatTab;
 
 export const selectFriends = (state: RootState) => state.friends.friends;
+export const selectFriendRequests = (state: RootState) =>
+  state.friends.requests;
+export const selectFriendRequestsQuantity = (state: RootState) =>
+  state.friends.notificationsQuantity;
 export const selectIsFriendsLoading = (state: RootState) =>
   state.friends.isLoading;
 
 export const selectChats = (state: RootState) => state.chat.chats;
 export const selectSingleChat = (state: RootState) => state.chat.singleChat;
+export const selectChatNotifications = (state: RootState) =>
+  state.chat.notifications;
 export const selectIsChatLoading = (state: RootState) => state.chat.isLoading;
 
 export const selectFollowers = (state: RootState) => state.followers.followers;

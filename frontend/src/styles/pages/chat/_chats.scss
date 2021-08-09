@@ -28,6 +28,16 @@
 
   .user-link {
     padding-bottom: 20px;
+    position: relative;
+
+    .notification-circle {
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      background: var(--orange);
+      right: 0;
+      border-radius: 100%;
+    }
   }
 
   .create-group-chat-tab {

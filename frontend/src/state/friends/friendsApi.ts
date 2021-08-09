@@ -8,12 +8,35 @@ export const getFriendsApi = (user_id?: number) =>
     .get(`${rootUrl}/friends_list/` + (user_id ? `?user_id=${user_id}` : ""))
     .then((response) => response.data);
 
-export const addFriendApi = (userId: number) =>
+export const addFriendApi = (toUser: number) =>
   axiosAPI
-    .post(`${rootUrl}/add_friend/`, { to_user: userId })
+    .post(`${rootUrl}/add_friend/`, { to_user: toUser })
     .then((response) => response.data);
 
-export const removeFriendApi = (userId: number) =>
+export const removeFriendApi = (friend: number) =>
   axiosAPI
-    .post(`${rootUrl}/remove_friend/`, { friend: userId })
+    .post(`${rootUrl}/remove_friend/`, { friend: friend })
     .then((response) => response.data);
+
+export const getFriendRequestsApi = () =>
+  axiosAPI.get(`${rootUrl}/friend_requests/`).then((response) => response.data);
+
+export const acceptFriendRequestApi = (fromUser: number) =>
+  axiosAPI
+    .post(`${rootUrl}/accept_friend_request/`, { from_user: fromUser })
+    .then((response) => response.data);
+
+export const rejectFriendRequestApi = (fromUser: number) =>
+  axiosAPI
+    .post(`${rootUrl}/reject_friend_request/`, { from_user: fromUser })
+    .then((response) => response.data);
+
+export const cancelFriendRequestApi = (toUser: number) =>
+  axiosAPI
+    .post(`${rootUrl}/cancel_friend_request/`, { to_user: toUser })
+    .then((response) => response.data);
+
+export const getFriendNotificationsApi = () =>
+  axiosAPI
+    .get(`${rootUrl}/unseen_friend_request/`)
+    .then((response) => response.data.friend_notifications);

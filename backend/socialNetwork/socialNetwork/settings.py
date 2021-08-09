@@ -32,10 +32,10 @@ INSTALLED_APPS = [
 
     'authentication',
     'userprofile',
-    'friends',
+    'friends.apps.FriendsConfig',
     'followers',
     'newsfeed',
-    'chat',
+    'chat.apps.ChatConfig',
 ]
 
 MIDDLEWARE = [

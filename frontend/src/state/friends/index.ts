@@ -1,1 +1,10 @@
-export { getFriends, addFriend, removeFriend } from "./friendsSlice";
+export {
+  getFriends,
+  addFriend,
+  removeFriend,
+  getFriendRequests,
+  acceptFriendRequest,
+  rejectFriendRequest,
+  cancelFriendRequest,
+  getFriendNotifications,
+} from "./friendsSlice";

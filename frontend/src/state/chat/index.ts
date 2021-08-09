@@ -4,5 +4,7 @@ export {
   getGroupChat,
   createGroupChat,
   createPrivateChat,
-  sendMessage
+  removeChatNotification,
+  getUnseenChatsNotifications,
+  sendMessage,
 } from "./chatSlice";

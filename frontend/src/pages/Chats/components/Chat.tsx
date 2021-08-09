@@ -10,7 +10,7 @@ interface ChatProps {
 const Chat: FC<ChatProps> = ({ chatAvatar, chatName, chatId, children }) => {
   useEffect(() => {
     window.scrollTo(0, document.body.scrollHeight);
-  }, []);
+  }, [children]);
 
   return (
     <section className="chat__page">

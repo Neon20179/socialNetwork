@@ -1,9 +1,10 @@
+from django.db.models import Q
 from rest_framework import status, permissions
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from core.serializers import UserLinkSerializer
 from core.utils import catch_unexpected_error
-from .models import Friend, FriendRequest
+from .models import Friend, FriendNotification, FriendRequest
 
 
 @permission_classes((permissions.IsAuthenticated,))
@@ -19,6 +20,10 @@ def get_friends(request):
 @api_view(["GET"])
 @catch_unexpected_error
 def get_friend_requests(request):
+    friend_notifications = FriendNotification.objects.filter(Q(user=request.user) & Q(is_seen=False))
+    for n in friend_notifications:
+        n.is_seen = True
+        n.save()
     friend_requests = FriendRequest.objects.get_requests(user=request.user)
     serializer = UserLinkSerializer(friend_requests, many=True, context={'request': request})
     return Response(serializer.data, status=status.HTTP_200_OK)
@@ -40,6 +45,15 @@ def get_rejected_friend_requests(request):
     friend_requests = FriendRequest.objects.rejected_requests(user=request.user)
     serializer = UserLinkSerializer(friend_requests, many=True, context={'request': request})
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@permission_classes((permissions.IsAuthenticated,))
+@api_view(["GET"])
+@catch_unexpected_error
+def get_unseen_friend_request(request):
+    unseen_friend_notifications_quantity = FriendNotification.objects.filter(Q(user=request.user) & Q(is_seen=False))
+    serialized_chats_id = {'friend_notifications': len(unseen_friend_notifications_quantity)}
+    return Response(serialized_chats_id, status=status.HTTP_200_OK)
 
 
 @permission_classes((permissions.IsAuthenticated,))

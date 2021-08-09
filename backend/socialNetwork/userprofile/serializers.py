@@ -1,3 +1,4 @@
+from friends.models import FriendRequest
 from rest_framework import serializers
 from friends.models import Friend
 from followers.models import Follow
@@ -31,15 +32,22 @@ class UserSerializer(serializers.ModelSerializer):
 class OtherUserSerializer(UserSerializer):
     is_following = serializers.SerializerMethodField()
     is_friend = serializers.SerializerMethodField()
+    is_friend_request_sent = serializers.SerializerMethodField()
 
     def get_is_following(self, other_user: User):
-        return Follow.objects.is_following(following=other_user.id, follower=self.context["request"].user.id)
+        return Follow.objects.is_following(following=other_user.id, follower=self.context['request'].user.id)
 
     def get_is_friend(self, other_user: User):
-        return Friend.objects.are_friends(self.context["request"].user.id, other_user.id)
+        return Friend.objects.are_friends(self.context['request'].user.id, other_user.id)
+
+    def get_is_friend_request_sent(self, other_user: User):
+        return FriendRequest.objects.is_friend_request_sent(
+            from_user=self.context['request'].user,
+            to_user=other_user.id
+        )
 
     class Meta(UserSerializer.Meta):
-        fields = UserSerializer.Meta.fields + ["is_following", "is_friend"]
+        fields = UserSerializer.Meta.fields + ['is_following', 'is_friend', 'is_friend_request_sent']
 
 
 class UserPatchSerializer(serializers.ModelSerializer):

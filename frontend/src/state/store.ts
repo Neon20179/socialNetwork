@@ -2,15 +2,21 @@ import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import createSagaMiddleware from "redux-saga";
 import rootReducer from "./rootReducer";
 import rootSaga from "./rootSaga";
-import chatMiddleware from "./chat/chatMiddleware";
+import { chatMiddleware, chatNotificationSocket } from "./chat/chatMiddleware";
+import { friendNotificationMiddleware } from "./friends/friendsMiddleware";
 
 const sagaMiddleware = createSagaMiddleware();
-const middleware = [sagaMiddleware, chatMiddleware];
+const middleware = [
+  sagaMiddleware,
+  chatMiddleware,
+  chatNotificationSocket,
+  friendNotificationMiddleware,
+];
 
 const store = configureStore({
   reducer: rootReducer,
   middleware: [...middleware, ...getDefaultMiddleware({ thunk: false })],
-  devTools: process.env.NODE_ENV !== "production"
+  devTools: process.env.NODE_ENV !== "production",
 });
 
 sagaMiddleware.run(rootSaga);
