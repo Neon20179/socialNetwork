@@ -7,7 +7,7 @@ const initialState: PostsState = {
   otherUserPosts: [],
   currentPost: {} as Post,
   feedPosts: [],
-  isLoading: false
+  isLoading: false,
 };
 
 const postsSlice = createSlice({
@@ -91,8 +91,8 @@ const postsSlice = createSlice({
     },
     likePostFailed: (state) => {
       state.isLoading = false;
-    }
-  }
+    },
+  },
 });
 
 export default postsSlice.reducer;
@@ -114,5 +114,5 @@ export const {
   getFeedPostsFailed,
   likePost,
   likePostSuccess,
-  likePostFailed
+  likePostFailed,
 } = postsSlice.actions;

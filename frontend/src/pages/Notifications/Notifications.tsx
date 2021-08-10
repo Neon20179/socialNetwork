@@ -16,25 +16,29 @@ const Notifications: FC<NotificationsProps> = ({
   return (
     <section className="notifications__page">
       <h2>Friend Requests</h2>
-      {friendRequests.map((user) => (
-        <div className="friend-request" key={user.id}>
-          <UserLinkComponent userLink={user} />
-          <div className="buttons">
-            <button
-              className="base-button"
-              onClick={() => acceptFriendRequest(user.id)}
-            >
-              Accept
-            </button>
-            <button
-              className="base-button"
-              onClick={() => rejectFriendRequest(user.id)}
-            >
-              Reject
-            </button>
+      {friendRequests.length > 0 ? (
+        friendRequests.map((user) => (
+          <div className="friend-request" key={user.id}>
+            <UserLinkComponent userLink={user} />
+            <div className="buttons">
+              <button
+                className="base-button"
+                onClick={() => acceptFriendRequest(user.id)}
+              >
+                Accept
+              </button>
+              <button
+                className="base-button"
+                onClick={() => rejectFriendRequest(user.id)}
+              >
+                Reject
+              </button>
+            </div>
           </div>
-        </div>
-      ))}
+        ))
+      ) : (
+        <h3 className="no-posts-message">there is nothing here yet</h3>
+      )}
     </section>
   );
 };

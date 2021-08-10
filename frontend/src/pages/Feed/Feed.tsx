@@ -5,14 +5,21 @@ import { usePagination } from "@/hooks";
 import UserLinkComponent from "@/common/components/UserLinkComponent";
 import PostImages from "@/common/components/PostImages";
 import Like from "@/common/components/Like";
+import Loading from "@/common/Loading";
 
 interface FeedProps {
   feedPosts: Post[];
+  isLoading: boolean;
   getFeedPosts: (currentPostsQuantity: number) => void;
   likePost: (postId: number) => void;
 }
 
-const Feed: FC<FeedProps> = ({ feedPosts, getFeedPosts, likePost }) => {
+const Feed: FC<FeedProps> = ({
+  feedPosts,
+  isLoading,
+  getFeedPosts,
+  likePost,
+}) => {
   let sectionNode = useRef();
   const isAtPageBottom = usePagination(sectionNode);
 
@@ -20,12 +27,14 @@ const Feed: FC<FeedProps> = ({ feedPosts, getFeedPosts, likePost }) => {
 
   useEffect(() => {
     getFeedPosts(0);
-  }, [getFeedPosts]);
+  }, []);
 
   return (
     <section className="feed__page" ref={sectionNode}>
       <div className="posts-list">
-        {feedPosts.length > 0 ? (
+        {isLoading ? (
+          <Loading />
+        ) : feedPosts.length > 0 ? (
           feedPosts.map((post) => (
             <div className="post" key={post.id}>
               <UserLinkComponent userLink={post.user} />
@@ -49,7 +58,7 @@ const Feed: FC<FeedProps> = ({ feedPosts, getFeedPosts, likePost }) => {
             </div>
           ))
         ) : (
-          <h2 className="no-posts-message">there is nothing here yet</h2>
+          <h3 className="no-posts-message">there is nothing here yet</h3>
         )}
       </div>
     </section>

@@ -74,9 +74,13 @@ const Friends: FC<FriendsProps> = ({ friends }) => {
         <input type="text" onChange={findFriend} placeholder="Find friend" />
       </div>
       <div className="friends-list">
-        {foundFriends?.map((friend) => (
-          <UserLinkComponent key={friend.id} userLink={friend} />
-        ))}
+        {foundFriends ? (
+          foundFriends?.map((friend) => (
+            <UserLinkComponent key={friend.id} userLink={friend} />
+          ))
+        ) : (
+          <h3 className="no-posts-message">no one is here yet</h3>
+        )}
       </div>
     </div>
   );

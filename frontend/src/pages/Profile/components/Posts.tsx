@@ -1,15 +1,22 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { Post } from "@/typing/entities";
+import { selectIsPostsLoading } from "@/selectors";
+import Loading from "@/common/Loading";
 
 interface PostsProps {
   posts: Post[];
 }
 
 const Posts: FC<PostsProps> = ({ posts }) => {
+  const isLoading = useSelector(selectIsPostsLoading);
+
   return (
     <div className="post-list">
-      {posts.length > 0 ? (
+      {isLoading ? (
+        <Loading />
+      ) : posts.length > 0 ? (
         posts.map((post) => (
           <Link
             to={`/post/${post.id}`}
@@ -26,7 +33,7 @@ const Posts: FC<PostsProps> = ({ posts }) => {
           ></Link>
         ))
       ) : (
-        <h2 className="no-posts-message">there is nothing here yet</h2>
+        <h3 className="no-posts-message">there is nothing here yet</h3>
       )}
     </div>
   );

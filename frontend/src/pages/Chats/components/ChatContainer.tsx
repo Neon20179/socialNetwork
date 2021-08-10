@@ -1,7 +1,11 @@
 import { FC, useEffect, cloneElement, ReactElement } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { selectSingleChat, selectUserData } from "@/selectors";
+import {
+  selectIsChatLoading,
+  selectSingleChat,
+  selectUserData,
+} from "@/selectors";
 import { removeChatNotification } from "@/state/chat";
 
 interface ChatContainerProps {
@@ -12,6 +16,7 @@ const ChatContainer: FC<ChatContainerProps> = ({ action, children }) => {
   const { pk } = useParams<{ pk: string }>();
   const chat = useSelector(selectSingleChat);
   const userId = useSelector(selectUserData).id;
+  const isLoading = useSelector(selectIsChatLoading);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -22,6 +27,7 @@ const ChatContainer: FC<ChatContainerProps> = ({ action, children }) => {
   return cloneElement(children as ReactElement<any>, {
     chat,
     userId,
+    isLoading,
   });
 };
 

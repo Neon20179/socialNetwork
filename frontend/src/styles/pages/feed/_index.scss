@@ -1,13 +1,14 @@
-.feed__page {
-  .no-posts-message {
-    color: var(--light-grey);
-    text-transform: uppercase;
-    font-weight: bold;
-    width: 100%;
-    text-align: center;
-    padding-top: 40px;
-  }
+.no-posts-message {
+  color: var(--light-grey);
+  text-transform: uppercase;
+  font-weight: bold;
+  width: 100%;
+  text-align: center;
+  padding-top: 40px;
+  font-size: 2rem;
+}
 
+.feed__page {
   .posts-list {
     .user-link {
       padding: 10px;

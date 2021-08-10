@@ -1,13 +1,15 @@
 import { FC, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import UserLinkComponent from "@/common/components/UserLinkComponent";
-import { selectSearchResult } from "@/selectors";
+import { selectIsUserLoading, selectSearchResult } from "@/selectors";
 import { useDebounce } from "@/hooks";
 import { findUser } from "@/state/user";
+import Loading from "@/common/Loading";
 
 const Search: FC = () => {
   const [isSearchActive, setIsSearchActive] = useState(false);
   const searchResult = useSelector(selectSearchResult);
+  const isLoading = useSelector(selectIsUserLoading);
   const dispatch = useDispatch();
 
   const search = (query: string) => dispatch(findUser(query));
@@ -72,9 +74,13 @@ const Search: FC = () => {
         />
       </div>
       <div className="users-list">
-        {searchResult?.map((user) => (
-          <UserLinkComponent key={user.id} userLink={user} />
-        ))}
+        {isLoading ? (
+          <Loading />
+        ) : (
+          searchResult?.map((user) => (
+            <UserLinkComponent key={user.id} userLink={user} />
+          ))
+        )}
       </div>
     </div>
   );

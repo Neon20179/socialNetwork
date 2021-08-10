@@ -8,6 +8,7 @@ import { getChats } from "@/state/chat";
 import {
   selectChatNotifications,
   selectChats,
+  selectIsChatLoading,
   selectIsShowCreateGroupChatTab,
 } from "@/selectors";
 import { NavbarLinks } from "@/typing/entities";
@@ -17,6 +18,7 @@ const ChatsContainer: FC = () => {
   const chats = useSelector(selectChats);
   const isShowTab = useSelector(selectIsShowCreateGroupChatTab);
   const chatNotifications = useSelector(selectChatNotifications);
+  const isLoading = useSelector(selectIsChatLoading);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -28,6 +30,7 @@ const ChatsContainer: FC = () => {
     <Chats
       chats={chats}
       isShowTab={isShowTab}
+      isLoading={isLoading}
       chatNotifications={chatNotifications}
       toggleTab={() => dispatch(toggleCreateGroupChatTab())}
     />

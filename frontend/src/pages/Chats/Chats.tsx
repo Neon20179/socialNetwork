@@ -1,3 +1,4 @@
+import Loading from "@/common/Loading";
 import { FC } from "react";
 import { Link } from "react-router-dom";
 import CreateGroupChatTab from "./CreateGroupChatTab";
@@ -5,6 +6,7 @@ import CreateGroupChatTab from "./CreateGroupChatTab";
 interface ChatProps {
   chats: any[];
   isShowTab: boolean;
+  isLoading: boolean;
   chatNotifications: number[];
   toggleTab: () => void;
 }
@@ -12,6 +14,7 @@ interface ChatProps {
 const Chats: FC<ChatProps> = ({
   chats,
   isShowTab,
+  isLoading,
   chatNotifications,
   toggleTab,
 }) => {
@@ -28,7 +31,9 @@ const Chats: FC<ChatProps> = ({
         </div>
       </div>
       <div className="chats">
-        {chats.length > 0 ? (
+        {isLoading ? (
+          <Loading />
+        ) : chats.length > 0 ? (
           chats.map((chat: any) => {
             if ("companion" in chat) {
               return (
@@ -89,7 +94,7 @@ const Chats: FC<ChatProps> = ({
             }
           })
         ) : (
-          <h2 className="no-chats-message">there is nothing here yet</h2>
+          <h3 className="no-posts-message">there is nothing here yet</h3>
         )}
       </div>
       <CreateGroupChatTab />
