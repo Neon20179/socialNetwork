@@ -115,7 +115,12 @@ const EditProfile: FC = () => {
             className="loaded-image"
             style={{ backgroundImage: `url(${avatarImageUrlResult})` }}
           ></div>
-          <input type="file" onChange={loadAvatarImage} id="avatar-image" />
+          <input
+            type="file"
+            onChange={loadAvatarImage}
+            id="avatar-image"
+            accept="image/png, image/jpeg"
+          />
         </div>
         <div className="heading-image">
           <label htmlFor="heading-image">Load heading image</label>
@@ -123,7 +128,12 @@ const EditProfile: FC = () => {
             className="loaded-image"
             style={{ backgroundImage: `url(${headerImageUrlResult})` }}
           ></div>
-          <input type="file" onChange={loadHeadingImage} id="heading-image" />
+          <input
+            type="file"
+            onChange={loadHeadingImage}
+            id="heading-image"
+            accept="image/png, image/jpeg"
+          />
         </div>
         <button type="submit" className="base-button">
           Submit

@@ -28,7 +28,7 @@ class UserAPI(views.APIView):
         serialized_user = UserSerializer(user, context={'request': self.request})
         return Response(serialized_user.data, status=status.HTTP_200_OK)
 
-    @catch_unexpected_error
+    # @catch_unexpected_error
     def patch(self, request):
         user = self.get_object(request)
         avatar_image = request.FILES.getlist('avatar_image')

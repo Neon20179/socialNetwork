@@ -4,6 +4,7 @@ from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
 from django.utils import timezone
+from PIL import Image
 from userprofile.models import User
 from friends.models import Friend
 
@@ -62,6 +63,13 @@ class GroupChat(models.Model):
     messages = GenericRelation(Message)
 
     objects = GroupChatManager()
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+        if self.icon:
+            icon = Image.open(self.icon.path)
+            icon.save(self.icon.path, quality=50, optimize=True)
 
 
 class ChatNotificationManager(models.Manager):

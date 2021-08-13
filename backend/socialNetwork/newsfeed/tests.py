@@ -45,15 +45,15 @@ class UserPostListTests(APITestCase):
         self.assertEqual(response.data, [])
 
     def test_post(self):
-        data = {"content": "Lorem ipsum dolor sit amet", "post_images": []}
+        data = {'content': "Lorem ipsum dolor sit amet", 'post_images': []}
 
-        response = self.eve.post(self.url, data, format="json")
+        response = self.eve.post(self.url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
-        response = self.bob.post(self.url, data, format="json")
+        response = self.bob.post(self.url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-        response = self.alice.post(self.url, data, format="json")
+        response = self.alice.post(self.url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
 

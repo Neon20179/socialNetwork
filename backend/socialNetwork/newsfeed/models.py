@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
+from PIL import Image
 from userprofile.models import User
 
 
@@ -37,12 +38,17 @@ class Post(models.Model):
     likes = GenericRelation(Like)
 
     class Meta:
-        ordering = ["-created_at"]
+        ordering = ['-created_at']
 
 
 class PostImage(models.Model):
     post = models.ForeignKey(Post, related_name='post_images', on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='')
+    image = models.ImageField()
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        image = Image.open(self.image.path)
+        image.save(self.image.path, quality=50, optimize=True)
 
 
 class Comment(models.Model):

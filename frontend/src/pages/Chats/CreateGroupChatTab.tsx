@@ -38,14 +38,16 @@ const CreateGroupChatTab: FC = () => {
 
   const loadImage = (e: ChangeEvent<HTMLInputElement>) => {
     const image = e.target.files[0];
-    const render = new FileReader();
+    if (image) {
+      const render = new FileReader();
 
-    render.onload = (e) => {
-      setChatIconUrl(e.target.result);
-    };
+      render.onload = (e) => {
+        setChatIconUrl(e.target.result);
+      };
 
-    render.readAsDataURL(image);
-    setIconImageFile(image);
+      render.readAsDataURL(image);
+      setIconImageFile(image);
+    }
   };
 
   const handleSubmit = (e: ChangeEvent<HTMLFormElement>) => {

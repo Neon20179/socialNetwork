@@ -5,6 +5,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from core.utils import catch_unexpected_error
+from .utils import create_group_chat_serialize_ready_data
 from .models import ChatNotification, GroupChat, PrivateChat
 from . import serializers
 
@@ -72,15 +73,7 @@ class GroupChatViewSet(viewsets.ViewSet):
 
     @catch_unexpected_error
     def create(self, request):
-        icon = request.FILES.getlist('icon')
-        serialize_ready_data = {
-            'users': [request.user.id] + list(map(int, request.data.get('users', default=[]))),
-            'name': request.data.get('name')
-        }
-        
-        if icon:
-            serialize_ready_data['icon'] = icon
-
+        serialize_ready_data = create_group_chat_serialize_ready_data(request)
         serialized_chat = serializers.GroupChatCreateSerializer(data=serialize_ready_data, context={'request': request})
         if serialized_chat.is_valid():
             serialized_chat.save()

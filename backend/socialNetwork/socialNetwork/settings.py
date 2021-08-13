@@ -136,12 +136,15 @@ REST_FRAMEWORK = {
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
+    'http://127.0.0.1:3000'
 ]
 CORS_ALLOWED_ORIGIN_REGEXES = [
     'http://localhost:3000',
+    'http://127.0.0.1:3000'
 ]
 CORS_ALLOW_HEADERS = (
     'Access-Control-Allow-Headers',
+    'Access-Control-Allow-Origin',
     'Access-Control-Allow-Credentials',
     'Authorization',
     'Content-Type',

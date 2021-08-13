@@ -1,3 +1,6 @@
+from django.core.exceptions import ValidationError
+
+
 class CommentFound(Exception):
     pass
 
@@ -55,3 +58,23 @@ def create_comments_tree(comments):
                 comments.pop(comment_index)
 
     return comments_tree
+
+
+def create_serialize_ready_post_data(request):
+    post_images = request.FILES.getlist('post_images')
+    content = request.data['content']
+
+    if len(content) >= 5000:
+        raise ValidationError("Max content length is 5000 characters.")
+
+    serialize_ready_data = {
+            'user': request.user.id,
+            'content': request.data['content'],
+            'post_images': []
+    }
+    
+    if post_images is not None:
+        if len(post_images) < 10:
+            serialize_ready_data['post_images'] = [{'image': image} for image in post_images]
+
+    return serialize_ready_data

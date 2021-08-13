@@ -24,17 +24,20 @@ const Editor: FC<EditorProps> = ({ createPost }) => {
 
   const loadImage = (e: ChangeEvent<HTMLInputElement>) => {
     const image = e.target.files[0];
-    const render = new FileReader();
 
-    render.onload = (e) => {
-      setLoadedImages((prevValue) => [
-        ...prevValue,
-        { index: loadedImagesIndex, image, url: e.target.result },
-      ]);
-    };
+    if (image) {
+      const render = new FileReader();
 
-    render.readAsDataURL(image);
-    setLoadedImagesIndex((prevIndex) => prevIndex + 1);
+      render.onload = (e) => {
+        setLoadedImages((prevValue) => [
+          ...prevValue,
+          { index: loadedImagesIndex, image, url: e.target.result },
+        ]);
+      };
+
+      render.readAsDataURL(image);
+      setLoadedImagesIndex((prevIndex) => prevIndex + 1);
+    }
   };
 
   const removeLoadedImage = (imageIndex: number) => {
@@ -83,6 +86,7 @@ const Editor: FC<EditorProps> = ({ createPost }) => {
             onChange={loadImage}
             placeholder="Select images"
             accept="image/png, image/jpeg"
+            disabled={loadedImages.length >= 10}
           />
         </div>
         <div className="uploaded-files">
