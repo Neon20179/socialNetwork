@@ -23,14 +23,16 @@ export const useInput = () => {
   };
 };
 
-export const usePagination = (ref: RefObject<HTMLDivElement>) => {
+export const usePagination = (ref: RefObject<HTMLElement>) => {
   const [isAtPageBottom, setIsAtPageBottom] = useState(false);
 
   useEffect(() => {
+    const node = ref.current;
     const onScroll = () => {
-      setIsAtPageBottom(
-        ref.current?.offsetHeight <= window.scrollY + window.innerHeight
-      );
+      if (node)
+        setIsAtPageBottom(
+          node.offsetHeight <= window.scrollY + window.innerHeight
+        );
     };
 
     window.addEventListener("scroll", onScroll);

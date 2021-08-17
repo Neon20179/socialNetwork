@@ -23,6 +23,7 @@ function* signUpWorker({ payload }: SignUp) {
   try {
     yield call(api.signUpApi, payload);
     yield put(actions.signUpSuccess());
+    yield put(actions.signIn(payload));
   } catch (error: any) {
     yield put(actions.signUpFailed());
     yield put(

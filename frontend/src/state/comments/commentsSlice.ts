@@ -4,7 +4,7 @@ import { findComment } from "@/utils";
 
 const initialState: CommentsState = {
   postComments: [],
-  isLoading: false
+  isLoading: false,
 };
 
 const commentsSlice = createSlice({
@@ -31,7 +31,7 @@ const commentsSlice = createSlice({
       let parentCommentId = payload.replay_to;
       if (parentCommentId) {
         let parentComment = findComment(state.postComments, parentCommentId);
-        parentComment.children.push(payload);
+        parentComment?.children.push(payload);
       } else {
         state.postComments.push(payload);
       }
@@ -44,17 +44,18 @@ const commentsSlice = createSlice({
       state.isLoading = true;
 
       let likedComment = findComment(state.postComments, payload);
-
-      likedComment.is_liked = !likedComment.is_liked;
-      likedComment.is_liked ? likedComment.likes++ : likedComment.likes--;
+      if (likedComment) {
+        likedComment.is_liked = !likedComment.is_liked;
+        likedComment.is_liked ? likedComment.likes++ : likedComment.likes--;
+      }
     },
     likeCommentSuccess: (state) => {
       state.isLoading = false;
     },
     likeCommentFailed: (state) => {
       state.isLoading = false;
-    }
-  }
+    },
+  },
 });
 
 export default commentsSlice.reducer;
@@ -69,5 +70,5 @@ export const {
 
   likeComment,
   likeCommentSuccess,
-  likeCommentFailed
+  likeCommentFailed,
 } = commentsSlice.actions;

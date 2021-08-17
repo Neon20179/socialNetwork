@@ -3,17 +3,7 @@ from django.db.models.signals import post_save
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 from .models import ChatId, ChatNotification, Message
-
-
-def get_notification_recipients(message):
-    chat = message.content_type.model_class().objects.get(id=message.object_id)
-    
-    try:
-        return [chat.user1 if chat.user1 != message.user else chat.user2]
-    except AttributeError:
-        recipients = list(chat.users.all())
-        recipients.remove(message.user)
-        return recipients
+from .utils import get_notification_recipients
 
 
 @receiver(post_save, sender=Message)

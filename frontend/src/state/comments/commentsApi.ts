@@ -15,5 +15,5 @@ export const createCommentApi = (comment: CreatedComment) =>
 
 export const likeCommentApi = (commentId: number) =>
   axiosAPI
-    .post("/api/feed/like_unlike_comment/", { comment_id: commentId })
+    .post(HOST + "/api/feed/like_unlike_comment/", { comment_id: commentId })
     .then((response) => response.data);

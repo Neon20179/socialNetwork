@@ -11,21 +11,23 @@ interface ChatProps {
 }
 
 const PrivateChat: FC<ChatProps> = ({ chat, userId, isLoading }) => {
-  return (
-    <Chat
-      chatId={chat.id}
-      chatAvatar={chat.companion?.avatar_image}
-      chatName={chat.companion?.username}
-    >
-      {isLoading ? (
-        <Loading />
-      ) : (
-        chat.messages?.map((message) => (
-          <Message message={message} userId={userId} key={message.id} />
-        ))
-      )}
-    </Chat>
-  );
+  if (chat && userId)
+    return (
+      <Chat
+        chatId={chat.id}
+        chatAvatar={chat.companion?.avatar_image}
+        chatName={chat.companion?.username}
+      >
+        {isLoading ? (
+          <Loading />
+        ) : (
+          chat.messages?.map((message) => (
+            <Message message={message} userId={userId} key={message.id} />
+          ))
+        )}
+      </Chat>
+    );
+  return null;
 };
 
 export default PrivateChat;

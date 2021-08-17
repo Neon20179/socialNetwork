@@ -5,10 +5,10 @@ import { createComment } from "@/state/comments";
 
 interface CommentFormProps {
   postId: string | number;
-  replayTo: number;
+  replayTo?: number;
 }
 
-const CommentForm: FC<CommentFormProps> = ({ postId, replayTo }) => {
+const CommentForm: FC<CommentFormProps> = ({ postId, replayTo = null }) => {
   const dispatch = useDispatch();
   const {
     value: contentValue,

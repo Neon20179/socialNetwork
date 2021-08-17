@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
 
-import authReducer from "./auth/authSlice";
+import authReducer, { signOut } from "./auth/authSlice";
 import userReducer from "./user/userSlice";
 import postsReducer from "./posts/postsSlice";
 import commentsReducer from "./comments/commentsSlice";
@@ -9,7 +9,12 @@ import friendsReducer from "./friends/friendsSlice";
 import followersReducer from "./followers/followersSlice";
 import chatReducer from "./chat/chatSlice";
 
-const rootReducer = combineReducers({
+const rootReducer = (state: any, action: any) => {
+  if (action.type === signOut.type) return undefined;
+  return appReducer(state, action);
+};
+
+const appReducer = combineReducers({
   auth: authReducer,
   user: userReducer,
   posts: postsReducer,
@@ -17,7 +22,7 @@ const rootReducer = combineReducers({
   components: componentsReducer,
   friends: friendsReducer,
   followers: followersReducer,
-  chat: chatReducer
+  chat: chatReducer,
 });
 
 export default rootReducer;

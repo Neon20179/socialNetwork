@@ -17,7 +17,7 @@ class SignUp(APIView):
             user = serialized_user_data.save()
             if user:
                 return Response(status=status.HTTP_201_CREATED)
-        return Response({'error_message': serialized_user_data.error_messages}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'error_message': f"User with this username or email already registered. Error: {serialized_user_data.error_messages}"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class Logout(APIView):

@@ -23,8 +23,8 @@ const Posts: FC<PostsProps> = ({ posts }) => {
             key={post.id}
             className="post"
             style={
-              post.post_images.length > 0
-                ? { backgroundImage: `url(${post.post_images[0].image})` }
+              post.post_images
+                ? { backgroundImage: `url(${post.post_images[0]?.image})` }
                 : {
                     background: "var(--light-grey)",
                     border: "2px solid var(--grey)",

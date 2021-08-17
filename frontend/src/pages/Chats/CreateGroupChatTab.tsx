@@ -37,12 +37,12 @@ const CreateGroupChatTab: FC = () => {
   }, [isShowTab]);
 
   const loadImage = (e: ChangeEvent<HTMLInputElement>) => {
-    const image = e.target.files[0];
-    if (image) {
+    if (e.target.files) {
+      const image = e.target.files[0];
       const render = new FileReader();
 
       render.onload = (e) => {
-        setChatIconUrl(e.target.result);
+        setChatIconUrl(e.target?.result);
       };
 
       render.readAsDataURL(image);
@@ -71,7 +71,7 @@ const CreateGroupChatTab: FC = () => {
   return (
     <div
       className="create-group-chat-tab"
-      style={{ transform: isShowTab ? null : `translateY(100%)` }}
+      style={{ transform: isShowTab ? "unset" : `translateY(100%)` }}
     >
       <h2>Select friends</h2>
       <div className="friends-list">

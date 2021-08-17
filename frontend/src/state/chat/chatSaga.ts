@@ -28,6 +28,7 @@ function* getPrivateChatWorker({ payload }: GetPrivateChat): any {
     const chat = yield call(api.getPrivateChatApi, payload);
     yield put(actions.getPrivateChatSuccess(chat));
   } catch (error) {
+    console.log(error);
     yield put(actions.getPrivateChatFailed());
     yield put(
       sendErrorMessageToAlert(

@@ -15,49 +15,49 @@ axiosAPI.interceptors.response.use(
   (response: AxiosResponse) => response,
   (error: AxiosError) => {
     const originalRequest = error.config;
+    const refreshUrl = HOST + "/api/auth/token/refresh/";
 
-    if (
-      error.response.status === 401 &&
-      originalRequest.url === HOST + "/api/auth/token/refresh/"
-    ) {
-      window.location.href = "/sign_in/";
-      return Promise.reject(error);
-    }
+    if (error.response) {
+      if (error.response.status === 401 && originalRequest.url === refreshUrl) {
+        window.location.href = "/sign_in/";
+        return Promise.reject(error);
+      }
 
-    if (
-      error.response.data.code === "token_not_valid" &&
-      error.response.status === 401 &&
-      error.response.statusText === "Unauthorized"
-    ) {
-      const refreshToken: string = getRefreshToken();
+      if (
+        error.response.data.code === "token_not_valid" &&
+        error.response.status === 401 &&
+        error.response.statusText === "Unauthorized"
+      ) {
+        const refreshToken = getRefreshToken();
 
-      if (refreshToken) {
-        const tokenParts: { exp: number } = JSON.parse(
-          atob(refreshToken.split(".")[1])
-        );
+        if (refreshToken) {
+          const tokenParts: { exp: number } = JSON.parse(
+            atob(refreshToken.split(".")[1])
+          );
 
-        const now: number = Math.ceil(Date.now() / 1000);
+          const now: number = Math.ceil(Date.now() / 1000);
 
-        if (tokenParts.exp > now) {
-          return axiosAPI
-            .post(HOST + "/api/auth/token/refresh/", { refresh: refreshToken })
-            .then((response: AxiosResponse) => {
-              setNewHeaders(response);
-              originalRequest.headers["Authorization"] =
-                "Bearer " + response.data.access;
+          if (tokenParts.exp > now) {
+            return axiosAPI
+              .post(refreshUrl, { refresh: refreshToken })
+              .then((response: AxiosResponse) => {
+                setNewHeaders(response);
+                originalRequest.headers["Authorization"] =
+                  "Bearer " + response.data.access;
 
-              return axiosAPI(originalRequest);
-            })
-            .catch((error: AxiosError) => {
-              console.log(error);
-            });
+                return axiosAPI(originalRequest);
+              })
+              .catch((error: AxiosError) => {
+                console.log(error);
+              });
+          } else {
+            console.log("Refresh token is expired", tokenParts.exp, now);
+            window.location.href = "/sign_in/";
+          }
         } else {
-          console.log("Refresh token is expired", tokenParts.exp, now);
+          console.log("Refresh token not available.");
           window.location.href = "/sign_in/";
         }
-      } else {
-        console.log("Refresh token not available.");
-        window.location.href = "/sign_in/";
       }
     }
 
@@ -74,10 +74,13 @@ export const setNewHeaders = (response: AxiosResponse) => {
 export const removeHeaders = () => {
   localStorage.removeItem("access_token");
   localStorage.removeItem("refresh_token");
-  axiosAPI.defaults.headers["Authentication"] = "Bearer";
+  axiosAPI.defaults.headers["Authentication"] = undefined;
 };
 
-const findCommentHelper = (branch: Comment, comment_id: number): Comment => {
+const findCommentHelper = (
+  branch: Comment,
+  comment_id: number
+): Comment | undefined => {
   if (comment_id === branch.id) return branch;
   else {
     for (let idx = 0; idx < branch.children.length; idx += 1) {

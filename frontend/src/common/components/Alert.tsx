@@ -5,38 +5,37 @@ import { selectAlert } from "@/selectors";
 
 const Alert: FC = () => {
   const alert = useSelector(selectAlert);
-  let alertNode = useRef<HTMLDivElement>(null).current;
+  const alertRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    switch (alert.alertType) {
-      case AlertTypes.INFO:
-        alertNode.classList.add("alert__info");
-        setTimeout(() => {
-          alertNode.classList.remove("alert__info");
-        }, 2000);
-        break;
-      case AlertTypes.WARNING:
-        alertNode.classList.add("alert__warning");
-        setTimeout(() => {
-          alertNode.classList.remove("alert__warning");
-        }, 3000);
-        break;
-      case AlertTypes.ERROR:
-        alertNode.classList.add("alert__error");
-        setTimeout(() => {
-          alertNode.classList.remove("alert__error");
-        }, 4000);
-        break;
+    const alertNode = alertRef.current;
+
+    if (alertNode) {
+      switch (alert.alertType) {
+        case AlertTypes.INFO:
+          alertNode.classList.add("alert__info");
+          setTimeout(() => {
+            alertNode.classList.remove("alert__info");
+          }, 2000);
+          break;
+        case AlertTypes.WARNING:
+          alertNode.classList.add("alert__warning");
+          setTimeout(() => {
+            alertNode.classList.remove("alert__warning");
+          }, 3000);
+          break;
+        case AlertTypes.ERROR:
+          alertNode.classList.add("alert__error");
+          setTimeout(() => {
+            alertNode.classList.remove("alert__error");
+          }, 4000);
+          break;
+      }
     }
-  }, [alert, alertNode]);
+  }, [alert, alertRef]);
 
   return (
-    <div
-      className="alert"
-      ref={(el) => {
-        alertNode = el;
-      }}
-    >
+    <div className="alert" ref={alertRef}>
       <h3>{alert.alertType}</h3>
       <p>{alert.message}</p>
     </div>

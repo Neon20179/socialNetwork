@@ -37,27 +37,31 @@ const EditProfile: FC = () => {
   };
 
   const loadAvatarImage = (e: ChangeEvent<HTMLInputElement>) => {
-    const image = e.target.files[0];
-    const render = new FileReader();
+    if (e.target.files) {
+      const image = e.target.files[0];
+      const render = new FileReader();
 
-    render.onload = (e) => {
-      setAvatarImageUrlResult(e.target.result);
-    };
+      render.onload = (e) => {
+        setAvatarImageUrlResult(e.target?.result);
+      };
 
-    render.readAsDataURL(image);
-    setAvatarImage(image);
+      render.readAsDataURL(image);
+      setAvatarImage(image);
+    }
   };
 
   const loadHeadingImage = (e: ChangeEvent<HTMLInputElement>) => {
-    const image = e.target.files[0];
-    const render = new FileReader();
+    if (e.target.files) {
+      const image = e.target.files[0];
+      const render = new FileReader();
 
-    render.onload = (e) => {
-      setHeaderImageUrlResult(e.target.result);
-    };
+      render.onload = (e) => {
+        setHeaderImageUrlResult(e.target?.result);
+      };
 
-    render.readAsDataURL(image);
-    setHeaderImage(image);
+      render.readAsDataURL(image);
+      setHeaderImage(image);
+    }
   };
 
   useEffect(() => {

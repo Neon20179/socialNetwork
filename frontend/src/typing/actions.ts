@@ -14,7 +14,12 @@ import {
   rejectFriendRequest,
   cancelFriendRequest,
 } from "@/state/friends";
-import { SignInData, SignUpData, CreatedComment } from "./entities";
+import {
+  SignInData,
+  SignUpData,
+  CreatedComment,
+  PostCreationData,
+} from "./entities";
 import { editUser, findUser, getOtherUserData } from "@/state/user";
 import { follow, unfollow } from "@/state/followers";
 import {

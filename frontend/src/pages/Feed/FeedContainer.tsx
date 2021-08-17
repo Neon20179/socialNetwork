@@ -15,6 +15,7 @@ const FeedContainer: FC = () => {
 
   useEffect(() => {
     dispatch(activateNavbarLink(NavbarLinks.FEED));
+    dispatch(getFeedPosts(0));
   }, [dispatch]);
 
   return (

@@ -19,7 +19,7 @@ const Post: FC<PostProps> = ({ post, likePost, children }) => {
         <p>{post.content}</p>
         <Like isLiked={post.is_liked} likeAction={likePost} />
         <h6 className="likes">{post.likes} likes</h6>
-        <CommentForm postId={post.id} replayTo={null} />
+        <CommentForm postId={post.id} />
       </div>
       {children}
     </section>

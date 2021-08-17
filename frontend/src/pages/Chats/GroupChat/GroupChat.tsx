@@ -11,21 +11,23 @@ interface GroupChatProps {
 }
 
 const GroupChat: FC<GroupChatProps> = ({ chat, userId, isLoading }) => {
-  return (
-    <Chat chatId={chat.id} chatAvatar={chat.icon} chatName={chat.name}>
-      {isLoading ? (
-        <Loading />
-      ) : (
-        chat.messages?.map((message) => (
-          <GroupChatMessage
-            message={message}
-            userId={userId}
-            key={message.id}
-          />
-        ))
-      )}
-    </Chat>
-  );
+  if (chat && userId)
+    return (
+      <Chat chatId={chat.id} chatAvatar={chat.icon} chatName={chat.name}>
+        {isLoading ? (
+          <Loading />
+        ) : (
+          chat.messages?.map((message) => (
+            <GroupChatMessage
+              message={message}
+              userId={userId}
+              key={message.id}
+            />
+          ))
+        )}
+      </Chat>
+    );
+  return null;
 };
 
 export default GroupChat;

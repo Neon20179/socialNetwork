@@ -13,13 +13,12 @@ class MessageSerializer(ModelSerializer):
         model = Message
         fields = '__all__'
 
+    def get_user(self, message: Message):
+        return UserLinkSerializer(message.user, context=self.context).data
+
     @staticmethod
     def get_created_at(message: Message):
         return stringify_created_at(message.created_at)
-
-    @staticmethod
-    def get_user(message: Message):
-        return UserLinkSerializer(message.user).data
 
 
 class PrivateChatsListSerializer(ModelSerializer):
@@ -32,7 +31,7 @@ class PrivateChatsListSerializer(ModelSerializer):
     def get_companion(self, chat: PrivateChat):
         request = self.context['request']
         companion = chat.user1 if request.user != chat.user1 else chat.user2
-        return UserLinkSerializer(companion, context={'request': request}).data
+        return UserLinkSerializer(companion, context=self.context).data
 
     def create(self, validated_data):
         return PrivateChat.objects.create_chat(**validated_data)
@@ -94,4 +93,4 @@ class GroupChatDetailSerializer(ModelSerializer):
         fields = '__all__'
 
     def get_messages(self, chat: PrivateChat):
-        return MessageSerializer(chat.messages, many=True, context={'request': self.context['request']}).data
+        return MessageSerializer(chat.messages, many=True, context=self.context).data

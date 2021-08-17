@@ -4,16 +4,20 @@ import { getFriendNotificationsSuccess } from "./friendsSlice";
 
 const accessToken = getAccessToken();
 
-const friendNotificationSocket = new WebSocket(
-  `ws://127.0.0.1:8000/ws/friend_notifications/?token=${accessToken}`
-);
+const friendNotificationSocket = accessToken
+  ? new WebSocket(
+      `ws://127.0.0.1:8000/ws/friend_notifications/?token=${accessToken}`
+    )
+  : null;
 
 export const friendNotificationMiddleware: Middleware =
   (store) => (next) => (action) => {
-    friendNotificationSocket.onmessage = (e) => {
-      const friendNotifications = JSON.parse(e.data);
-      store.dispatch(getFriendNotificationsSuccess(friendNotifications));
-    };
+    if (friendNotificationSocket) {
+      friendNotificationSocket.onmessage = (e) => {
+        const friendNotifications = JSON.parse(e.data);
+        store.dispatch(getFriendNotificationsSuccess(friendNotifications));
+      };
+    }
 
     return next(action);
   };

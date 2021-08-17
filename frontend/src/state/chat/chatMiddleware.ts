@@ -12,10 +12,10 @@ import {
 
 const accessToken = getAccessToken();
 
-let chatSocket: WebSocket = null;
+let chatSocket: WebSocket;
 
 export const chatMiddleware: Middleware = (store) => (next) => (action) => {
-  if (chatSocket !== null) {
+  if (chatSocket) {
     chatSocket.onmessage = (e) => {
       const newMessage = JSON.parse(e.data);
       store.dispatch(addMessageToChat(newMessage));
@@ -24,8 +24,8 @@ export const chatMiddleware: Middleware = (store) => (next) => (action) => {
 
   switch (action.type) {
     case getPrivateChatSuccess.type:
-      if (chatSocket !== null) chatSocket.close();
-      let privateChatId = action.payload.id;
+      if (chatSocket) chatSocket.close();
+      const privateChatId = action.payload.id;
 
       chatSocket = new WebSocket(
         `ws://127.0.0.1:8000/ws/private_chat/${privateChatId}/?token=${accessToken}`
@@ -33,8 +33,9 @@ export const chatMiddleware: Middleware = (store) => (next) => (action) => {
       break;
 
     case getGroupChatSuccess.type:
-      if (chatSocket !== null) chatSocket.close();
-      let groupChatId = action.payload.id;
+      if (chatSocket) chatSocket.close();
+      const groupChatId = action.payload.id;
+
       chatSocket = new WebSocket(
         `ws://127.0.0.1:8000/ws/group_chat/${groupChatId}/?token=${accessToken}`
       );
@@ -52,16 +53,20 @@ export const chatMiddleware: Middleware = (store) => (next) => (action) => {
   return next(action);
 };
 
-const notificationSocket = new WebSocket(
-  `ws://127.0.0.1:8000/ws/chat_notifications/?token=${accessToken}`
-);
+const notificationSocket = accessToken
+  ? new WebSocket(
+      `ws://127.0.0.1:8000/ws/chat_notifications/?token=${accessToken}`
+    )
+  : null;
 
 export const chatNotificationSocket: Middleware =
   (store) => (next) => (action) => {
-    notificationSocket.onmessage = (e) => {
-      const chatId = JSON.parse(e.data);
-      store.dispatch(getUnseenChatsNotificationsSuccess(chatId));
-    };
+    if (notificationSocket) {
+      notificationSocket.onmessage = (e) => {
+        const chatId = JSON.parse(e.data);
+        store.dispatch(getUnseenChatsNotificationsSuccess(chatId));
+      };
+    }
 
     return next(action);
   };

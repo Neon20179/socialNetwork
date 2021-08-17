@@ -3,7 +3,14 @@ import { Redirect, Route, RouteProps } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectIsAuth } from "@/selectors";
 
-const PrivateRoute: FC<RouteProps> = ({ component: Component, ...rest }) => {
+interface PrivateRouteProps extends RouteProps {
+  component: any;
+}
+
+const PrivateRoute: FC<PrivateRouteProps> = ({
+  component: Component,
+  ...rest
+}) => {
   const isAuth = useSelector(selectIsAuth);
 
   return (

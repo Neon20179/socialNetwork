@@ -13,7 +13,7 @@ const Message: FC<MessageProps> = ({ message, userId, children }) => {
       style={
         message.user.id === userId
           ? { display: "flex", justifyContent: "flex-end" }
-          : null
+          : undefined
       }
     >
       <div className="message">

@@ -20,18 +20,17 @@ const Editor: FC<EditorProps> = ({ createPost }) => {
     reset: contentReset,
   } = useInput();
 
-  let form = useRef<HTMLFormElement>(null).current;
+  const formRef = useRef<HTMLFormElement>(null);
 
   const loadImage = (e: ChangeEvent<HTMLInputElement>) => {
-    const image = e.target.files[0];
-
-    if (image) {
+    if (e.target.files) {
+      const image = e.target.files[0];
       const render = new FileReader();
 
       render.onload = (e) => {
         setLoadedImages((prevValue) => [
           ...prevValue,
-          { index: loadedImagesIndex, image, url: e.target.result },
+          { index: loadedImagesIndex, image, url: e.target?.result },
         ]);
       };
 
@@ -47,6 +46,8 @@ const Editor: FC<EditorProps> = ({ createPost }) => {
   const handleSubmit = (e: ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData();
+    const formNode = formRef.current;
+
     for (let idx = 0; idx < loadedImages.length; idx++) {
       formData.append("post_images", loadedImages[idx].image);
     }
@@ -54,19 +55,13 @@ const Editor: FC<EditorProps> = ({ createPost }) => {
 
     createPost(formData);
 
-    form.reset();
+    formNode?.reset();
     contentReset();
     setLoadedImages([]);
   };
 
   return (
-    <form
-      className="post-editor"
-      onSubmit={handleSubmit}
-      ref={(el) => {
-        form = el;
-      }}
-    >
+    <form className="post-editor" onSubmit={handleSubmit} ref={formRef}>
       <div className="add-text">
         <h3>Content:</h3>
         <textarea

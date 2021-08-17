@@ -25,7 +25,7 @@ const Chats: FC<ChatProps> = ({
         <div
           className="create-group-chat-icon"
           onClick={toggleTab}
-          style={{ transform: isShowTab ? `rotate(45deg)` : null }}
+          style={{ transform: isShowTab ? `rotate(45deg)` : "unset" }}
         >
           +
         </div>

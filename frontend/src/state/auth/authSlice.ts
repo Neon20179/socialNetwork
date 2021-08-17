@@ -26,7 +26,6 @@ const authSlice = createSlice({
       state.isLoading = true;
     },
     signUpSuccess: (state) => {
-      state.isAuth = true;
       state.isLoading = false;
     },
     signUpFailed: (state) => {

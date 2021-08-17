@@ -41,11 +41,9 @@ export interface Post {
   post_images?: PostImage[];
 }
 
-export interface CreatedPost {
+export interface PostCreationData {
   content: string;
-  post_images?: {
-    image: string;
-  };
+  post_images: any[];
 }
 
 export interface Comment {
@@ -99,6 +97,12 @@ export interface GroupChat {
 
 export interface GroupChatDetails extends GroupChat {
   messages: Message[];
+}
+
+export interface GroupChatCreationData {
+  name: string;
+  icon: any;
+  users: string[];
 }
 
 export interface Alert {

@@ -57,9 +57,7 @@ const postsSlice = createSlice({
       state.isLoading = false;
     },
 
-    getFeedPosts: (state, { payload }) => {
-      state.isLoading = true;
-    },
+    getFeedPosts: (state, { payload }) => {},
     getFeedPostsSuccess: (state, { payload }) => {
       for (let idx = 0; idx < payload.length; idx++) {
         const isPostInState = state.feedPosts.find(
@@ -69,16 +67,10 @@ const postsSlice = createSlice({
           state.feedPosts.push(payload[idx]);
         }
       }
-
-      state.isLoading = false;
     },
-    getFeedPostsFailed: (state) => {
-      state.isLoading = false;
-    },
+    getFeedPostsFailed: (state) => {},
 
     likePost: (state, { payload }) => {
-      state.isLoading = true;
-
       let likedPost =
         state.feedPosts.find((post) => post.id === payload) ||
         state.currentPost;
@@ -86,12 +78,8 @@ const postsSlice = createSlice({
       likedPost.is_liked = !likedPost.is_liked;
       likedPost.is_liked ? likedPost.likes++ : likedPost.likes--;
     },
-    likePostSuccess: (state) => {
-      state.isLoading = false;
-    },
-    likePostFailed: (state) => {
-      state.isLoading = false;
-    },
+    likePostSuccess: (state) => {},
+    likePostFailed: (state) => {},
   },
 });
 

@@ -1,4 +1,4 @@
-import { useRef, useEffect, FC } from "react";
+import { useRef, FC } from "react";
 import { Link } from "react-router-dom";
 import { Post } from "@/typing/entities";
 import { usePagination } from "@/hooks";
@@ -20,17 +20,13 @@ const Feed: FC<FeedProps> = ({
   getFeedPosts,
   likePost,
 }) => {
-  let sectionNode = useRef();
-  const isAtPageBottom = usePagination(sectionNode);
+  const sectionRef = useRef<HTMLElement>(null);
+  const isAtPageBottom = usePagination(sectionRef);
 
   if (isAtPageBottom) getFeedPosts(feedPosts.length);
 
-  useEffect(() => {
-    getFeedPosts(0);
-  }, []);
-
   return (
-    <section className="feed__page" ref={sectionNode}>
+    <section className="feed__page" ref={sectionRef}>
       <div className="posts-list">
         {isLoading ? (
           <Loading />
