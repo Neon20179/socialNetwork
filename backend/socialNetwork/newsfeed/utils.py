@@ -5,34 +5,19 @@ class CommentFound(Exception):
     pass
 
 
-def create_comment_node_helper1(branch, replay_to: int, comment_data):
-    if branch["id"] == replay_to:
-        branch["children"].append(comment_data)
-        raise CommentFound
-
-    elif branch["children"]:
-        for child in branch["children"]:
-            if child["id"] == replay_to:
-                child["children"].append(comment_data)
-                raise CommentFound
-
-            elif child["children"]:
-                return create_comment_node_helper1(child, replay_to, comment_data)
-
-
-def create_comment_node_helper(branch, replay_to: int, comment_data):
+def add_comment_to_comments_branch(branch, replay_to: int, comment_data):
     if branch["id"] == replay_to:
         branch["children"].append(comment_data)
         raise CommentFound
     else:
         for child in branch["children"]:
-            create_comment_node_helper(child, replay_to, comment_data)
+            add_comment_to_comments_branch(child, replay_to, comment_data)
 
 
 def create_comment_node(comments_tree, replay_to, comment_data):
     for comment in comments_tree:
         try:
-            create_comment_node_helper(comment, replay_to, comment_data)
+            add_comment_to_comments_branch(comment, replay_to, comment_data)
         except CommentFound:
             break
 

@@ -1,7 +1,7 @@
 import { axiosAPI } from "@/utils";
-import { HOST } from "@/env";
+import { API_SERVER } from "@/env";
 
-const rootUrl = HOST + "/api/friends";
+const rootUrl = API_SERVER + "/api/friends";
 
 export const getFriendsApi = (user_id?: number) =>
   axiosAPI

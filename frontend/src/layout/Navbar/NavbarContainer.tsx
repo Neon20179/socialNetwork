@@ -11,10 +11,10 @@ import Navbar from "./Navbar";
 
 const NavbarContainer: FC = () => {
   const isAuth = useSelector(selectIsAuth);
-  const avatarImage = useSelector(selectUserData).avatar_image;
+  const avatarImage = useSelector(selectUserData)?.avatar_image;
   const activeNavbarLink = useSelector(selectActiveNavbarLink);
   const isChatHasNotifications =
-    useSelector(selectChatNotifications).length > 0;
+    useSelector(selectChatNotifications)?.length > 0;
   const isUserHasFriendRequests = useSelector(selectFriendRequestsQuantity) > 0;
 
   if (!isAuth) return null;

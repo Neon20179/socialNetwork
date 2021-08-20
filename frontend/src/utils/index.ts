@@ -1,6 +1,6 @@
 import axios, { AxiosResponse, AxiosError } from "axios";
 import { Comment } from "@/typing/entities";
-import { HOST } from "@/env";
+import { API_SERVER } from "@/env";
 
 export const getAccessToken = () => localStorage.getItem("access_token");
 export const getRefreshToken = () => localStorage.getItem("refresh_token");
@@ -15,7 +15,7 @@ axiosAPI.interceptors.response.use(
   (response: AxiosResponse) => response,
   (error: AxiosError) => {
     const originalRequest = error.config;
-    const refreshUrl = HOST + "/api/auth/token/refresh/";
+    const refreshUrl = API_SERVER + "/api/auth/token/refresh/";
 
     if (error.response) {
       if (error.response.status === 401 && originalRequest.url === refreshUrl) {
@@ -77,7 +77,7 @@ export const removeHeaders = () => {
   axiosAPI.defaults.headers["Authentication"] = undefined;
 };
 
-const findCommentHelper = (
+const findCommentInCommentsBranch = (
   branch: Comment,
   comment_id: number
 ): Comment | undefined => {
@@ -85,7 +85,7 @@ const findCommentHelper = (
   else {
     for (let idx = 0; idx < branch.children.length; idx += 1) {
       let leave = branch.children[idx];
-      let result = findCommentHelper(leave, comment_id);
+      let result = findCommentInCommentsBranch(leave, comment_id);
       if (result) return result;
     }
   }
@@ -93,7 +93,7 @@ const findCommentHelper = (
 
 export const findComment = (comments: Comment[], comment_id: number) => {
   for (let comment of comments) {
-    var result = findCommentHelper(comment, comment_id);
+    var result = findCommentInCommentsBranch(comment, comment_id);
     if (result) return result;
   }
 };

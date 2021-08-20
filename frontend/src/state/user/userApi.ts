@@ -1,7 +1,7 @@
 import { axiosAPI } from "@/utils";
-import { HOST } from "@/env";
+import { API_SERVER } from "@/env";
 
-const rootUrl = HOST + "/api/user/";
+const rootUrl = API_SERVER + "/api/user/";
 
 export const getUserDataApi = () =>
   axiosAPI.get(rootUrl).then((response) => response.data);

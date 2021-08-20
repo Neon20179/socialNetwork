@@ -1,7 +1,7 @@
 import { axiosAPI } from "@/utils";
-import { HOST } from "@/env";
+import { API_SERVER } from "@/env";
 
-const rootPostsUrl = HOST + "/api/feed";
+const rootPostsUrl = API_SERVER + "/api/feed";
 
 export const getUserPostsApi = () =>
   axiosAPI.get(`${rootPostsUrl}/user_posts/`).then((response) => response.data);

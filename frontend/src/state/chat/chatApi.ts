@@ -1,7 +1,7 @@
 import { axiosAPI } from "@/utils";
-import { HOST } from "@/env";
+import { API_SERVER } from "@/env";
 
-const rootUrl = HOST + "/api/chat";
+const rootUrl = API_SERVER + "/api/chat";
 
 export const getChatsApi = () =>
   axiosAPI.get(`${rootUrl}/chats/`).then((response) => response.data);

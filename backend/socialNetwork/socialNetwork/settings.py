@@ -1,5 +1,6 @@
 from pathlib import Path
 from datetime import timedelta
+from os import getenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -8,12 +9,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '&+tom(@wlg$p_-$ka93*(7!5xu(*u(95j73!)jhsgrvqtq=z60'
+SECRET_KEY = getenv("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = getenv("DJANGO_DEBUG")
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = getenv("DJANGO_ALLOWED_HOSTS").split(" ")
 
 # Application definition
 
@@ -83,10 +84,15 @@ CHANNEL_LAYERS = {
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': getenv('POSTGRES_NAME'),
+        'USER': getenv('POSTGRES_USER'),
+        'PASSWORD': getenv('POSTGRES_PASSWORD'),
+        'HOST': getenv('POSTGRES_HOST'),
+        'PORT': getenv('POSTGRES_PORT')
     }
 }
+
 DEFAULT_AUTO_FIELD='django.db.models.AutoField' 
 
 AUTH_USER_MODEL = 'userprofile.User'
@@ -118,30 +124,23 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    # 'DEFAULT_THROTTLE_CLASSES': [
-    #         'rest_framework.throttling.AnonRateThrottle',
-    #         'rest_framework.throttling.UserRateThrottle'
-    #     ],
-    # 'DEFAULT_THROTTLE_RATES': {
-    #         'anon': '20/minute',
-    #         'user': '100/minute',
-    #         'user_sec': '25/second',
-    #         'user_min': '120/minute',
-    #         'user_hour': '7200/hour',
-    # },
+    'DEFAULT_THROTTLE_CLASSES': [
+            'rest_framework.throttling.AnonRateThrottle',
+            'rest_framework.throttling.UserRateThrottle'
+        ],
+    'DEFAULT_THROTTLE_RATES': {
+            'anon': '20/minute',
+            'user': '100/minute',
+            'user_sec': '25/second',
+            'user_min': '120/minute',
+            'user_hour': '7200/hour',
+    },
 }
 
 # CORS
-
 CORS_ALLOW_CREDENTIALS = True
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',
-    'http://127.0.0.1:3000'
-]
-CORS_ALLOWED_ORIGIN_REGEXES = [
-    'http://localhost:3000',
-    'http://127.0.0.1:3000'
-]
+CORS_ORIGIN_WHITELIST = getenv('CORS_ORIGIN_WHITELIST').split(' ')
+CORS_ALLOWED_ORIGIN_REGEXES = getenv('CORS_ALLOWED_ORIGIN_REGEXES').split(' ')
 CORS_ALLOW_HEADERS = (
     'Access-Control-Allow-Headers',
     'Access-Control-Allow-Origin',
@@ -184,7 +183,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = 'static/'
+STATIC_ROOT = Path(BASE_DIR, 'static/')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = Path(BASE_DIR, 'media/')
